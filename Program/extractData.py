@@ -86,7 +86,7 @@ def main():
 
     while True:
         # Give user the option to exit or extract data
-        choice = input("Choose an option:\n1. Exit\n2. Extract Data to a New CSV File\n3. Update or Add Columns in an Existing CSV File\n")
+        choice = input("Choose an option:\n1: Extract Data to a New CSV File \n2: Update or Add Columns in an Existing CSV File\n3: Exit\n")
         if choice == "0":
             break
         elif choice in ["1", "2"]:
