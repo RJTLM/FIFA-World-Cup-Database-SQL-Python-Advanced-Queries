@@ -21,8 +21,11 @@ def split_columns(input_file, output_file, columns_to_split):
         # Get the number of parts (columns after split)
         num_parts = split_data.shape[1]
         
-        # Create dynamic column names based on the number of parts
-        new_column_names = [f'{column}{i+1}' for i in range(num_parts)]
+        # Ask user for new column names
+        new_column_names = []
+        for i in range(num_parts):
+            new_column_name = input(f"Enter the name for part {i+1} of the '{column}' column after splitting: ")
+            new_column_names.append(new_column_name)
         
         # Rename the new columns
         split_data.columns = new_column_names
