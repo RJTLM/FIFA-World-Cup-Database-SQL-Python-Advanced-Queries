@@ -3,11 +3,15 @@ import os
 
 def clean_data(data):
     """Clean the data by removing leading and trailing whitespaces."""
+    # Reference: https://docs.python.org/3/library/stdtypes.html#str.strip
+    # Reference: "FOP Sem2 2023 Lecture Material" (for general Python programming practices)
     return [item.strip() for item in data]
 
 def extract_columns(data, column_names):
     """Extract specific columns from the data."""
     header = data[0]
+    # Reference for list comprehension and conditional expression: https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions
+    # Reference: "FOP Sem2 2023 Lecture Material" (for understanding data structures and their manipulations in Python)
     column_indices = [header.index(name) if name in header else None for name in column_names]
     extracted_data = [column_names]
     for row in data[1:]:
@@ -17,6 +21,8 @@ def extract_columns(data, column_names):
 
 def update_csv_file(filename, new_data):
     """Update the CSV file with new data. Add new columns or update existing ones."""
+    # Reference for checking if a file exists: https://docs.python.org/3/library/os.path.html#os.path.exists
+    # Reference: "FOP Sem2 2023 Lecture Material" (for file handling in Python)
     if not os.path.exists(filename):
         with open(filename, 'w', newline='', encoding='utf-8') as f:
             writer = csv.writer(f)
@@ -64,8 +70,11 @@ if __name__ == "__main__":
     try:
         with open(input_filename, 'r', encoding='utf-8') as infile:
             reader = csv.reader(infile)
+            # Reference for list comprehensions: https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions
+            # Reference: "FOP Sem2 2023 Lecture Material" (for understanding list comprehensions in Python)
             data = [clean_data(row) for row in reader]
     except FileNotFoundError:
+        # Reference for FileNotFoundError: https://docs.python.org/3/library/exceptions.html#FileNotFoundError
         print(f"The file {input_filename} was not found.")
         exit()
 

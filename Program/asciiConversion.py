@@ -7,6 +7,7 @@ import unidecode # Ensure you have the unidecode library installed. You can inst
 def clean_non_ascii(text):
     """Convert non-ASCII characters to their closest ASCII equivalents."""
     return unidecode.unidecode(text)
+    # Reference: "FOP Sem2 2023 Lecture Material" (for understanding character encoding and string manipulation in Python)
 
 def clean_csv(input_file, output_file):
     """Read a CSV file, clean non-ASCII characters, and write to a new file."""
@@ -17,6 +18,7 @@ def clean_csv(input_file, output_file):
         for row in reader:
             cleaned_row = [clean_non_ascii(cell) for cell in row]
             writer.writerow(cleaned_row)
+    # Reference: "FOP Sem2 2023 Lecture Material" (for understanding file I/O and CSV file manipulation in Python)
 
 if __name__ == "__main__":
     input_filename = input("Enter the name of the CSV file to clean: ")
@@ -24,6 +26,7 @@ if __name__ == "__main__":
 
     clean_csv(input_filename, output_filename)
     print(f"Cleaned CSV saved to {output_filename}")
+    # Reference: "FOP Sem2 2023 Lecture Material" (for understanding the main function and script execution in Python)
 
 # Reference: How to use unidecode in python (3.3) - Stack Overflow
 # https://stackoverflow.com/questions/19771751/how-to-use-unidecode-in-python-3-3

@@ -3,6 +3,8 @@ import pandas as pd
 def split_columns(input_file, output_file, columns_to_split):
     # Read the CSV file
     df = pd.read_csv(input_file)
+    # Reference: pandas.read_csv documentation
+    # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html
     
     # Print the column names to verify they are being read correctly
     print("Original columns:", df.columns.tolist())
@@ -35,6 +37,7 @@ def split_columns(input_file, output_file, columns_to_split):
     df.to_csv(output_file, index=False)
     print("Updated columns:", df.columns.tolist())
     print("Data successfully saved to", output_file)
+    # Reference: "FOP Sem2 2023 Lecture Material" (for understanding data manipulation and pandas library in Python)
 
 def main():
     # Get user inputs
@@ -51,6 +54,8 @@ def main():
     
     # Run the function
     split_columns(input_file, output_file, columns_to_split)
+    # Reference: "FOP Sem2 2023 Lecture Material" (for understanding functions and user interactions in Python)
 
 if __name__ == "__main__":
     main()
+    # Reference: "FOP Sem2 2023 Lecture Material" (for understanding the main function and script execution in Python)
