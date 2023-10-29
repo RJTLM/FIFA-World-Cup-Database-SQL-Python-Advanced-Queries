@@ -1,5 +1,5 @@
 # menu.py
-import time
+import time  # Importing the time module for creating delays in output
 
 def show_menu():
     print("\nWelcome to the Data Processing Menu!")
@@ -9,9 +9,10 @@ def show_menu():
     print("3: Extract or Update Columns in a CSV File")
     print("4: Split Columns in a CSV File")
     print("0: Exit Program")
-    choice = input().strip()
+    choice = input().strip()  # Using strip to remove any leading or trailing whitespaces
     return choice
     # Reference: "FOP Sem2 2023 Lecture Material" (for understanding functions and user interactions in Python)
+    # Reference: https://docs.python.org/3/library/stdtypes.html#str.strip (for understanding the strip function)
 
 def main():
     while True:
@@ -32,7 +33,7 @@ def main():
             print("Why do programmers like dark mode?")
             time.sleep(1.5)  # Wait for 1.5 seconds
             print("\nBecause light attracts bugs", end="", flush=True)
-            time.sleep(3)  # Wait for 1 second
+            time.sleep(3)  # Wait for 3 seconds
             print(".", end="", flush=True)
             time.sleep(0.75)  # Wait for 0.75 seconds
             print(".", end="", flush=True)
@@ -48,6 +49,7 @@ def main():
         else:
             print("Invalid option. Please choose a valid option.")
     # Reference: "FOP Sem2 2023 Lecture Material" (for understanding control flow and modular programming in Python)
+    # Reference: https://docs.python.org/3/library/time.html#time.sleep (for understanding the time.sleep function)
 
 if __name__ == "__main__":
     main()
