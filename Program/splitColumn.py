@@ -1,4 +1,4 @@
-import pandas as pd
+import pandas as pd # Ensure you have the pandas library installed. You can install it using pip: pip install pandas
 
 def split_columns(input_file, output_file, columns_to_split):
     # Read the CSV file

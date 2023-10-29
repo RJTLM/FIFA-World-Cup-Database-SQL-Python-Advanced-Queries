@@ -8,6 +8,7 @@ def show_menu():
     print("0: Exit Program")
     choice = input("Please choose an option: ")
     return choice
+    # Reference: "FOP Sem2 2023 Lecture Material" (for understanding functions and user interactions in Python)
 
 def main():
     while True:
@@ -26,6 +27,8 @@ def main():
             break
         else:
             print("Invalid option. Please choose a valid option.")
+    # Reference: "FOP Sem2 2023 Lecture Material" (for understanding control flow and modular programming in Python)
 
 if __name__ == "__main__":
     main()
+    # Reference: "FOP Sem2 2023 Lecture Material" (for understanding the main function and script execution in Python)
