@@ -1,44 +1,56 @@
 import pandas as pd
 
-def split_officials_column(input_file, output_file):
+def split_columns(input_file, output_file, columns_to_split):
     # Read the CSV file
     df = pd.read_csv(input_file)
     
     # Print the column names to verify they are being read correctly
-    print(df.columns)
+    print("Original columns:", df.columns.tolist())
     
-    # Check if 'Officials' column is in the dataframe
-    if 'Officials' not in df.columns:
-        print("Error: 'Officials' column not found in the input file")
-        return
-    
-    # Split the 'Officials' column into a new dataframe
-    officials_split = df['Officials'].str.split(' \* ', expand=True)
-    
-    # Print the shape of officials_split to debug the issue
-    print("Shape of officials_split:", officials_split.shape)
-    
-    # Get the number of referees (columns after split)
-    num_referees = officials_split.shape[1]
-    
-    # Create dynamic column names based on the number of referees
-    new_column_names = [f'Referee{i+1}' for i in range(num_referees)]
-    
-    # Rename the new columns
-    officials_split.columns = new_column_names
-    
-    # Concatenate the new columns to the original dataframe
-    df = pd.concat([df, officials_split], axis=1)
-    
-    # Drop the original 'Officials' column
-    df = df.drop(columns=['Officials'])
+    for column, delimiter in columns_to_split.items():
+        # Check if column is in the dataframe
+        if column not in df.columns:
+            print(f"Error: '{column}' column not found in the input file")
+            continue
+        
+        # Split the column into a new dataframe
+        split_data = df[column].str.split(delimiter, expand=True)
+        
+        # Get the number of parts (columns after split)
+        num_parts = split_data.shape[1]
+        
+        # Create dynamic column names based on the number of parts
+        new_column_names = [f'{column}{i+1}' for i in range(num_parts)]
+        
+        # Rename the new columns
+        split_data.columns = new_column_names
+        
+        # Concatenate the new columns to the original dataframe
+        df = pd.concat([df, split_data], axis=1)
+        
+        # Drop the original column
+        df = df.drop(columns=[column])
     
     # Write the updated dataframe to a new CSV file
     df.to_csv(output_file, index=False)
+    print("Updated columns:", df.columns.tolist())
+    print("Data successfully saved to", output_file)
 
-# File paths
-input_file = 'Officials.csv'
-output_file = 'UpdatedOfficials.csv'
+def main():
+    # Get user inputs
+    input_file = input("Enter the name of the CSV file: ")
+    output_file = input("Enter the name of the output CSV file: ")
+    
+    columns_to_split = {}
+    while True:
+        column = input("Enter the name of the column to split (or 'done' to finish): ")
+        if column.lower() == 'done':
+            break
+        delimiter = input(f"Enter the delimiter for splitting the '{column}' column: ")
+        columns_to_split[column] = delimiter
+    
+    # Run the function
+    split_columns(input_file, output_file, columns_to_split)
 
-# Run the function
-split_officials_column(input_file, output_file)
+if __name__ == "__main__":
+    main()
