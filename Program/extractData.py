@@ -64,49 +64,64 @@ def update_csv_file(filename, new_data):
         writer.writerows(existing_data)
 
 def main():
-    input_filename = input("Enter the name of the CSV file to process: ")
-
-    # Load the data into memory
-    try:
-        with open(input_filename, 'r', encoding='utf-8') as infile:
-            reader = csv.reader(infile)
-            # Reference for list comprehensions: https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions
-            # Reference: "FOP Sem2 2023 Lecture Material" (for understanding list comprehensions in Python)
-            data = [clean_data(row) for row in reader]
-    except FileNotFoundError:
-        # Reference for FileNotFoundError: https://docs.python.org/3/library/exceptions.html#FileNotFoundError
-        print(f"The file {input_filename} was not found.")
-        exit()
-
-    # List column headers
-    headers = data[0]
-    print("Column headers:")
-    for header in headers:
-        print(header)
-
     while True:
-        # Give user the option to exit or extract data
-        choice = input("Choose an option:\n1: Extract Data to a New CSV File \n2: Update or Add Columns in an Existing CSV File\n3: Exit\n")
-        if choice == "0":
-            break
-        elif choice in ["1", "2"]:
-            column_names = input("Enter the names of the columns you wish to extract (separated by commas): ").split(',')
-            column_names = [name.strip() for name in column_names]
-            cleaned_data = extract_columns(data, column_names)
-            
-            if cleaned_data is not None:
-                if choice == "1":
-                    output_filename = input("Enter the name for the new CSV file: ")
-                    with open(output_filename, 'w', newline='', encoding='utf-8') as outfile:
-                        writer = csv.writer(outfile)
-                        writer.writerows(cleaned_data)
-                    print(f"Data saved to {output_filename}")
+        print("\nCSV Data Processing")
+        print("1: Update or Add Columns in an Existing CSV File")
+        print("0: Return to Main Menu")
+        choice = input().strip()
+        
+        if choice == "1":
+            input_filename = input("Enter the name of the CSV file to process: ")
+
+            # Load the data into memory
+            try:
+                with open(input_filename, 'r', encoding='utf-8') as infile:
+                    reader = csv.reader(infile)
+                    # Reference for list comprehensions: https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions
+                    # Reference: "FOP Sem2 2023 Lecture Material" (for understanding list comprehensions in Python)
+                    data = [clean_data(row) for row in reader]
+            except FileNotFoundError:
+            # Reference for FileNotFoundError: https://docs.python.org/3/library/exceptions.html#FileNotFoundError
+                print(f"The file {input_filename} was not found.")
+                continue
+
+            # List column headers
+            headers = data[0]
+            print("Column headers:")
+            for header in headers:
+                print(header)
+
+            while True:
+                # Give user the option to exit or extract data
+                print("\n1: Extract Data to a New CSV File")
+                print("2: Update or Add Columns in an Existing CSV File")
+                print("0: Return to Previous Menu")
+                choice = input().strip()
+                if choice == "0":
+                    break
+                elif choice in ["1", "2"]:
+                    column_names = input("Enter the names of the columns you wish to extract (separated by commas): ").split(',')
+                    column_names = [name.strip() for name in column_names]
+                    cleaned_data = extract_columns(data, column_names)
+                    
+                    if cleaned_data is not None:
+                        if choice == "1":
+                            output_filename = input("Enter the name for the new CSV file: ")
+                            with open(output_filename, 'w', newline='', encoding='utf-8') as outfile:
+                                writer = csv.writer(outfile)
+                                writer.writerows(cleaned_data)
+                            print(f"Data saved to {output_filename}")
+                        else:
+                            output_filename = input("Enter the name of the existing CSV file to update or add columns: ")
+                            update_csv_file(output_filename, cleaned_data)
+                            print(f"Data updated in {output_filename}")
+                    else:
+                        print("Operation aborted.")
                 else:
-                    output_filename = input("Enter the name of the existing CSV file to update or add columns: ")
-                    update_csv_file(output_filename, cleaned_data)
-                    print(f"Data updated in {output_filename}")
-            else:
-                print("Operation aborted.")
+                    print("Invalid option. Please choose a valid option.")
+        elif choice == "0":
+            print("Returning to Main Menu...")
+            break
         else:
             print("Invalid option. Please choose a valid option.")
 

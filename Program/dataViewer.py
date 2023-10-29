@@ -1,6 +1,11 @@
 import pandas as pd
+import os
 
 def view_csv_data(file_path):
+    if not os.path.isfile(file_path):
+        print("Error: File not found. Please make sure the file path is correct.")
+        return
+
     try:
         # Read the CSV file
         df = pd.read_csv(file_path)
@@ -20,11 +25,11 @@ def main():
     while True:
         print("\nCSV File Viewer")
         print("1: View CSV File")
-        print("0: Exit Program")
-        choice = input("Please choose an option: ")
+        print("0: Return to Main Menu")
+        choice = input().strip()
         
         if choice == "1":
-            file_path = input("Enter the path to the CSV file: ")
+            file_path = input("Enter the path to the CSV file: ").strip()
             view_csv_data(file_path)
         elif choice == "0":
             print("Exiting program. Goodbye!")

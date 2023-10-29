@@ -40,24 +40,36 @@ def split_columns(input_file, output_file, columns_to_split):
     df.to_csv(output_file, index=False)
     print("Updated columns:", df.columns.tolist())
     print("Data successfully saved to", output_file)
-    # Reference: "FOP Sem2 2023 Lecture Material" (for understanding data manipulation and pandas library in Python)
+    # Reference: "FOP Sem2 2023 Lecture Material" (for understanding data manipulation and pandas library in Python)  
 
 def main():
-    # Get user inputs
-    input_file = input("Enter the name of the CSV file: ")
-    output_file = input("Enter the name of the output CSV file: ")
-    
-    columns_to_split = {}
     while True:
-        column = input("Enter the name of the column to split (or 'done' to finish): ")
-        if column.lower() == 'done':
+        print("\nCSV Column Splitter")
+        print("1: Split Columns in a CSV File")
+        print("0: Return to Main Menu")
+        choice = input().strip()
+        
+        if choice == "1":
+            # Get user inputs
+            input_file = input("Enter the name of the CSV file: ")
+            output_file = input("Enter the name of the output CSV file: ")
+            
+            columns_to_split = {}
+            while True:
+                column = input("Enter the name of the column to split (or 'done' to finish): ")
+                if column.lower() == 'done':
+                    break
+                delimiter = input(f"Enter the delimiter for splitting the '{column}' column: ")
+                columns_to_split[column] = delimiter
+            
+            # Run the function
+            split_columns(input_file, output_file, columns_to_split)
+            # Reference: "FOP Sem2 2023 Lecture Material" (for understanding functions and user interactions in Python)
+        elif choice == "0":
+            print("Returning to Main Menu...")
             break
-        delimiter = input(f"Enter the delimiter for splitting the '{column}' column: ")
-        columns_to_split[column] = delimiter
-    
-    # Run the function
-    split_columns(input_file, output_file, columns_to_split)
-    # Reference: "FOP Sem2 2023 Lecture Material" (for understanding functions and user interactions in Python)
+        else:
+            print("Invalid option. Please choose a valid option.")
 
 if __name__ == "__main__":
     main()

@@ -21,11 +21,23 @@ def clean_csv(input_file, output_file):
     # Reference: "FOP Sem2 2023 Lecture Material" (for understanding file I/O and CSV file manipulation in Python)
 
 def main():
-    input_filename = input("Enter the name of the CSV file to clean: ")
-    output_filename = input("Enter the name for the cleaned CSV file: ")
-    
-    clean_csv(input_filename, output_filename)
-    print(f"Cleaned CSV saved to {output_filename}")
+    while True:
+        print("\nCSV File Cleaner")
+        print("1: Clean a CSV File")
+        print("0: Return to Main Menu")
+        choice = input().strip()
+        
+        if choice == "1":
+            input_filename = input("Enter the name of the CSV file to clean: ")
+            output_filename = input("Enter the name for the cleaned CSV file: ")
+            
+            clean_csv(input_filename, output_filename)
+            print(f"Cleaned CSV saved to {output_filename}")
+        elif choice == "0":
+            print("Returning to Main Menu...")
+            break
+        else:
+            print("Invalid option. Please choose a valid option.")
     # Reference: "FOP Sem2 2023 Lecture Material" (for understanding the main function and script execution in Python)
 
 # Reference: How to use unidecode in python (3.3) - Stack Overflow

@@ -28,3 +28,4 @@ Program/UpdatedOfficials.csv
 Program/__pycache__/asciiConversion.cpython-311.pyc
 Program/__pycache__/extractData.cpython-311.pyc
 Program/__pycache__/splitColumn.cpython-311.pyc
+Program/__pycache__/dataViewer.cpython-311.pyc
