@@ -20,10 +20,10 @@ def clean_csv(input_file, output_file):
             writer.writerow(cleaned_row)
     # Reference: "FOP Sem2 2023 Lecture Material" (for understanding file I/O and CSV file manipulation in Python)
 
-if __name__ == "__main__":
+def main():
     input_filename = input("Enter the name of the CSV file to clean: ")
     output_filename = input("Enter the name for the cleaned CSV file: ")
-
+    
     clean_csv(input_filename, output_filename)
     print(f"Cleaned CSV saved to {output_filename}")
     # Reference: "FOP Sem2 2023 Lecture Material" (for understanding the main function and script execution in Python)

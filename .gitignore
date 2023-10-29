@@ -25,3 +25,6 @@ Program/matches_1991_2023.csv
 Program/matches_1991_2023.csv
 Program/UpdatedOfficials.csv
 .gitignore
+Program/__pycache__/asciiConversion.cpython-311.pyc
+Program/__pycache__/extractData.cpython-311.pyc
+Program/__pycache__/splitColumn.cpython-311.pyc
