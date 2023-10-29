@@ -32,7 +32,7 @@ def main():
             file_path = input("Enter the path to the CSV file: ").strip()
             view_csv_data(file_path)
         elif choice == "0":
-            print("Exiting program. Goodbye!")
+            print()
             break
         else:
             print("Invalid option. Please choose a valid option.")

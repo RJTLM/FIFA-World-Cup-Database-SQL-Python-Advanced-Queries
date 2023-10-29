@@ -1,8 +1,11 @@
 # menu.py
 import time  # Importing the time module for creating delays in output
 
-def show_menu():
-    print("\nWelcome to the Data Processing Menu!")
+def show_menu(first_time):
+    if first_time:
+        print("\nWelcome to the FIFA WWC Data Processing Program!")
+    else:
+        print("\nWelcome Back to the Main Menu!")
     print("What would you like to do?")
     print("1: View a CSV File")
     print("2: Clean Non-ASCII Characters from a CSV File")
@@ -15,8 +18,11 @@ def show_menu():
     # Reference: https://docs.python.org/3/library/stdtypes.html#str.strip (for understanding the strip function)
 
 def main():
+    first_time = True
     while True:
-        choice = show_menu()
+        choice = show_menu(first_time)
+        if first_time:
+            first_time = False
         if choice == "1":
             from dataViewer import main as view_csv
             view_csv()
