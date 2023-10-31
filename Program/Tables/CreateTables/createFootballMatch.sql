@@ -1,4 +1,4 @@
-/* createMatch.sql: MySQL file for creating the Football Match table */
+/* createFootballMatch.sql: MySQL file for creating the Football Match table */
 
 -- Q3. Part2a. Implementation:
 -- Create Football Match table with constraints
