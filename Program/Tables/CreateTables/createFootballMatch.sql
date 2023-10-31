@@ -1,8 +1,8 @@
-/* createMatch.sql: MySQL file for creating the Match table */
+/* createMatch.sql: MySQL file for creating the Football Match table */
 
 -- Q3. Part2a. Implementation:
--- Create Match table with constraints
-CREATE TABLE IF NOT EXISTS Match (
+-- Create Football Match table with constraints
+CREATE TABLE IF NOT EXISTS FootballMatch (
   MatchID INT PRIMARY KEY,
   Date DATE NOT NULL,
   HomeTeam VARCHAR(255),

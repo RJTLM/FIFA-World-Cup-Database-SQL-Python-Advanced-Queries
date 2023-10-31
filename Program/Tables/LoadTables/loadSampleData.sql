@@ -23,8 +23,8 @@ INSERT INTO Coach (CoachName) VALUES ('Jorge Vilda'), ('Sarina Wiegman');
 UPDATE Team SET Manager = 'Jorge Vilda', Captain = 'Olga Carmona' WHERE TeamName = 'Spain';
 UPDATE Team SET Manager = 'Sarina Wiegman', Captain = 'Millie Bright' WHERE TeamName = 'England';
 
--- Insert Data into Match Table
-INSERT INTO Match (MatchID, Date, HomeTeam, AwayTeam, HomeScore, AwayScore, Attendance, VenueName, Round, Notes) VALUES (348, '2023-08-20', 'Spain', 'England', 1, 0, 75784, 'Accor Stadium, Sydney', 'Final', NULL);
+-- Insert Data into FootballMatch Table
+INSERT INTO FootballMatch (MatchID, Date, HomeTeam, AwayTeam, HomeScore, AwayScore, Attendance, VenueName, Round, Notes) VALUES (348, '2023-08-20', 'Spain', 'England', 1, 0, 75784, 'Accor Stadium, Sydney', 'Final', NULL);
 
 -- Insert Data into Goal Table
 INSERT INTO Goal (GoalID, MatchID, ScoringTeam, Scorer, Assist, Time, Type) VALUES (1, 348, 'Spain', 'Olga Carmona', 'Mariona Caldentey', 29, 'Regular');

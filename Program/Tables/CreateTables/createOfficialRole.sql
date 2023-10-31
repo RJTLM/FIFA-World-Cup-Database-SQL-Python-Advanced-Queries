@@ -2,5 +2,6 @@
 
 -- Q3. Part2a. Implementation:
 -- Create OfficialRole table
-Table: OfficialRole(Role)
-Primary Key: Role
+CREATE TABLE IF NOT EXISTS OfficialRole (
+  Role VARCHAR(255) PRIMARY KEY
+);

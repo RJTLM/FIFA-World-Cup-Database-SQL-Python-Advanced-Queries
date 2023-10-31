@@ -1,24 +1,26 @@
+/* commands.sql: MySQL command file */
+
 -- Q3. Part2a. Implementation:
 -- Initialise Database and Tables
 
 -- Create and Use fifa_womens_world_cup Database
-source ./CreateTables/createDatabase.sql;
+source ./Program/Tables/CreateTables/createDatabase.sql;
 
 -- Create Entity Sets Tables
-source ./CreateTables/createCard.sql;
-source ./CreateTables/createCoach.sql;
-source ./CreateTables/createCountry.sql;
-source ./CreateTables/createEvent.sql;
-source ./CreateTables/createGoal.sql;
-source ./CreateTables/createMatch.sql;
-source ./CreateTables/createOfficial.sql;
-source ./CreateTables/createOfficialRole.sql;
-source ./CreateTables/createPlayer.sql;
-source ./CreateTables/createStage.sql;
-source ./CreateTables/createSubstitution.sql;
-source ./CreateTables/createTeam.sql;
-source ./CreateTables/createVenue.sql;
-source ./CreateTables/createWinner.sql;
+source ./Program/Tables/CreateTables/createCard.sql;
+source ./Program/Tables/CreateTables/createCoach.sql;
+source ./Program/Tables/CreateTables/createCountry.sql;
+source ./Program/Tables/CreateTables/createEvent.sql;
+source ./Program/Tables/CreateTables/createGoal.sql;
+source ./Program/Tables/CreateTables/createFootballMatch.sql;
+source ./Program/Tables/CreateTables/createOfficial.sql;
+source ./Program/Tables/CreateTables/createOfficialRole.sql;
+source ./Program/Tables/CreateTables/createPlayer.sql;
+source ./Program/Tables/CreateTables/createStage.sql;
+source ./Program/Tables/CreateTables/createSubstitution.sql;
+source ./Program/Tables/CreateTables/createTeam.sql;
+source ./Program/Tables/CreateTables/createVenue.sql;
+source ./Program/Tables/CreateTables/createWinner.sql;
 
 -- Create Relationship Sets Tables
-source ./CreateTables/createRelationshipSets.sql;
+source ./Program/Tables/CreateTables/createRelationshipSets.sql;

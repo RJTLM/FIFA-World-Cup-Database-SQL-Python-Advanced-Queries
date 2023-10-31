@@ -31,8 +31,8 @@ DELETE FROM Substitution WHERE MatchID = 348;
 -- Delete Data from Goal Table
 DELETE FROM Goal WHERE GoalID = 1;
 
--- Delete Data from Match Table
-DELETE FROM Match WHERE MatchID = 348;
+-- Delete Data from FootballMatch Table
+DELETE FROM FootballMatch WHERE MatchID = 348;
 
 -- Update Team Table to Remove Managers and Captains
 UPDATE Team SET Manager = NULL, Captain = NULL WHERE TeamName IN ('Spain', 'England');
@@ -52,4 +52,4 @@ DELETE FROM Venue WHERE VenueName = 'Accor Stadium, Sydney';
 -- Delete Data from Country Table
 DELETE FROM Country WHERE CountryName IN ('Australia', 'New Zealand', 'Spain', 'England');
 
--- Note: Ensure to check if there are any other dependencies or constraints that need to be addressed before running this script.
+-- Note to self: Ensure to check if there are any other dependencies or constraints that need to be addressed before running this script.
