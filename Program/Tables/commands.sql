@@ -9,11 +9,11 @@ source ./Program/Tables/CreateTables/createDatabase.sql;
 -- Create tables that do not have foreign key dependencies (figured this out from trial and error)
 source ./Program/Tables/CreateTables/createCountry.sql;
 source ./Program/Tables/CreateTables/createCoach.sql;
-source ./Program/Tables/CreateTables/createPlayer.sql;
 source ./Program/Tables/CreateTables/createTeam.sql;
+source ./Program/Tables/CreateTables/createPlayer.sql;
 source ./Program/Tables/CreateTables/createVenue.sql;
-source ./Program/Tables/CreateTables/createOfficialRole.sql;
 source ./Program/Tables/CreateTables/createOfficial.sql;
+source ./Program/Tables/CreateTables/createOfficialRole.sql;
 source ./Program/Tables/CreateTables/createStage.sql;
 
 -- Create tables that have foreign key dependencies
