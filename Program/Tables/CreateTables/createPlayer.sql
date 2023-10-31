@@ -8,6 +8,6 @@ CREATE TABLE IF NOT EXISTS Player (
   FOREIGN KEY (TeamName) REFERENCES Team(TeamName) ON DELETE CASCADE
 );
 
--- Add foreign key now both tables have been created
+-- Add foreign key now both Team and Player tables have been created
 ALTER TABLE Team
 ADD FOREIGN KEY (Captain) REFERENCES Player(PlayerName) ON DELETE SET NULL;
