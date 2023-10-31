@@ -22,6 +22,7 @@ source ./Program/Tables/CreateTables/createFootballMatch.sql;
 source ./Program/Tables/CreateTables/createCard.sql;
 source ./Program/Tables/CreateTables/createGoal.sql;
 source ./Program/Tables/CreateTables/createSubstitution.sql;
+source ./Program/Tables/CreateTables/createTeamCaptain.sql;
 source ./Program/Tables/CreateTables/createWinner.sql;
 
 -- Create the relationship sets tables
