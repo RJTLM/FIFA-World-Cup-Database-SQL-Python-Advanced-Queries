@@ -1,5 +1,6 @@
 import mysql.connector
 import getpass
+import time  # Importing the time module for creating delays in output
 
 def connect_to_db():
     # Database configuration
@@ -15,6 +16,7 @@ def connect_to_db():
     cursor = db_connection.cursor()
 
     print("\nConnection established!")
+    time.sleep(1.5)  # Wait for 1.5 seconds
     return cursor, db_connection
 
 def main():
