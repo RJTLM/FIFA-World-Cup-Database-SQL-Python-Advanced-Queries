@@ -3,7 +3,7 @@
 -- Q3. Part2a. Implementation:
 -- Create Substitution table with constraints
 CREATE TABLE IF NOT EXISTS Substitution (
-  SubstitutionID AUTO_INCREMENT PRIMARY KEY, -- https://www.w3schools.com/mysql/mysql_autoincrement.asp
+  SubstitutionID INT AUTO_INCREMENT PRIMARY KEY, -- https://www.w3schools.com/mysql/mysql_autoincrement.asp
   MatchID INT,
   Time INT NOT NULL,
   PlayerOut VARCHAR(255),
