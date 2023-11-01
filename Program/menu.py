@@ -11,6 +11,7 @@ def show_menu(first_time):
     print("2: Clean Non-ASCII Characters from a CSV File")
     print("3: Extract or Update Columns in a CSV File")
     print("4: Split Columns in a CSV File")
+    print("5: Insert Data into MySQL Database")
     print("0: Exit Program")
     choice = input().strip()  # Using strip to remove any leading or trailing whitespaces
     return choice
@@ -35,6 +36,9 @@ def main():
         elif choice == "4":
             from splitColumn import main as split_columns
             split_columns()
+        elif choice == "5":
+            from mySQLConnector import main as insert_data
+            insert_data()
         elif choice == "0":
             print("Why do programmers like dark mode?")
             time.sleep(1.5)  # Wait for 1.5 seconds
