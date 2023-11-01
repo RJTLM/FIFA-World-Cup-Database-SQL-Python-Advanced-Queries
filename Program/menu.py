@@ -65,7 +65,11 @@ def main():
             else:
                 print("Please connect to the MySQL Database first.")
         elif choice == "8":
-            print("8: Update MySQL Database (Q3 Part 5) goes here.")
+            if cursor is not None and db_connection is not None:
+                from updateDatabase import main as update_database
+                update_database(cursor, db_connection)
+            else:
+                print("Please connect to the MySQL Database first.")
         elif choice == "9":
             print("9: Query MySQL Database (Q3 Part 3) goes here.")
         elif choice == "10":
