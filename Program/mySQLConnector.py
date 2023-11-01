@@ -1,7 +1,7 @@
 import mysql.connector
 import getpass
 
-def main():
+def connect_to_db():
     # Database configuration
     db_config = {
         'host': 'localhost',
@@ -16,3 +16,9 @@ def main():
 
     print("Connection established!")
     return cursor, db_connection
+
+def main():
+    connect_to_db()
+
+if __name__ == "__main__":
+    main()
