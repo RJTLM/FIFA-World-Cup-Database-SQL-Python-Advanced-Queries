@@ -14,17 +14,17 @@ def show_menu(first_time):
         time.sleep(0.75)  # Wait for 0.75 seconds
         print("What would you like to do?")
         time.sleep(0.50)  # Wait for 0.50 seconds
-    print("1: View a CSV File")
-    print("2: Clean Non-ASCII Characters from a CSV File")
-    print("3: Extract or Update Columns in a CSV File")
-    print("4: Split Columns in a CSV File")
-    print("5: Connect to MySQL")
-    print("6: Create Database and Tables")
-    print("7: Insert Initial Data into Tables")
-    print("8: Update Database (Q3 Part 5)")
-    print("9: Query Database (Q3 Part 3)")
+    print(" 1: View a CSV File")
+    print(" 2: Clean Non-ASCII Characters from a CSV File")
+    print(" 3: Extract or Update Columns in a CSV File")
+    print(" 4: Split Columns in a CSV File")
+    print(" 5: Connect to MySQL")
+    print(" 6: Create Database and Tables")
+    print(" 7: Insert Initial Data into Tables")
+    print(" 8: Update Database (Q3 Part 5)")
+    print(" 9: Query Database (Q3 Part 3)")
     print("10: Advanced Concepts (Q3 Part 4)")
-    print("0: Exit Program")
+    print(" 0: Exit Program")
     choice = input().strip()  # Using strip to remove any leading or trailing whitespaces
     return choice
     # Reference: "FOP Sem2 2023 Lecture Material" (for understanding functions and user interactions in Python)
