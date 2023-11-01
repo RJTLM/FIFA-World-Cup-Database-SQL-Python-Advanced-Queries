@@ -8,7 +8,7 @@ def connect_to_db():
         'host': 'localhost',
         'user': input("\nEnter your MySQL username: "),
         'password': getpass.getpass("Enter your MySQL password: "),
-        'database': 'fifa_womens_world_cup_21171466'
+        #'database': 'fifa_womens_world_cup_21171466'
     }
 
     # Establish a database connection
