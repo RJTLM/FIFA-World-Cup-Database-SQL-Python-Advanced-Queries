@@ -19,7 +19,10 @@ def show_menu(first_time):
     print("3: Extract or Update Columns in a CSV File")
     print("4: Split Columns in a CSV File")
     print("5. Connect to a MySQL Database")
-    print("6: Insert Data into MySQL Database")
+    print("6: Insert Initial Data into MySQL Database")
+    print("7: Update MySQL Database (Q3 Part 5)")
+    print("8: Query MySQL Database (Q3 Part 3)")
+    print("9: Advanced Concepts (Q3 Part 4)")
     print("0: Exit Program")
     choice = input().strip()  # Using strip to remove any leading or trailing whitespaces
     return choice
@@ -54,6 +57,12 @@ def main():
                 insert_data(cursor, db_connection)
             else:
                 print("Please connect to the MySQL Database first.")
+        elif choice == "7":
+            print("7: Update MySQL Database (Q3 Part 5) goes here.")
+        elif choice == "8":
+            print("8: Query MySQL Database (Q3 Part 3) goes here.")
+        elif choice == "9":
+            print("9: Advanced Concepts (Q3 Part 4) goes here.")
         elif choice == "0":
             print("Why do programmers like dark mode?")
             time.sleep(1.5)  # Wait for 1.5 seconds
