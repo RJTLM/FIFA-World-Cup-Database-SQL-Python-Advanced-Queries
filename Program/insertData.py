@@ -1,4 +1,5 @@
 import csv
+import re
 
 def insert_into_country(cursor, db_connection, data):
     if not data:
