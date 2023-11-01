@@ -1,5 +1,9 @@
 # updateDatabase.py
 
+def view_data(cursor, db_connection):
+    from viewData import main as view_data_main
+    view_data_main(cursor, db_connection)
+
 def insert_data(cursor, db_connection):
     print("\nInsert Data")
     table_name = input("Enter the table name: ")
@@ -43,10 +47,11 @@ def delete_data(cursor, db_connection):
 
 def show_menu():
     print("\nWhat would you like to do?")
-    print("1. Insert data")
-    print("2. Update data")
-    print("3. Delete data")
-    print("0. Return to Main Menu")
+    print("1: View Data")
+    print("2: Insert Data")
+    print("3: Update Data")
+    print("4: Delete Data")
+    print("0: Return to Main Menu")
     choice = input().strip()
     return choice
 
@@ -54,10 +59,12 @@ def main(cursor, db_connection):
     while True:
         choice = show_menu()
         if choice == "1":
-            insert_data(cursor, db_connection)
+            view_data(cursor, db_connection)
         elif choice == "2":
-            update_data(cursor, db_connection)
+            insert_data(cursor, db_connection)
         elif choice == "3":
+            update_data(cursor, db_connection)
+        elif choice == "4":
             delete_data(cursor, db_connection)
         elif choice == "0":
             print("Returning to Main Menu...")
@@ -68,3 +75,4 @@ def main(cursor, db_connection):
 if __name__ == "__main__":
     print("This script is not meant to be run directly.")
     print("Please run this script through the main menu.")
+    

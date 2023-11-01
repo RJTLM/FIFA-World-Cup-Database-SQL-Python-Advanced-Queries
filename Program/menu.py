@@ -21,7 +21,7 @@ def show_menu(first_time):
     print(" 5: Connect to MySQL")
     print(" 6: Create Database and Tables")
     print(" 7: Insert Initial Data into Tables")
-    print(" 8: Update Database (Q3 Part 5)")
+    print(" 8: View/Update Database (Q3 Part 5)")
     print(" 9: Query Database (Q3 Part 3)")
     print("10: Advanced Concepts (Q3 Part 4)")
     print(" 0: Exit Program")
