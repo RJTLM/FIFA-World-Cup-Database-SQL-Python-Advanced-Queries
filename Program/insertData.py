@@ -55,10 +55,14 @@ def insert_into_player(cursor, db_connection, data):
     print("Player table data insertion complete. {} rows processed.".format(len(unique_player_names)))
 
 def extract_player_names(text):
-    # Split the text by commas and extract player names
-    players = re.split(r',|;', text)
-    return [player.strip() for player in players if player.strip()]
-
+    # Extract player names using a regular expression
+    player_names = re.findall(r'\|([^|]+)\|', text)
+    # Split the names by 'for' and return the cleaned names
+    result = []
+    for name in player_names:
+        parts = name.split('for')
+        result.extend(part.strip() for part in parts if part.strip())
+    return result
 
 
 # Add similar functions for other tables
