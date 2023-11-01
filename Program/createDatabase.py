@@ -16,7 +16,10 @@ def execute_sql_file(cursor, file_path):
             # If the command is a source command, read the file and execute its contents
             if command.lower().startswith("source"):
                 file_name = command.split()[1].strip(';')
-                execute_sql_file(cursor, os.path.join(os.path.dirname(file_path), file_name))
+                # Construct the correct path for the sourced file
+                new_file_path = os.path.join(os.path.dirname(file_path), file_name)
+                new_file_path = os.path.normpath(new_file_path)  # Normalize the path
+                execute_sql_file(cursor, new_file_path)
             else:
                 try:
                     cursor.execute(command)
