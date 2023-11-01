@@ -13,7 +13,6 @@ Program/matches_1991_2023_cleaned.csv
 .gitignore
 Data/data.csv
 .gitignore
-Program/bigDataCleaned.csv
 .gitignore
 Program/EventData.csv
 Program/matches_1991_2023.csv
