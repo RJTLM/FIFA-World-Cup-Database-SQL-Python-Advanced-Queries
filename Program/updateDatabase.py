@@ -17,8 +17,8 @@ def insert_data(cursor, db_connection):
 def update_data(cursor, db_connection):
     print("\nUpdate Data")
     table_name = input("Enter the table name: ")
-    set_clause = input("Enter the SET clause (e.g., column1 = value1, column2 = value2): ")
-    where_clause = input("Enter the WHERE clause (without 'WHERE'): ")
+    set_clause = input("Enter the SET clause (e.g., CoachName = 'Peter Griffin', CoachName = 'Lois Griffin'): ")
+    where_clause = input("Enter the WHERE clause (e.g., CoachName = 'Peter Parker', CoachName = 'MJ'): ")
     
     sql = f"UPDATE {table_name} SET {set_clause} WHERE {where_clause}"
     try:
@@ -31,7 +31,7 @@ def update_data(cursor, db_connection):
 def delete_data(cursor, db_connection):
     print("\nDelete Data")
     table_name = input("Enter the table name: ")
-    where_clause = input("Enter the WHERE clause (without 'WHERE'): ")
+    where_clause = input("Enter the WHERE clause (e.g., CoachName = 'Peter Parker', CoachName = 'MJ'): ")
     
     sql = f"DELETE FROM {table_name} WHERE {where_clause}"
     try:
