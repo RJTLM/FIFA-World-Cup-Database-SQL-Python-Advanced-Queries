@@ -3,7 +3,7 @@
 -- Q3. Part2a. Implementation:
 -- Create Goal table with constraints
 CREATE TABLE IF NOT EXISTS Goal (
-  GoalID INT PRIMARY KEY,
+  GoalID INT AUTO_INCREMENT PRIMARY KEY, -- https://www.w3schools.com/mysql/mysql_autoincrement.asp
   MatchID INT,
   ScoringTeam VARCHAR(255),
   Scorer VARCHAR(255),
