@@ -41,8 +41,12 @@ def main():
             from mySQLConnector import main as connect_to_db
             connect_to_db()
         elif choice == "6":
-            from insertData import main as insert_data
-            insert_data()
+            from mySQLConnector import connect_to_db
+            from insertData import insert_data
+            cursor, db_connection = connect_to_db()
+            insert_data(cursor, db_connection)
+            cursor.close()
+            db_connection.close()
         elif choice == "0":
             print("Why do programmers like dark mode?")
             time.sleep(1.5)  # Wait for 1.5 seconds

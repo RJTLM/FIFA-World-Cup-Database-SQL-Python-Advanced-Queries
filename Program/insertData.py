@@ -1,14 +1,11 @@
 import csv
-from mySQLConnector import connect_to_db
 
 def insert_into_country(cursor, db_connection, data):
     sql = "INSERT IGNORE INTO Country (CountryName) VALUES (%s)"
     cursor.execute(sql, (data,))
     db_connection.commit()
 
-def main():
-    cursor, db_connection = connect_to_db()
-
+def insert_data(cursor, db_connection):
     # File path to your CSV file
     csv_file_path = './Program/bigDataCleaned.csv'
 
@@ -22,7 +19,4 @@ def main():
             # Add similar code here to insert data into other tables
             # ...
 
-    # Close the cursor and database connection
-    cursor.close()
-    db_connection.close()
     print("Data insertion complete.")

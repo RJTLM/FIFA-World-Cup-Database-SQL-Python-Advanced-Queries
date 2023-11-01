@@ -5,7 +5,7 @@ def connect_to_db():
     # Database configuration
     db_config = {
         'host': 'localhost',
-        'user': input("Enter your MySQL username: "),
+        'user': input("\nEnter your MySQL username: "),
         'password': getpass.getpass("Enter your MySQL password: "),
         'database': 'fifa_womens_world_cup_21171466'
     }
@@ -14,7 +14,7 @@ def connect_to_db():
     db_connection = mysql.connector.connect(**db_config)
     cursor = db_connection.cursor()
 
-    print("Connection established!")
+    print("\nConnection established!")
     return cursor, db_connection
 
 def main():
