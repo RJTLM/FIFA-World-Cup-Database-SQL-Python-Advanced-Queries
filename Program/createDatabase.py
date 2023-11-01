@@ -11,14 +11,19 @@ def execute_sql_file(cursor, file_path):
     commands = sql_script.split(';')
     
     for command in commands:
-        if command.strip() != "":
+        command = command.strip()
+        if command:
             # If the command is a source command, read the file and execute its contents
-            if command.strip().lower().startswith("source"):
+            if command.lower().startswith("source"):
                 file_name = command.split()[1].strip(';')
                 execute_sql_file(cursor, os.path.join(os.path.dirname(file_path), file_name))
             else:
-                cursor.execute(command)
-                print(f"Executed: {command}")
+                try:
+                    cursor.execute(command)
+                    print(f"Executed: {command}")
+                except Exception as e:
+                    print(f"Failed to execute: {command}")
+                    print(f"Error: {str(e)}")
 
 def create_database_and_tables(cursor):
     # Path to your commands.sql file
