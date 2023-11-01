@@ -6,6 +6,7 @@ def show_menu(first_time):
         print("\nWelcome to the FIFA WWC Data Processing Program!")
     else:
         print("\nWelcome Back to the Main Menu!")
+        time.sleep(0.75)  # Wait for 0.75 
     print("What would you like to do?")
     print("1: View a CSV File")
     print("2: Clean Non-ASCII Characters from a CSV File")
