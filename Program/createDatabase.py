@@ -13,24 +13,41 @@ def execute_sql_file(cursor, file_path):
     for command in commands:
         command = command.strip()
         if command:
-            # If the command is a source command, read the file and execute its contents
-            if command.lower().startswith("source"):
-                file_name = command.split()[1].strip(';')
-                # Construct the correct path for the sourced file
-                new_file_path = os.path.normpath(os.path.join(os.path.dirname(file_path), file_name))
-                execute_sql_file(cursor, new_file_path)
-            else:
-                try:
-                    cursor.execute(command)
-                    print(f"Executed: {command}")
-                except Exception as e:
-                    print(f"Failed to execute: {command}")
-                    print(f"Error: {str(e)}")
+            try:
+                cursor.execute(command)
+                print(f"Executed: {command}")
+            except Exception as e:
+                print(f"Failed to execute: {command}")
+                print(f"Error: {str(e)}")
 
 def create_database_and_tables(cursor):
-    # Path to your commands.sql file
-    sql_file_path = './Program/Tables/commands.sql'
+    # List of SQL files to execute
+    sql_files = [
+        'createDatabase.sql',
+        'createCountry.sql',
+        'createCoach.sql',
+        'createTeam.sql',
+        'createPlayer.sql',
+        'createVenue.sql',
+        'createOfficial.sql',
+        'createOfficialRole.sql',
+        'createStage.sql',
+        'createEvent.sql',
+        'createFootballMatch.sql',
+        'createCard.sql',
+        'createGoal.sql',
+        'createSubstitution.sql',
+        'createTeamCaptain.sql',
+        'createWinner.sql',
+        'createRelationshipSets.sql'
+    ]
     
-    # Execute the SQL commands from the file
-    execute_sql_file(cursor, sql_file_path)
+    # Base directory for SQL files
+    base_dir = './Program/Tables/CreateTables/'
+    
+    # Execute each SQL file in order
+    for sql_file in sql_files:
+        file_path = os.path.join(base_dir, sql_file)
+        execute_sql_file(cursor, file_path)
+    
     print("Database and tables successfully created.")
