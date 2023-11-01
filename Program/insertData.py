@@ -25,6 +25,20 @@ def insert_into_coach(cursor, db_connection, data):
     db_connection.commit()
     print("Coach table data insertion complete. {} rows processed.".format(len(unique_coach_names)))
 
+def insert_into_team(cursor, db_connection, data):
+    if not data:
+        print("No data to insert into Team table.")
+        return
+    
+    # Remove duplicates
+    unique_team_names = set(data)
+    
+    print("Inserting data into Team table...")
+    sql = "INSERT IGNORE INTO Team (TeamName) VALUES (%s)"
+    cursor.executemany(sql, [(team_name,) for team_name in unique_team_names])
+    db_connection.commit()
+    print("Team table data insertion complete. {} rows processed.".format(len(unique_team_names)))
+
 # Add similar functions for other tables
 
 def insert_data(cursor, db_connection):
@@ -39,6 +53,7 @@ def insert_data(cursor, db_connection):
             csv_reader = csv.DictReader(csvfile)
             country_data = []
             coach_data = []
+            team_data = []
             # Add similar lists for other tables
 
             for row in csv_reader:
@@ -49,6 +64,10 @@ def insert_data(cursor, db_connection):
                 coach_data.append(row['home_manager'])
                 coach_data.append(row['away_manager'])
 
+                # Collect data for Team table
+                team_data.append(row['home_team'])
+                team_data.append(row['away_team'])
+
 
                 # Collect similar data here for other tables
                 # ...
@@ -56,10 +75,11 @@ def insert_data(cursor, db_connection):
             # Insert data into tables
             insert_into_country(cursor, db_connection, country_data)
             insert_into_coach(cursor, db_connection, coach_data)
+            insert_into_team(cursor, db_connection, team_data)
 
             # Add similar calls for other tables
 
-            print("Data insertion complete. {} rows processed.".format(len(country_data)))  # Update this line accordingly
+            print("Data insertion complete. {} rows processed.".format(len(country_data)))
     except Exception as e:
         print("An error occurred during the data insertion process.")
         print("Error: {}".format(str(e)))
