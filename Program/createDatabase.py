@@ -4,9 +4,6 @@ def execute_sql_file(cursor, file_path):
     """
     Execute SQL commands from a file using the provided cursor.
     """
-    # Ensure the file path is absolute
-    file_path = os.path.abspath(file_path)
-
     with open(file_path, 'r') as file:
         sql_script = file.read()
     
@@ -20,7 +17,7 @@ def execute_sql_file(cursor, file_path):
             if command.lower().startswith("source"):
                 file_name = command.split()[1].strip(';')
                 # Construct the correct path for the sourced file
-                new_file_path = os.path.join(os.path.dirname(file_path), file_name)
+                new_file_path = os.path.normpath(os.path.join(os.path.dirname(file_path), file_name))
                 execute_sql_file(cursor, new_file_path)
             else:
                 try:
