@@ -4,6 +4,6 @@
 -- Create Team table with constraints
 CREATE TABLE IF NOT EXISTS Team (
   TeamName VARCHAR(255) PRIMARY KEY,
-  Manager VARCHAR(255) UNIQUE,
-  FOREIGN KEY (Manager) REFERENCES Coach(CoachName) ON DELETE SET NULL
+  CoachName VARCHAR(255) UNIQUE,
+  FOREIGN KEY (CoachName) REFERENCES Coach(CoachName) ON DELETE SET NULL
 );
