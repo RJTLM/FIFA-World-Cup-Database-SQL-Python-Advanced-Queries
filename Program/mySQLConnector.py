@@ -16,7 +16,7 @@ def connect_to_db():
     cursor = db_connection.cursor()
 
     print("\nConnection established!")
-    time.sleep(1.5)  # Wait for 1.5 seconds
+    time.sleep(1)  # Wait for 1 second
     return cursor, db_connection
 
 def main():

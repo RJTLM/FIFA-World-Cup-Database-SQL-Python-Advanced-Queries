@@ -1,6 +1,10 @@
 # menu.py
 import time  # Importing the time module for creating delays in output
 
+# Global variables to store the database connection and cursor
+db_connection = None
+cursor = None
+
 def show_menu(first_time):
     if first_time:
         print("\nWelcome to the FIFA WWC Data Processing Program!")
@@ -21,6 +25,7 @@ def show_menu(first_time):
     # Reference: https://docs.python.org/3/library/stdtypes.html#str.strip (for understanding the strip function)
 
 def main():
+    global db_connection, cursor
     first_time = True
     while True:
         choice = show_menu(first_time)
@@ -39,15 +44,14 @@ def main():
             from splitColumn import main as split_columns
             split_columns()
         elif choice == "5":
-            from mySQLConnector import main as connect_to_db
-            connect_to_db()
-        elif choice == "6":
             from mySQLConnector import connect_to_db
-            from insertData import insert_data
             cursor, db_connection = connect_to_db()
-            insert_data(cursor, db_connection)
-            cursor.close()
-            db_connection.close()
+        elif choice == "6":
+            if cursor is not None and db_connection is not None:
+                from insertData import insert_data
+                insert_data(cursor, db_connection)
+            else:
+                print("Please connect to the MySQL Database first.")
         elif choice == "0":
             print("Why do programmers like dark mode?")
             time.sleep(1.5)  # Wait for 1.5 seconds
@@ -64,6 +68,10 @@ def main():
             print("\n\nAnyway")
             time.sleep(1)  # Wait for 1 second
             print("Goodbye :)")
+            if cursor:
+                cursor.close()
+            if db_connection:
+                db_connection.close()
             break
         else:
             print("Invalid option. Please choose a valid option.")
