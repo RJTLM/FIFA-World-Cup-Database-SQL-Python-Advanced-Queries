@@ -1,4 +1,4 @@
-LOAD DATA INFILE 'path/to/your/file/Program/bigDataCleaned.csv'
+LOAD DATA LOCAL INFILE '/home/294230i/Documents/DSFinalAssignment/Program/bigDataCleaned.csv'
 INTO TABLE BigData
 FIELDS TERMINATED BY '\t' ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
