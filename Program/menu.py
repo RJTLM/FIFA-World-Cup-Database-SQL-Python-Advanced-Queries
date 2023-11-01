@@ -8,10 +8,12 @@ cursor = None
 def show_menu(first_time):
     if first_time:
         print("\nWelcome to the FIFA WWC Data Processing Program!")
+        print("What would you like to do?")
     else:
         print("\nWelcome Back to the Main Menu!")
-        time.sleep(0.75)  # Wait for 0.75 
-    print("What would you like to do?")
+        time.sleep(0.75)  # Wait for 0.75 seconds
+        print("What would you like to do?")
+        time.sleep(0.50)  # Wait for 0.50 seconds
     print("1: View a CSV File")
     print("2: Clean Non-ASCII Characters from a CSV File")
     print("3: Extract or Update Columns in a CSV File")
