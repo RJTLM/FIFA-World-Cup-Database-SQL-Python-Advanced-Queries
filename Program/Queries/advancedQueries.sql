@@ -1,34 +1,35 @@
 /* advancedQueries.sql: MySQL file for advanced queries*/
 
 -- Q3. Part3 Level 2 Advanced Queries:
--- Question 6: Which team has participated in the most matches?
-SELECT TeamName, COUNT(MatchID) as Matches_Participated
+-- advancedQueries.sql: MySQL file for advanced queries
+
+-- Using JOIN, GROUP BY, and aggregate functions to count matches played by each team
+SELECT TeamName, COUNT(*) as TotalMatches
 FROM Plays
 GROUP BY TeamName
-ORDER BY Matches_Participated DESC
-LIMIT 1;
+ORDER BY TotalMatches DESC;
 
--- Question 7: Which manager managed teams in the most number of different events?
-SELECT ManagerName, COUNT(DISTINCT EventID) as Events_Managed
-FROM Manages
-JOIN FootballMatch ON Manages.MatchID = FootballMatch.MatchID
-GROUP BY ManagerName
-ORDER BY Events_Managed DESC
-LIMIT 1;
-
--- Question 8: List all teams that have never won an event.
-SELECT TeamName
-FROM Team
-WHERE TeamName NOT IN (SELECT Champion FROM Event);
-
--- Question 9: Which venue hosted the most matches?
-SELECT Venue, COUNT(MatchID) as Matches_Hosted
+-- Using GROUP BY, ORDER BY, and aggregate functions to calculate average attendance per venue
+SELECT Venue, AVG(Attendance) as AvgAttendance
 FROM FootballMatch
+WHERE Attendance IS NOT NULL
 GROUP BY Venue
-ORDER BY Matches_Hosted DESC
-LIMIT 1;
+ORDER BY AvgAttendance DESC;
 
--- Question 10: Find the top scorer of the event with the highest average attendance.
-SELECT TopScorer
+-- Using a single table to retrieve top scorer of each event
+SELECT EventID, TopScorer
 FROM Event
-WHERE EventAttendanceAvg = (SELECT MAX(EventAttendanceAvg) FROM Event);
+WHERE TopScorer IS NOT NULL;
+
+-- Using GROUP BY, ORDER BY, and aggregate functions to sum goals scored in each round
+SELECT Round, SUM(home_score + away_score) as TotalGoals
+FROM FootballMatch
+WHERE EventID = 2023
+GROUP BY Round
+ORDER BY TotalGoals DESC;
+
+-- Using JOIN, sub-query, and aggregate functions to find matches with penalty kicks in a specific year
+SELECT FM.*
+FROM FootballMatch FM
+JOIN Event E ON FM.EventID = E.EventID
+WHERE (home_penalty IS NOT NULL OR away_penalty IS NOT NULL) AND E.EventYear = 2023;

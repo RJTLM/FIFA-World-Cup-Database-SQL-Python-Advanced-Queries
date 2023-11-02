@@ -1,32 +1,19 @@
 /* basicQueries.sql: MySQL file for basic queries*/
 
 -- Q3. Part3 Level 1 Basic Queries:
--- Question 1: Who won the 2023 FIFA Women's World Cup?
-SELECT Champion 
-FROM Event 
-WHERE EventYear = 2023 AND EventHost = 'FIFA Women''s World Cup';
+-- basicQueries.sql: MySQL file for basic queries
 
--- Question 2: What dates were the 2023 semi-finals played on and what were the match details?
-SELECT MatchDate, home_team.TeamName AS home_team, away_team.TeamName AS away_team, home_score, away_score
-FROM FootballMatch
-JOIN Team AS home_team ON FootballMatch.home_team = home_team.TeamID
-JOIN Team AS away_team ON FootballMatch.away_team = away_team.TeamID
-WHERE Round = 'Semi-finals' AND EventID = (SELECT EventID FROM Event WHERE EventYear = 2023)
-ORDER BY MatchDate;
+-- Using string comparison to retrieve matches based on venue
+SELECT * FROM FootballMatch WHERE Venue = 'Accor Stadium, Sydney';
 
--- Question 3: Which referee officiated the most matches?
-SELECT RefereeName, COUNT(MatchID) as Matches_Officiated
-FROM FootballMatch
-WHERE RefereeName IS NOT NULL
-GROUP BY RefereeName
-ORDER BY Matches_Officiated DESC
-LIMIT 1;
+-- Using numeric data to retrieve matches based on attendance
+SELECT * FROM FootballMatch WHERE Attendance > 50000;
 
--- Question 4: What is the average number of matches per event?
-SELECT AVG(NoMatches) 
-FROM Event;
+-- Using date-time functions and BETWEEN to retrieve matches played in August 2023
+SELECT * FROM FootballMatch WHERE MatchDate BETWEEN '2023-08-01' AND '2023-08-31';
 
--- Question 5: List all players who are captains.
-SELECT PlayerName
-FROM Player
-WHERE isCaptain = TRUE;
+-- Using string comparison and numeric data to retrieve specific matches
+SELECT * FROM FootballMatch WHERE home_team = 'Spain' AND home_score > 2;
+
+-- Using string comparison and checking for non-null values
+SELECT * FROM FootballMatch WHERE Referee = 'Tori Penso' AND Notes IS NOT NULL;

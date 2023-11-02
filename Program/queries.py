@@ -21,12 +21,10 @@ def run_query(cursor, query, message):
             print("No data found.")
             return
         print(message)
-        for i, (match_date, home_team, away_team, home_score, away_score) in enumerate(records, start=1):
-            formatted_date = match_date.strftime("%d %b %Y")
-            print(f"Semi-final {i} was played on {formatted_date} by {home_team} ({home_score}) and {away_team} ({away_score}).")
+        for record in records:
+            print(record)
     except Exception as e:
         print("Error:", e)
-
 
 def main(cursor):
     basic_queries = load_queries('./Program/Queries/basicQueries.sql')
@@ -35,41 +33,41 @@ def main(cursor):
     while True:
         print("\nWhat would you like to know?")
         print("Basic:")
-        print(" 1: Who won the 2023 FIFA Women's World Cup?")
-        print(" 2: What dates were the 2023 semi finals played on?")
-        print(" 3: Which referee officiated the most matches?")
-        print(" 4: What is the average number of matches per event?")
-        print(" 5: List all players who are captains.")
+        print(" 1: Find all matches played at a specific venue")
+        print(" 2: Retrieve all matches with attendance greater than a specific number")
+        print(" 3: Get details of matches played in a specific date range")
+        print(" 4: Find all matches where a specific team was the home team and scored more than 2 goals")
+        print(" 5: Retrieve all matches with a specific referee and notes not null")
         print("Advanced:")
-        print(" 6: Which team has participated in the most matches?")
-        print(" 7: Which manager managed teams in the most number of different events?")
-        print(" 8: List all teams that have never won an event.")
-        print(" 9: Which venue hosted the most matches?")
-        print("10: Find the top scorer of the event with the highest average attendance.")
+        print(" 6: Find the total number of matches played by each team")
+        print(" 7: Get the average attendance of matches for each venue")
+        print(" 8: Find the top scorer of each event")
+        print(" 9: Get the total number of goals scored in each round of an event")
+        print("10: Find all matches where penalty kicks were taken and the match was hosted in a specific year")
         print(" 0: Return to Main Menu")
         
         choice = input("Please enter your choice: ")
         
         if choice == "1":
-            run_query(cursor, basic_queries[0], "The winner of the 2023 FIFA Women's World Cup:")
+            run_query(cursor, basic_queries[0], "Matches played at a specific venue:")
         elif choice == "2":
-            run_query(cursor, basic_queries[1], "What dates were the 2023 semi finals played on:")
+            run_query(cursor, basic_queries[1], "Matches with attendance greater than a specific number:")
         elif choice == "3":
-            run_query(cursor, basic_queries[2], "Referee who officiated the most matches:")
+            run_query(cursor, basic_queries[2], "Matches played in a specific date range:")
         elif choice == "4":
-            run_query(cursor, basic_queries[3], "Average number of matches per event:")
+            run_query(cursor, basic_queries[3], "Matches where a specific team was the home team and scored more than 2 goals:")
         elif choice == "5":
-            run_query(cursor, basic_queries[4], "Players who are captains:")
+            run_query(cursor, basic_queries[4], "Matches with a specific referee and notes not null:")
         elif choice == "6":
-            run_query(cursor, advanced_queries[0], "Team that has participated in the most matches:")
+            run_query(cursor, advanced_queries[0], "Total number of matches played by each team:")
         elif choice == "7":
-            run_query(cursor, advanced_queries[1], "Manager who managed teams in the most number of different events:")
+            run_query(cursor, advanced_queries[1], "Average attendance of matches for each venue:")
         elif choice == "8":
-            run_query(cursor, advanced_queries[2], "Teams that have never won an event:")
+            run_query(cursor, advanced_queries[2], "Top scorer of each event:")
         elif choice == "9":
-            run_query(cursor, advanced_queries[3], "Venue that hosted the most matches:")
+            run_query(cursor, advanced_queries[3], "Total number of goals scored in each round of an event:")
         elif choice == "10":
-            run_query(cursor, advanced_queries[4], "Top scorer of the event with the highest average attendance:")
+            run_query(cursor, advanced_queries[4], "Matches where penalty kicks were taken and the match was hosted in a specific year:")
         elif choice == "0":
             print("Returning to the main menu.")
             break
