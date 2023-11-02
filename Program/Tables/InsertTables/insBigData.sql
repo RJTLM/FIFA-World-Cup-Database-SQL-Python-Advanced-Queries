@@ -1,5 +1,5 @@
 -- insBigData.sql
-INSERT INTO BigData (MatchID, home_team, away_team, home_score, home_penalty, away_score, away_penalty, home_manager, home_captain, away_manager, away_captain, MatchAttendanceAttendance, Venue, Round, MatchDate, Referee, Notes, MatchHost, MatchYear)
+INSERT INTO BigData (MatchID, home_team, away_team, home_score, home_penalty, away_score, away_penalty, home_manager, home_captain, away_manager, away_captain, MatchAttendance, Venue, Round, MatchDate, Referee, Notes, MatchHost, MatchYear)
 VALUES
 (348, 'Spain', 'England', 1, NULL, 0, NULL, 'Jorge Vilda', 'Olga Carmona', 'Sarina Wiegman', 'Millie Bright', 75784, 'Accor Stadium, Sydney', 'Final', '2023-08-20', 'Tori Penso', NULL, 'Australia, New Zealand', 2023),
 (347, 'Sweden', 'Australia', 2, NULL, 0, NULL, 'Peter Gerhardsson', 'Kosovare Asllani', 'Tony Gustavsson', 'Sam Kerr', 49461, 'Suncorp Stadium, Brisbane', 'Third-place match', '2023-08-19', NULL, NULL, 'Australia, New Zealand', 2023),
