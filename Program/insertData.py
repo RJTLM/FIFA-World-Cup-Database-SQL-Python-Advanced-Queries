@@ -1,39 +1,12 @@
 import csv
 import re
 
-def insert_into_country(cursor, db_connection, data):
-    if not data:
-        print("No data to insert into Country table.")
-        return
-    
-    print("Inserting data into Country table...")
-    sql = "INSERT IGNORE INTO Country (CountryName) VALUES (%s)"
-    cursor.executemany(sql, [(country,) for country in set(data)])  # Using set to remove duplicates
-    db_connection.commit()
-    print("Country table data insertion complete. {} rows processed.".format(len(set(data))))
-
-def insert_into_coach(cursor, db_connection, data):
-    if not data:
-        print("No data to insert into Coach table.")
-        return
-    
-    # Remove duplicates and filter out empty strings
-    unique_coach_names = set(filter(None, data))
-    
-    print("Inserting data into Coach table...")
-    sql = "INSERT IGNORE INTO Coach (CoachName) VALUES (%s)"
-    cursor.executemany(sql, [(coach_name,) for coach_name in unique_coach_names])
-    db_connection.commit()
-    print("Coach table data insertion complete. {} rows processed.".format(len(unique_coach_names)))
-
 def insert_into_team(cursor, db_connection, data):
     if not data:
         print("No data to insert into Team table.")
         return
     
-    # Remove duplicates
     unique_team_names = set(data)
-    
     print("Inserting data into Team table...")
     sql = "INSERT IGNORE INTO Team (TeamName) VALUES (%s)"
     cursor.executemany(sql, [(team_name,) for team_name in unique_team_names])
@@ -45,29 +18,80 @@ def insert_into_player(cursor, db_connection, data):
         print("No data to insert into Player table.")
         return
     
-    # Remove duplicates
     unique_player_names = set(data)
-    
     print("Inserting data into Player table...")
     sql = "INSERT IGNORE INTO Player (PlayerName) VALUES (%s)"
-    cursor.executemany(sql, [(player_name,) for player_name in unique_player_names if player_name])
+    cursor.executemany(sql, [(player_name,) for player_name in unique_player_names])
     db_connection.commit()
     print("Player table data insertion complete. {} rows processed.".format(len(unique_player_names)))
 
-def extract_player_names(text):
-    # Extract player names using a regular expression
-    player_names = re.findall(r'\|([^|]+)\|', text)
-    # Split the names by 'for' and return the cleaned names
-    result = []
-    for name in player_names:
-        parts = name.split('for')
-        result.extend(part.strip() for part in parts if part.strip())
-    return result
+def insert_into_manager(cursor, db_connection, data):
+    if not data:
+        print("No data to insert into Manager table.")
+        return
+    
+    unique_manager_names = set(data)
+    print("Inserting data into Manager table...")
+    sql = "INSERT IGNORE INTO Manager (ManagerName) VALUES (%s)"
+    cursor.executemany(sql, [(manager_name,) for manager_name in unique_manager_names])
+    db_connection.commit()
+    print("Manager table data insertion complete. {} rows processed.".format(len(unique_manager_names)))
 
+def insert_into_captain(cursor, db_connection, data):
+    if not data:
+        print("No data to insert into Captain table.")
+        return
+    
+    unique_captain_names = set(data)
+    print("Inserting data into Captain table...")
+    sql = "INSERT IGNORE INTO Captain (CaptainName) VALUES (%s)"
+    cursor.executemany(sql, [(captain_name,) for captain_name in unique_captain_names])
+    db_connection.commit()
+    print("Captain table data insertion complete. {} rows processed.".format(len(unique_captain_names)))
 
-# Add similar functions for other tables
+def insert_into_referee(cursor, db_connection, data):
+    if not data:
+        print("No data to insert into Referee table.")
+        return
+    
+    unique_referee_names = set(data)
+    print("Inserting data into Referee table...")
+    sql = "INSERT IGNORE INTO Referee (RefereeName) VALUES (%s)"
+    cursor.executemany(sql, [(referee_name,) for referee_name in unique_referee_names])
+    db_connection.commit()
+    print("Referee table data insertion complete. {} rows processed.".format(len(unique_referee_names)))
 
+def insert_into_event(cursor, db_connection, data):
+    if not data:
+        print("No data to insert into Event table.")
+        return
+    
+    print("Inserting data into Event table...")
+    sql = "INSERT IGNORE INTO Event (EventID, EventYear, EventHost, NoTeams, Champion, RunnerUp, TopScorer, EventAttendance, EventAttendanceAvg, NoMatches) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    cursor.executemany(sql, data)
+    db_connection.commit()
+    print("Event table data insertion complete. {} rows processed.".format(len(data)))
 
+def extract_data_from_csv(csv_file_path):
+    with open(csv_file_path, newline='', encoding='utf-8') as csvfile:
+        csv_reader = csv.DictReader(csvfile)
+        team_data = []
+        player_data = []
+        manager_data = []
+        captain_data = []
+        referee_data = []
+        event_data = []
+        for row in csv_reader:
+            # Add your logic to extract and append data to the lists above
+            # Example:
+            team_data.append(row['TeamName'])
+            player_data.append(row['PlayerName'])
+            manager_data.append(row['ManagerName'])
+            captain_data.append(row['CaptainName'])
+            referee_data.append(row['RefereeName'])
+            event_data.append((row['EventID'], row['EventYear'], row['EventHost'], row['NoTeams'], row['Champion'], row['RunnerUp'], row['TopScorer'], row['EventAttendance'], row['EventAttendanceAvg'], row['NoMatches']))
+            
+    return team_data, player_data, manager_data, captain_data, referee_data, event_data
 
 def insert_data(cursor, db_connection):
     print("Starting data insertion process...")
@@ -76,58 +100,22 @@ def insert_data(cursor, db_connection):
     csv_file_path = './Program/bigDataCleaned.csv'
     
     try:
-        # Read data from CSV file and insert into tables
-        with open(csv_file_path, newline='', encoding='utf-8') as csvfile:
-            csv_reader = csv.DictReader(csvfile)
-            country_data = []
-            coach_data = []
-            team_data = []
-            player_data = []
-            # Add similar lists for other tables
-
-            for row in csv_reader:
-                # Collect data for Country table
-                country_data.append(row['EventHost'])
-                                
-                # Collect data for Coach table
-                coach_data.append(row['home_manager'])
-                coach_data.append(row['away_manager'])
-
-                # Collect data for Team table
-                team_data.append(row['home_team'])
-                team_data.append(row['away_team'])
-
-                # Collect data for Player table
-                player_columns = ['home_captain', 'away_captain', 'home_goal', 'away_goal', 'home_goal_long', 'away_goal_long', 
-                                  'home_own_goal', 'away_own_goal', 'home_penalty_goal', 'away_penalty_goal', 
-                                  'home_penalty_miss_long', 'away_penalty_miss_long', 'home_penalty_shootout_goal_long', 
-                                  'away_penalty_shootout_goal_long', 'home_penalty_shootout_miss_long', 'away_penalty_shootout_miss_long', 
-                                  'home_red_card', 'away_red_card', 'home_yellow_red_card', 'away_yellow_red_card', 
-                                  'home_yellow_card_long', 'away_yellow_card_long', 'home_substitute_in_long', 'away_substitute_in_long']
-                
-                for column in player_columns:
-                    player_data.extend(extract_player_names(row[column]))
-
-
-
-                # Collect similar data here for other tables
-                # ...
-
-
-
-            # Insert data into tables
-            insert_into_country(cursor, db_connection, country_data)
-            insert_into_coach(cursor, db_connection, coach_data)
-            insert_into_team(cursor, db_connection, team_data)
-            insert_into_player(cursor, db_connection, player_data)
-
-
-
-            # Add similar calls for other tables
-
-
-
-            print("Data insertion complete. {} rows processed.".format(len(country_data)))
+        team_data, player_data, manager_data, captain_data, referee_data, event_data = extract_data_from_csv(csv_file_path)
+        
+        # Insert data into tables
+        insert_into_team(cursor, db_connection, team_data)
+        insert_into_player(cursor, db_connection, player_data)
+        insert_into_manager(cursor, db_connection, manager_data)
+        insert_into_captain(cursor, db_connection, captain_data)
+        insert_into_referee(cursor, db_connection, referee_data)
+        insert_into_event(cursor, db_connection, event_data)
+        
+        print("Data insertion complete.")
     except Exception as e:
         print("An error occurred during the data insertion process.")
         print("Error: {}".format(str(e)))
+
+if __name__ == "__main__":
+    print("This script is not meant to be run directly.")
+    print("Please run this script through the main menu.")
+   
