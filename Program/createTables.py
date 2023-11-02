@@ -35,6 +35,8 @@ def create_database(cursor):
 def create_tables(cursor):
     # List of SQL files to execute for creating tables
     sql_files = [
+        'createBigData.sql',
+        'createLittleData.sql',
         'createTablesWithoutFKDep.sql',
         'createTablesWithFKDep.sql',
         'createRelationshipSets.sql'
