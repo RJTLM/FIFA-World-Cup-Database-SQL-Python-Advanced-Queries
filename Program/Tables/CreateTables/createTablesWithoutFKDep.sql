@@ -9,16 +9,12 @@ CREATE TABLE Team (
 -- Creating Player Table
 CREATE TABLE Player (
     PlayerName VARCHAR(255) PRIMARY KEY NOT NULL UNIQUE
+    isCaptain BOOLEAN DEFAULT FALSE
 );
 
 -- Creating Manager Table
 CREATE TABLE Manager (
     ManagerName VARCHAR(255) PRIMARY KEY NOT NULL UNIQUE
-);
-
--- Creating Captain Table
-CREATE TABLE Captain (
-    CaptainName VARCHAR(255) PRIMARY KEY NOT NULL UNIQUE
 );
 
 -- Creating Referee Table
