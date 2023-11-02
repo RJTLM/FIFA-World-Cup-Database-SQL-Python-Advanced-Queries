@@ -137,7 +137,7 @@ def extract_data_from_csv(csv_file_path):
 
 def extract_event_data_from_csv(csv_file_path):
     with open(csv_file_path, newline='', encoding='utf-8') as csvfile:
-        csv_reader = csv.DictReader(csvfile, delimiter='\t')
+        csv_reader = csv.DictReader(csvfile, delimiter=',')
         event_data = []
         for row in csv_reader:
             # Print keys to debug
