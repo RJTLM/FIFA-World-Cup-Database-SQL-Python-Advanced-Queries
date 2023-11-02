@@ -72,6 +72,22 @@ def insert_into_event(cursor, db_connection, data):
     db_connection.commit()
     print("Event table data insertion complete. {} rows processed.".format(len(data)))
 
+def insert_into_football_match(cursor, db_connection, data):
+    if not data:
+        print("No data to insert into FootballMatch table.")
+        return
+    
+    print("Inserting data into FootballMatch table...")
+    sql = """
+    INSERT IGNORE INTO FootballMatch 
+    (MatchID, home_score, away_score, home_penalty, away_penalty, Attendance, Venue, Round, MatchDate, Notes, MatchHost, EventID, RefereeName) 
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+    """
+    cursor.executemany(sql, data)
+    db_connection.commit()
+    print("FootballMatch table data insertion complete. {} rows processed.".format(len(data)))
+
+
 def extract_data_from_csv(csv_file_path):
     with open(csv_file_path, newline='', encoding='utf-8') as csvfile:
         csv_reader = csv.DictReader(csvfile)
@@ -81,6 +97,7 @@ def extract_data_from_csv(csv_file_path):
         captain_data = []
         referee_data = []
         event_data = []
+        football_match_data = []
         for row in csv_reader:
             # Add your logic to extract and append data to the lists above
             # Example:
@@ -90,8 +107,9 @@ def extract_data_from_csv(csv_file_path):
             captain_data.append(row['CaptainName'])
             referee_data.append(row['RefereeName'])
             event_data.append((row['EventID'], row['EventYear'], row['EventHost'], row['NoTeams'], row['Champion'], row['RunnerUp'], row['TopScorer'], row['EventAttendance'], row['EventAttendanceAvg'], row['NoMatches']))
-            
-    return team_data, player_data, manager_data, captain_data, referee_data, event_data
+            football_match_data.append((row['MatchID'], row['home_score'], row['away_score'], row['home_penalty'], row['away_penalty'], row['Attendance'], row['Venue'], row['Round'], row['MatchDate'], row['Notes'], row['MatchHost'], row['EventID'], row['RefereeName']))
+        
+    return team_data, player_data, manager_data, captain_data, referee_data, event_data, football_match_data
 
 def insert_data(cursor, db_connection):
     print("Starting data insertion process...")
@@ -100,8 +118,8 @@ def insert_data(cursor, db_connection):
     csv_file_path = './Program/bigDataCleaned.csv'
     
     try:
-        team_data, player_data, manager_data, captain_data, referee_data, event_data = extract_data_from_csv(csv_file_path)
-        
+        team_data, player_data, manager_data, captain_data, referee_data, event_data, football_match_data = extract_data_from_csv(csv_file_path)
+                
         # Insert data into tables
         insert_into_team(cursor, db_connection, team_data)
         insert_into_player(cursor, db_connection, player_data)
@@ -109,6 +127,7 @@ def insert_data(cursor, db_connection):
         insert_into_captain(cursor, db_connection, captain_data)
         insert_into_referee(cursor, db_connection, referee_data)
         insert_into_event(cursor, db_connection, event_data)
+        insert_into_football_match(cursor, db_connection, football_match_data)
         
         print("Data insertion complete.")
     except Exception as e:
