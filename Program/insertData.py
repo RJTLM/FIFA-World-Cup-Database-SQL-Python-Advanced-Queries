@@ -1,188 +1,73 @@
-# insertData.py
-import csv
+#insertData.py
 
-def insert_into_team(cursor, db_connection, data):
-    if not data:
-        print("No data to insert into Team table.")
-        return
-    
-    unique_team_names = set(data)
-    print("Inserting data into Team table...")
-    sql = "INSERT IGNORE INTO Team (TeamName) VALUES (%s)"
-    cursor.executemany(sql, [(team_name,) for team_name in unique_team_names])
-    db_connection.commit()
-    print("Team table data insertion complete. {} rows processed.".format(len(unique_team_names)))
+def execute_sql_file(cursor, file_path):
+    with open(file_path, 'r') as file:
+        sql_script = file.read()
+        commands = sql_script.split(';')
+        for command in commands:
+            if command.strip() != "":
+                cursor.execute(command)
 
-def insert_into_player(cursor, db_connection, data):
-    if not data:
-        print("No data to insert into Player table.")
-        return
-    
-    print("Inserting data into Player table...")
-    sql = "INSERT IGNORE INTO Player (PlayerName, isCaptain) VALUES (%s, %s)"
-    cursor.executemany(sql, data)
-    db_connection.commit()
-    print("Player table data insertion complete. {} rows processed.".format(len(data)))
+def populate_other_tables(cursor):
+    # Populate Team table
+    cursor.execute("INSERT IGNORE INTO Team (TeamName) SELECT DISTINCT home_team FROM BigData WHERE home_team IS NOT NULL")
+    cursor.execute("INSERT IGNORE INTO Team (TeamName) SELECT DISTINCT away_team FROM BigData WHERE away_team IS NOT NULL")
 
-def insert_into_manager(cursor, db_connection, data):
-    if not data:
-        print("No data to insert into Manager table.")
-        return
-    
-    unique_manager_names = set(data)
-    print("Inserting data into Manager table...")
-    sql = "INSERT IGNORE INTO Manager (ManagerName) VALUES (%s)"
-    cursor.executemany(sql, [(manager_name,) for manager_name in unique_manager_names])
-    db_connection.commit()
-    print("Manager table data insertion complete. {} rows processed.".format(len(unique_manager_names)))
+    # Populate Player table
+    cursor.execute("INSERT IGNORE INTO Player (PlayerName) SELECT DISTINCT home_captain FROM BigData WHERE home_captain IS NOT NULL")
+    cursor.execute("INSERT IGNORE INTO Player (PlayerName) SELECT DISTINCT away_captain FROM BigData WHERE away_captain IS NOT NULL")
 
-def insert_into_referee(cursor, db_connection, data):
-    if not data:
-        print("No data to insert into Referee table.")
-        return
-    
-    unique_referee_names = set(data)
-    print("Inserting data into Referee table...")
-    sql = "INSERT IGNORE INTO Referee (RefereeName) VALUES (%s)"
-    cursor.executemany(sql, [(referee_name,) for referee_name in unique_referee_names])
-    db_connection.commit()
-    print("Referee table data insertion complete. {} rows processed.".format(len(unique_referee_names)))
+    # Populate Manager table
+    cursor.execute("INSERT IGNORE INTO Manager (ManagerName) SELECT DISTINCT home_manager FROM BigData WHERE home_manager IS NOT NULL")
+    cursor.execute("INSERT IGNORE INTO Manager (ManagerName) SELECT DISTINCT away_manager FROM BigData WHERE away_manager IS NOT NULL")
 
-def insert_into_event(cursor, db_connection, data):
-    if not data:
-        print("No data to insert into Event table.")
-        return
-    
-    print("Inserting data into Event table...")
-    sql = "INSERT IGNORE INTO Event (EventID, EventYear, EventHost, NoTeams, Champion, RunnerUp, TopScorer, EventAttendance, EventAttendanceAvg, NoMatches) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-    cursor.executemany(sql, data)
-    db_connection.commit()
-    print("Event table data insertion complete. {} rows processed.".format(len(data)))
+    # Populate Referee table
+    cursor.execute("INSERT IGNORE INTO Referee (RefereeName) SELECT DISTINCT Referee FROM BigData WHERE Referee IS NOT NULL")
 
-def insert_into_football_match(cursor, db_connection, data):
-    if not data:
-        print("No data to insert into FootballMatch table.")
-        return
-    
-    print("Inserting data into FootballMatch table...")
-    sql = """
-    INSERT IGNORE INTO FootballMatch 
-    (MatchID, home_score, away_score, home_penalty, away_penalty, Attendance, Venue, Round, MatchDate, Notes, MatchHost, EventID, RefereeName) 
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-    """
-    cursor.executemany(sql, data)
-    db_connection.commit()
-    print("FootballMatch table data insertion complete. {} rows processed.".format(len(data)))
+    # Populate Event table
+    cursor.execute("INSERT IGNORE INTO Event SELECT * FROM LittleData")
 
-def insert_into_plays(cursor, db_connection, data):
-    if not data:
-        print("No data to insert into Plays table.")
-        return
-    
-    print("Inserting data into Plays table...")
-    sql = "INSERT IGNORE INTO Plays (MatchID, TeamName) VALUES (%s, %s)"
-    cursor.executemany(sql, data)
-    db_connection.commit()
-    print("Plays table data insertion complete. {} rows processed.".format(len(data)))
+    # Populate FootballMatch table
+    cursor.execute("""
+        INSERT IGNORE INTO FootballMatch (MatchID, home_score, away_score, home_penalty, away_penalty, Attendance, Venue, Round, MatchDate, Notes, MatchHost, EventID, RefereeName)
+        SELECT b.MatchID, b.home_score, b.away_score, b.home_penalty, b.away_penalty, b.Attendance, b.Venue, b.Round, b.MatchDate, b.Notes, b.MatchHost, e.EventID, b.Referee
+        FROM BigData b
+        JOIN Event e ON b.MatchYear = e.EventYear AND b.MatchHost = e.EventHost
+    """)
 
-def insert_into_manages(cursor, db_connection, data):
-    if not data:
-        print("No data to insert into Manages table.")
-        return
-    
-    print("Inserting data into Manages table...")
-    sql = "INSERT IGNORE INTO Manages (MatchID, ManagerName) VALUES (%s, %s)"
-    cursor.executemany(sql, data)
-    db_connection.commit()
-    print("Manages table data insertion complete. {} rows processed.".format(len(data)))
+    # Populate Plays table
+    cursor.execute("""
+        INSERT IGNORE INTO Plays (MatchID, TeamName)
+        SELECT MatchID, home_team FROM BigData WHERE home_team IS NOT NULL
+    """)
+    cursor.execute("""
+        INSERT IGNORE INTO Plays (MatchID, TeamName)
+        SELECT MatchID, away_team FROM BigData WHERE away_team IS NOT NULL
+    """)
 
-def extract_data_from_csv(csv_file_path):
-    with open(csv_file_path, newline='', encoding='utf-8') as csvfile:
-        csv_reader = csv.DictReader(csvfile)
-        team_data = []
-        player_data = []
-        manager_data = []
-        referee_data = []
-        football_match_data = []
-        plays_data = []
-        manages_data = []
-        for row in csv_reader:
-            # Extracting team data
-            team_data.append(row['home_team'])
-            team_data.append(row['away_team'])
-            
-            # Extracting player data
-            player_data.append((row['home_captain'], True))
-            player_data.append((row['away_captain'], True))
-            
-            # Extracting manager data
-            manager_data.append(row['home_manager'])
-            manager_data.append(row['away_manager'])
-            
-            # Extracting referee data
-            referee_data.append(row['Referee'])
-            
-            # Extracting football match data
-            football_match_data.append((row['MatchID'], row['home_score'], row['away_score'], row['home_penalty'], row['away_penalty'], row['Attendance'], row['Venue'], row['Round'], row['MatchDate'], row['Notes'], row['MatchHost'], row['EventID'], row['Referee']))
-            
-            # Extracting plays data
-            plays_data.append((row['MatchID'], row['home_team']))
-            plays_data.append((row['MatchID'], row['away_team']))
-            
-            # Extracting manages data
-            manages_data.append((row['MatchID'], row['home_manager']))
-            manages_data.append((row['MatchID'], row['away_manager']))
-        
-    return team_data, player_data, manager_data, referee_data, football_match_data, plays_data, manages_data
+    # Populate Manages table
+    cursor.execute("""
+        INSERT IGNORE INTO Manages (MatchID, ManagerName)
+        SELECT MatchID, home_manager FROM BigData WHERE home_manager IS NOT NULL
+    """)
+    cursor.execute("""
+        INSERT IGNORE INTO Manages (MatchID, ManagerName)
+        SELECT MatchID, away_manager FROM BigData WHERE away_manager IS NOT NULL
+    """)
 
-def extract_event_data_from_csv(csv_file_path):
-    with open(csv_file_path, newline='', encoding='utf-8') as csvfile:
-        csv_reader = csv.DictReader(csvfile, delimiter=',')
-        event_data = []
-        for row in csv_reader:
-            # Print keys to debug
-            # print(row.keys())
-            
-            # Ensure keys have no leading/trailing spaces
-            cleaned_row = {k.strip(): v for k, v in row.items()}
-            
-            # Extracting event data
-            event_data.append((
-                cleaned_row['EventID'], cleaned_row['EventYear'], cleaned_row['EventHost'], cleaned_row['NoTeams'],
-                cleaned_row['Champion'], cleaned_row['RunnerUp'], cleaned_row['TopScorer'], cleaned_row['EventAttendance'],
-                cleaned_row['EventAttendanceAvg'], cleaned_row['NoMatches']
-            ))
-        return event_data
-
-    
 def insert_data(cursor, db_connection):
-    print("Starting data insertion process...")
-    
-     # File paths to CSV files
-    big_data_csv_path = './Program/bigDataCleaned1.csv'
-    little_data_csv_path = './Program/littleDataCleaned.csv'
-    
-    try:
-         # Extract and insert data from bigDataCleaned1.csv
-        team_data, player_data, manager_data, referee_data, football_match_data, plays_data, manages_data = extract_data_from_csv(big_data_csv_path)
-        insert_into_team(cursor, db_connection, team_data)
-        insert_into_player(cursor, db_connection, player_data)
-        insert_into_manager(cursor, db_connection, manager_data)
-        insert_into_referee(cursor, db_connection, referee_data)
-        insert_into_football_match(cursor, db_connection, football_match_data)
-        insert_into_plays(cursor, db_connection, plays_data)
-        insert_into_manages(cursor, db_connection, manages_data)
+    # Paths to the SQL insert files
+    little_data_path = './Program/Tables/InsertTables/insLittleData.sql'
+    big_data_path = './Program/Tables/InsertTables/insBigData.sql'
 
-        # Extract and insert data from littleDataCleaned.csv
-        event_data = extract_event_data_from_csv(little_data_csv_path)
-        insert_into_event(cursor, db_connection, event_data)
-        
-        print("Data insertion complete.")
-    except Exception as e:
-        print("An error occurred during the data insertion process.")
-        print("Error: {}".format(str(e)))
+    # Executing the SQL insert files
+    execute_sql_file(cursor, little_data_path)
+    execute_sql_file(cursor, big_data_path)
 
-if __name__ == "__main__":
-    print("This script is not meant to be run directly.")
-    print("Please run this script through the main menu.")
-   
+    # Populating other tables based on the data in LittleData and BigData
+    populate_other_tables(cursor)
+
+    # Committing the changes
+    db_connection.commit()
+
+    print("Data insertion and table population completed successfully.")
