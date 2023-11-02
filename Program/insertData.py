@@ -103,7 +103,6 @@ def extract_data_from_csv(csv_file_path):
         player_data = []
         manager_data = []
         referee_data = []
-        event_data = []
         football_match_data = []
         plays_data = []
         manages_data = []
@@ -123,9 +122,6 @@ def extract_data_from_csv(csv_file_path):
             # Extracting referee data
             referee_data.append(row['Referee'])
             
-            # Extracting event data
-            event_data.append((row['EventID'], row['EventYear'], row['EventHost'], row['NoTeams'], row['Champion'], row['RunnerUp'], row['TopScorer'], row['EventAttendance'], row['EventAttendanceAvg'], row['NoMatches']))
-            
             # Extracting football match data
             football_match_data.append((row['MatchID'], row['home_score'], row['away_score'], row['home_penalty'], row['away_penalty'], row['Attendance'], row['Venue'], row['Round'], row['MatchDate'], row['Notes'], row['MatchHost'], row['EventID'], row['Referee']))
             
@@ -137,26 +133,42 @@ def extract_data_from_csv(csv_file_path):
             manages_data.append((row['MatchID'], row['home_manager']))
             manages_data.append((row['MatchID'], row['away_manager']))
         
-    return team_data, player_data, manager_data, referee_data, event_data, football_match_data, plays_data, manages_data
+    return team_data, player_data, manager_data, referee_data, football_match_data, plays_data, manages_data
 
+def extract_event_data_from_csv(csv_file_path):
+    with open(csv_file_path, newline='', encoding='utf-8') as csvfile:
+        csv_reader = csv.DictReader(csvfile, delimiter='\t')
+        event_data = []
+        for row in csv_reader:
+            # Extracting event data
+            event_data.append((
+                row['EventID'], row['EventYear'], row['EventHost'], row['NoTeams'],
+                row['Champion'], row['RunnerUp'], row['TopScorer'], row['EventAttendance'],
+                row['EventAttendanceAvg'], row['NoMatches']
+            ))
+        return event_data
+    
 def insert_data(cursor, db_connection):
     print("Starting data insertion process...")
     
-    # File path to CSV file
-    csv_file_path = './Program/bigDataCleaned1.csv'
+     # File paths to CSV files
+    big_data_csv_path = './Program/bigDataCleaned1.csv'
+    little_data_csv_path = './Program/littleDataCleaned.csv'
     
     try:
-        team_data, player_data, manager_data, referee_data, event_data, football_match_data, plays_data, manages_data = extract_data_from_csv(csv_file_path)
-                
-        # Insert data into tables
-        insert_into_team(cursor, db_connection, team_data)
-        insert_into_player(cursor, db_connection, player_data)
-        insert_into_manager(cursor, db_connection, manager_data)
-        insert_into_referee(cursor, db_connection, referee_data)
+         # Extract and insert data from bigDataCleaned1.csv
+        team_data, player_data, manager_data, referee_data, football_match_data, plays_data, manages_data = extract_data_from_csv(big_data_csv_path)
+        insert_into_team(cursor, db_connection, team_data['team'])
+        insert_into_player(cursor, db_connection, player_data['player'])
+        insert_into_manager(cursor, db_connection, manager_data['manager'])
+        insert_into_referee(cursor, db_connection, referee_data['referee'])
+        insert_into_football_match(cursor, db_connection, football_match_data['football_match'])
+        insert_into_plays(cursor, db_connection, plays_data['plays'])
+        insert_into_manages(cursor, db_connection, manages_data['manages'])
+        
+        # Extract and insert data from littleDataCleaned.csv
+        event_data = extract_event_data_from_csv(little_data_csv_path)
         insert_into_event(cursor, db_connection, event_data)
-        insert_into_football_match(cursor, db_connection, football_match_data)
-        insert_into_plays(cursor, db_connection, plays_data)
-        insert_into_manages(cursor, db_connection, manages_data)
         
         print("Data insertion complete.")
     except Exception as e:
