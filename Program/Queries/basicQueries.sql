@@ -1,17 +1,18 @@
 /* basicQueries.sql: MySQL file for basic queries*/
 
 -- Q3. Part3 Level 1 Basic Queries:
--- Question 1: How many teams participated in events hosted in 2023?
-SELECT COUNT(DISTINCT TeamName) 
-FROM Plays 
-JOIN FootballMatch ON Plays.MatchID = FootballMatch.MatchID
-JOIN Event ON FootballMatch.EventID = Event.EventID
-WHERE Event.EventYear = 2023;
+-- Question 1: Who won the 2023 FIFA Women's World Cup?
+SELECT Champion 
+FROM Event 
+WHERE EventYear = 2023 AND EventHost = 'FIFA Women''s World Cup';
 
--- Question 2: What is the total attendance for events held in 2023?
-SELECT SUM(EventAttendance) 
-FROM Event
-WHERE EventYear = 2023;
+-- Question 2: What dates were the 2023 semi-finals played on and what were the match details?
+SELECT MatchDate, home_team.TeamName AS home_team, away_team.TeamName AS away_team, home_score, away_score
+FROM FootballMatch
+JOIN Team AS home_team ON FootballMatch.home_team = home_team.TeamID
+JOIN Team AS away_team ON FootballMatch.away_team = away_team.TeamID
+WHERE Round = 'Semi-finals' AND EventID = (SELECT EventID FROM Event WHERE EventYear = 2023)
+ORDER BY MatchDate;
 
 -- Question 3: Which referee officiated the most matches?
 SELECT RefereeName, COUNT(MatchID) as Matches_Officiated

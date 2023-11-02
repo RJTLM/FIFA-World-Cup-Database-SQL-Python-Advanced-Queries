@@ -14,15 +14,19 @@ def load_queries(file_path):
     return [query.strip() for query in queries if query.strip()]
 
 def run_query(cursor, query, message):
-    result = execute_query(cursor, query)
-    if result:
-        if len(result[0]) > 1:
-            for record in result:
-                print(record)
-        else:
-            print(message, result[0][0])
-    else:
-        print("Could not retrieve the data.")
+    try:
+        cursor.execute(query)
+        records = cursor.fetchall()
+        if not records:
+            print("No data found.")
+            return
+        print(message)
+        for i, (match_date, home_team, away_team, home_score, away_score) in enumerate(records, start=1):
+            formatted_date = match_date.strftime("%d %b %Y")
+            print(f"Semi-final {i} was played on {formatted_date} by {home_team} ({home_score}) and {away_team} ({away_score}).")
+    except Exception as e:
+        print("Error:", e)
+
 
 def main(cursor):
     basic_queries = load_queries('./Program/Queries/basicQueries.sql')
@@ -31,8 +35,8 @@ def main(cursor):
     while True:
         print("\nWhat would you like to know?")
         print("Basic:")
-        print(" 1: How many teams participated in events hosted in 2023?")
-        print(" 2: What is the total attendance for events held in 2023?")
+        print(" 1: Who won the 2023 FIFA Women's World Cup?")
+        print(" 2: What dates were the 2023 semi finals played on?")
         print(" 3: Which referee officiated the most matches?")
         print(" 4: What is the average number of matches per event?")
         print(" 5: List all players who are captains.")
@@ -47,9 +51,9 @@ def main(cursor):
         choice = input("Please enter your choice: ")
         
         if choice == "1":
-            run_query(cursor, basic_queries[0], "Total number of teams participated in events hosted in 2023:")
+            run_query(cursor, basic_queries[0], "The winner of the 2023 FIFA Women's World Cup:")
         elif choice == "2":
-            run_query(cursor, basic_queries[1], "Total attendance for events held in 2023:")
+            run_query(cursor, basic_queries[1], "What dates were the 2023 semi finals played on:")
         elif choice == "3":
             run_query(cursor, basic_queries[2], "Referee who officiated the most matches:")
         elif choice == "4":
