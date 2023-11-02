@@ -54,8 +54,8 @@ def main():
             cursor, db_connection = connect_to_db()
         elif choice == "6":
             if cursor is not None and db_connection is not None:
-                from createDatabase import create_database_and_tables
-                create_database_and_tables(cursor)
+                from createTables import main as create_db_and_tables
+                create_db_and_tables(cursor)
             else:
                 print("Please connect to the MySQL Database first.")
         elif choice == "7":
