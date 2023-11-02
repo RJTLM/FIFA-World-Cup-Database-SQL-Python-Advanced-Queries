@@ -21,10 +21,14 @@ def run_query(cursor, query, message):
             print("No data found.")
             return
         print(message)
+        # Fetching column headers
+        column_headers = [desc[0] for desc in cursor.description]
+        print("\t".join(column_headers))
         for record in records:
-            print(record)
+            print("\t".join(map(str, record)))
     except Exception as e:
         print("Error:", e)
+
 
 def main(cursor):
     basic_queries = load_queries('./Program/Queries/basicQueries.sql')
