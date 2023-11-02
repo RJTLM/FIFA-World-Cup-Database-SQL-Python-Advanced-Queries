@@ -4,9 +4,7 @@
 -- basicQueries.sql: MySQL file for basic queries
 
 -- Using string comparison to retrieve matches based on venue
--- SELECT * FROM FootballMatch WHERE Venue = 'Accor Stadium, Sydney';
--- Using string comparison to retrieve matches based on venue and filtering by EventID
-SELECT * FROM FootballMatch WHERE Venue = 'Accor Stadium, Sydney' AND EventID = 9;
+SELECT * FROM FootballMatch WHERE Venue = 'Accor Stadium, Sydney';
 
 -- Using numeric data to retrieve matches based on attendance
 SELECT * FROM FootballMatch WHERE Attendance > 50000;
