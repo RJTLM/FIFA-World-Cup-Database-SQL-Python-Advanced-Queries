@@ -8,7 +8,7 @@ CREATE TABLE Team (
 
 -- Creating Player Table
 CREATE TABLE Player (
-    PlayerName VARCHAR(255) PRIMARY KEY NOT NULL UNIQUE
+    PlayerName VARCHAR(255) PRIMARY KEY NOT NULL UNIQUE,
     isCaptain BOOLEAN DEFAULT FALSE
 );
 
