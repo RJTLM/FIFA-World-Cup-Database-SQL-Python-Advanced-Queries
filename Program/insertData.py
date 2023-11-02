@@ -1,5 +1,5 @@
+# insertData.py
 import csv
-import re
 
 def insert_into_team(cursor, db_connection, data):
     if not data:
@@ -87,6 +87,38 @@ def insert_into_football_match(cursor, db_connection, data):
     db_connection.commit()
     print("FootballMatch table data insertion complete. {} rows processed.".format(len(data)))
 
+def insert_into_plays(cursor, db_connection, data):
+    if not data:
+        print("No data to insert into Plays table.")
+        return
+    
+    print("Inserting data into Plays table...")
+    sql = "INSERT IGNORE INTO Plays (MatchID, TeamName) VALUES (%s, %s)"
+    cursor.executemany(sql, data)
+    db_connection.commit()
+    print("Plays table data insertion complete. {} rows processed.".format(len(data)))
+
+def insert_into_manages(cursor, db_connection, data):
+    if not data:
+        print("No data to insert into Manages table.")
+        return
+    
+    print("Inserting data into Manages table...")
+    sql = "INSERT IGNORE INTO Manages (MatchID, ManagerName) VALUES (%s, %s)"
+    cursor.executemany(sql, data)
+    db_connection.commit()
+    print("Manages table data insertion complete. {} rows processed.".format(len(data)))
+
+def insert_into_captains(cursor, db_connection, data):
+    if not data:
+        print("No data to insert into Captains table.")
+        return
+    
+    print("Inserting data into Captains table...")
+    sql = "INSERT IGNORE INTO Captains (MatchID, CaptainName) VALUES (%s, %s)"
+    cursor.executemany(sql, data)
+    db_connection.commit()
+    print("Captains table data insertion complete. {} rows processed.".format(len(data)))
 
 def extract_data_from_csv(csv_file_path):
     with open(csv_file_path, newline='', encoding='utf-8') as csvfile:
@@ -98,9 +130,10 @@ def extract_data_from_csv(csv_file_path):
         referee_data = []
         event_data = []
         football_match_data = []
+        plays_data = []
+        manages_data = []
+        captains_data = []
         for row in csv_reader:
-            # Add your logic to extract and append data to the lists above
-            # Example:
             team_data.append(row['TeamName'])
             player_data.append(row['PlayerName'])
             manager_data.append(row['ManagerName'])
@@ -108,17 +141,20 @@ def extract_data_from_csv(csv_file_path):
             referee_data.append(row['RefereeName'])
             event_data.append((row['EventID'], row['EventYear'], row['EventHost'], row['NoTeams'], row['Champion'], row['RunnerUp'], row['TopScorer'], row['EventAttendance'], row['EventAttendanceAvg'], row['NoMatches']))
             football_match_data.append((row['MatchID'], row['home_score'], row['away_score'], row['home_penalty'], row['away_penalty'], row['Attendance'], row['Venue'], row['Round'], row['MatchDate'], row['Notes'], row['MatchHost'], row['EventID'], row['RefereeName']))
+            plays_data.append((row['MatchID'], row['TeamName']))
+            manages_data.append((row['MatchID'], row['ManagerName']))
+            captains_data.append((row['MatchID'], row['CaptainName']))
         
-    return team_data, player_data, manager_data, captain_data, referee_data, event_data, football_match_data
+    return team_data, player_data, manager_data, captain_data, referee_data, event_data, football_match_data, plays_data, manages_data, captains_data
 
 def insert_data(cursor, db_connection):
     print("Starting data insertion process...")
     
-    # File path to your CSV file
-    csv_file_path = './Program/bigDataCleaned.csv'
+    # File path to CSV file
+    csv_file_path = './Program/bigDataCleaned1.csv'
     
     try:
-        team_data, player_data, manager_data, captain_data, referee_data, event_data, football_match_data = extract_data_from_csv(csv_file_path)
+        team_data, player_data, manager_data, captain_data, referee_data, event_data, football_match_data, plays_data, manages_data, captains_data = extract_data_from_csv(csv_file_path)
                 
         # Insert data into tables
         insert_into_team(cursor, db_connection, team_data)
@@ -128,6 +164,9 @@ def insert_data(cursor, db_connection):
         insert_into_referee(cursor, db_connection, referee_data)
         insert_into_event(cursor, db_connection, event_data)
         insert_into_football_match(cursor, db_connection, football_match_data)
+        insert_into_plays(cursor, db_connection, plays_data)
+        insert_into_manages(cursor, db_connection, manages_data)
+        insert_into_captains(cursor, db_connection, captains_data)
         
         print("Data insertion complete.")
     except Exception as e:
