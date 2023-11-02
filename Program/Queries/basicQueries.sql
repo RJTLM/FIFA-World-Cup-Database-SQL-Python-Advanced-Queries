@@ -1,19 +1,17 @@
 /* basicQueries.sql: MySQL file for basic queries*/
 
 -- Q3. Part3 Level 1 Basic Queries:
--- basicQueries.sql: MySQL file for basic queries
+-- Find all matches played by a specific team
+SELECT * FROM FootballMatch WHERE home_team = ? OR away_team = ?;
 
--- Using string comparison to retrieve matches based on venue
-SELECT * FROM FootballMatch WHERE Venue = 'Accor Stadium, Sydney';
-
--- Using numeric data to retrieve matches based on attendance
+-- Retrieve all matches with attendance greater than 50,000
 SELECT * FROM FootballMatch WHERE Attendance > 50000;
 
--- Using date-time functions and BETWEEN to retrieve matches played in August 2023
+-- Get details of matches played in August 2023
 SELECT * FROM FootballMatch WHERE MatchDate BETWEEN '2023-08-01' AND '2023-08-31';
 
--- Using string comparison and numeric data to retrieve specific matches
-SELECT * FROM FootballMatch WHERE home_team = 'Spain' AND home_score > 2;
+-- Find all matches where the home team scored more than 2 goals
+SELECT * FROM FootballMatch WHERE home_score > 2;
 
--- Using string comparison and checking for non-null values
-SELECT * FROM FootballMatch WHERE Referee = 'Tori Penso' AND Notes IS NOT NULL;
+-- Retrieve all matches refereed by a specific referee
+SELECT * FROM FootballMatch WHERE Referee = 'Tori Penso';
