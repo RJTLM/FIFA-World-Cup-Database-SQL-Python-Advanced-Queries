@@ -141,7 +141,7 @@ def extract_event_data_from_csv(csv_file_path):
         event_data = []
         for row in csv_reader:
             # Print keys to debug
-            print(row.keys())
+            # print(row.keys())
             
             # Ensure keys have no leading/trailing spaces
             cleaned_row = {k.strip(): v for k, v in row.items()}
