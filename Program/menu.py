@@ -71,7 +71,11 @@ def main():
             else:
                 print("Please connect to the MySQL Database first.")
         elif choice == "9":
-            print("9: Query MySQL Database (Q3 Part 3) goes here.")
+            if cursor is not None and db_connection is not None:
+                from queries import main as query_database
+                query_database(cursor)
+            else:
+                print("Please connect to the MySQL Database first.")
         elif choice == "10":
             print("10: Advanced Concepts (Q3 Part 4) goes here.")
         elif choice == "0":
