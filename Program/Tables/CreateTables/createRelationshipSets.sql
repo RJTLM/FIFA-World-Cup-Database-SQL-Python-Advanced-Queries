@@ -1,47 +1,29 @@
 /* createRelationshipSets.sql: MySQL file for creating the relationship sets tables */
 
 -- Q3. Part2a. Implementation:
--- Create Hosts table with constraints
-CREATE TABLE IF NOT EXISTS Hosts (
-  CountryName VARCHAR(255),
-  EventID INT,
-  PRIMARY KEY (CountryName, EventID),
-  FOREIGN KEY (CountryName) REFERENCES Country(CountryName) ON DELETE CASCADE,
-  FOREIGN KEY (EventID) REFERENCES Event(EventID) ON DELETE CASCADE
+-- Creating Plays Table (Many-to-Many Relationship)
+CREATE TABLE Plays (
+    MatchID INT,
+    TeamName VARCHAR(255),
+    PRIMARY KEY (MatchID, TeamName),
+    FOREIGN KEY (MatchID) REFERENCES FootballMatch(MatchID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (TeamName) REFERENCES Team(TeamName) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- Create PlayedAt table with constraints
-CREATE TABLE IF NOT EXISTS PlayedAt (
-  MatchID INT,
-  VenueName VARCHAR(255),
-  PRIMARY KEY (MatchID, VenueName),
-  FOREIGN KEY (MatchID) REFERENCES FootballMatch(MatchID) ON DELETE CASCADE,
-  FOREIGN KEY (VenueName) REFERENCES Venue(VenueName) ON DELETE CASCADE
+-- Creating Manages Table (Many-to-Many Relationship)
+CREATE TABLE Manages (
+    MatchID INT,
+    ManagerName VARCHAR(255),
+    PRIMARY KEY (MatchID, ManagerName),
+    FOREIGN KEY (MatchID) REFERENCES FootballMatch(MatchID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (ManagerName) REFERENCES Manager(ManagerName) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- Create ParticipatesIn table with constraints
-CREATE TABLE IF NOT EXISTS ParticipatesIn (
-  PlayerName VARCHAR(255),
-  EventID INT,
-  PRIMARY KEY (PlayerName, EventID),
-  FOREIGN KEY (PlayerName) REFERENCES Player(PlayerName) ON DELETE CASCADE,
-  FOREIGN KEY (EventID) REFERENCES Event(EventID) ON DELETE CASCADE
-);
-
--- Create OfficiatedBy table with constraints
-CREATE TABLE IF NOT EXISTS OfficiatedBy (
-  MatchID INT,
-  OfficialName VARCHAR(255),
-  PRIMARY KEY (MatchID, OfficialName),
-  FOREIGN KEY (MatchID) REFERENCES FootballMatch(MatchID) ON DELETE CASCADE,
-  FOREIGN KEY (OfficialName) REFERENCES Official(OfficialName) ON DELETE CASCADE
-);
-
--- Create ConsistsOf table with constraints
-CREATE TABLE IF NOT EXISTS ConsistsOf (
-  StageRound VARCHAR(255),
-  MatchID INT,
-  PRIMARY KEY (StageRound, MatchID),
-  FOREIGN KEY (StageRound) REFERENCES Stage(Round) ON DELETE CASCADE,
-  FOREIGN KEY (MatchID) REFERENCES FootballMatch(MatchID) ON DELETE CASCADE
+-- Creating Captains Table (Many-to-Many Relationship)
+CREATE TABLE Captains (
+    MatchID INT,
+    CaptainName VARCHAR(255),
+    PRIMARY KEY (MatchID, CaptainName),
+    FOREIGN KEY (MatchID) REFERENCES FootballMatch(MatchID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (CaptainName) REFERENCES Captain(CaptainName) ON DELETE CASCADE ON UPDATE CASCADE
 );
