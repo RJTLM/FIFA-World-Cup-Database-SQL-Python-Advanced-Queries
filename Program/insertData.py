@@ -29,8 +29,8 @@ def populate_other_tables(cursor):
 
     # Populate FootballMatch table
     cursor.execute("""
-        INSERT IGNORE INTO FootballMatch (MatchID, home_score, away_score, home_penalty, away_penalty, Attendance, Venue, Round, MatchDate, Notes, MatchHost, EventID, RefereeName)
-        SELECT b.MatchID, b.home_score, b.away_score, b.home_penalty, b.away_penalty, b.Attendance, b.Venue, b.Round, b.MatchDate, b.Notes, b.MatchHost, e.EventID, b.Referee
+        INSERT IGNORE INTO FootballMatch (MatchID, home_score, away_score, home_penalty, away_penalty, MatchAttendance, Venue, Round, MatchDate, Notes, MatchHost, EventID, RefereeName)
+        SELECT b.MatchID, b.home_score, b.away_score, b.home_penalty, b.away_penalty, b.MatchAttendance, b.Venue, b.Round, b.MatchDate, b.Notes, b.MatchHost, e.EventID, b.Referee
         FROM BigData b
         JOIN Event e ON b.MatchYear = e.EventYear AND b.MatchHost = e.EventHost
     """)
