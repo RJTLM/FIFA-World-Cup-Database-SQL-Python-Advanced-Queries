@@ -2,7 +2,7 @@
 
 -- Q3. Part2a. Implementation:
 -- Creating Plays Table (Many-to-Many Relationship)
-CREATE TABLE Plays (
+CREATE TABLE IF NOT EXISTS Plays (
     MatchID INT,
     TeamName VARCHAR(255),
     PRIMARY KEY (MatchID, TeamName),
@@ -11,7 +11,7 @@ CREATE TABLE Plays (
 );
 
 -- Creating Manages Table (Many-to-Many Relationship)
-CREATE TABLE Manages (
+CREATE TABLE IF NOT EXISTS Manages (
     MatchID INT,
     ManagerName VARCHAR(255),
     PRIMARY KEY (MatchID, ManagerName),

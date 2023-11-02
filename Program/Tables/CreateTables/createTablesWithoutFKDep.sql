@@ -2,28 +2,28 @@
 
 -- Q3. Part2a. Implementation:
 -- Creating Team Table
-CREATE TABLE Team (
+CREATE TABLE IF NOT EXISTS Team (
     TeamName VARCHAR(255) PRIMARY KEY NOT NULL UNIQUE
 );
 
 -- Creating Player Table
-CREATE TABLE Player (
+CREATE TABLE IF NOT EXISTS Player (
     PlayerName VARCHAR(255) PRIMARY KEY NOT NULL UNIQUE,
     isCaptain BOOLEAN DEFAULT FALSE
 );
 
 -- Creating Manager Table
-CREATE TABLE Manager (
+CREATE TABLE IF NOT EXISTS Manager (
     ManagerName VARCHAR(255) PRIMARY KEY NOT NULL UNIQUE
 );
 
 -- Creating Referee Table
-CREATE TABLE Referee (
+CREATE TABLE IF NOT EXISTS Referee (
     RefereeName VARCHAR(255) PRIMARY KEY NOT NULL UNIQUE
 );
 
 -- Creating Event Table
-CREATE TABLE Event (
+CREATE TABLE IF NOT EXISTS Event (
     EventID INT PRIMARY KEY NOT NULL UNIQUE,
     EventYear YEAR,
     EventHost VARCHAR(255),

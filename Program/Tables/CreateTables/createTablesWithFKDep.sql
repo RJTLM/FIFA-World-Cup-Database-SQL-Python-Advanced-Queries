@@ -2,7 +2,7 @@
 
 -- Q3. Part2a. Implementation:
 -- Creating FootballMatch Table
-CREATE TABLE FootballMatch (
+CREATE TABLE IF NOT EXISTS FootballMatch (
     MatchID INT PRIMARY KEY NOT NULL UNIQUE,
     home_score INT,
     away_score INT,
