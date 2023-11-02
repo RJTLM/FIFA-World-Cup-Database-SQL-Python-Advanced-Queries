@@ -158,14 +158,14 @@ def insert_data(cursor, db_connection):
     try:
          # Extract and insert data from bigDataCleaned1.csv
         team_data, player_data, manager_data, referee_data, football_match_data, plays_data, manages_data = extract_data_from_csv(big_data_csv_path)
-        insert_into_team(cursor, db_connection, team_data['team'])
-        insert_into_player(cursor, db_connection, player_data['player'])
-        insert_into_manager(cursor, db_connection, manager_data['manager'])
-        insert_into_referee(cursor, db_connection, referee_data['referee'])
-        insert_into_football_match(cursor, db_connection, football_match_data['football_match'])
-        insert_into_plays(cursor, db_connection, plays_data['plays'])
-        insert_into_manages(cursor, db_connection, manages_data['manages'])
-        
+        insert_into_team(cursor, db_connection, team_data)
+        insert_into_player(cursor, db_connection, player_data)
+        insert_into_manager(cursor, db_connection, manager_data)
+        insert_into_referee(cursor, db_connection, referee_data)
+        insert_into_football_match(cursor, db_connection, football_match_data)
+        insert_into_plays(cursor, db_connection, plays_data)
+        insert_into_manages(cursor, db_connection, manages_data)
+
         # Extract and insert data from littleDataCleaned.csv
         event_data = extract_event_data_from_csv(little_data_csv_path)
         insert_into_event(cursor, db_connection, event_data)
