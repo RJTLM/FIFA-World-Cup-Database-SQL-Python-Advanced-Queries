@@ -140,13 +140,20 @@ def extract_event_data_from_csv(csv_file_path):
         csv_reader = csv.DictReader(csvfile, delimiter='\t')
         event_data = []
         for row in csv_reader:
+            # Print keys to debug
+            print(row.keys())
+            
+            # Ensure keys have no leading/trailing spaces
+            cleaned_row = {k.strip(): v for k, v in row.items()}
+            
             # Extracting event data
             event_data.append((
-                row['EventID'], row['EventYear'], row['EventHost'], row['NoTeams'],
-                row['Champion'], row['RunnerUp'], row['TopScorer'], row['EventAttendance'],
-                row['EventAttendanceAvg'], row['NoMatches']
+                cleaned_row['EventID'], cleaned_row['EventYear'], cleaned_row['EventHost'], cleaned_row['NoTeams'],
+                cleaned_row['Champion'], cleaned_row['RunnerUp'], cleaned_row['TopScorer'], cleaned_row['EventAttendance'],
+                cleaned_row['EventAttendanceAvg'], cleaned_row['NoMatches']
             ))
         return event_data
+
     
 def insert_data(cursor, db_connection):
     print("Starting data insertion process...")
