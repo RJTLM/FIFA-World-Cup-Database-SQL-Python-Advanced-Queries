@@ -23,7 +23,9 @@ def execute_sql_file(cursor, file_path):
 def create_database_and_tables(cursor):
     # List of SQL files to execute
     sql_files = [
-        'createDatabase.sql'
+        'createTablesWithoutFKDep.sql',
+        'createTablesWithFKDep.sql',
+        'createRelationshipSets.sql'
     ]
     
     # Base directory for SQL files
@@ -34,4 +36,4 @@ def create_database_and_tables(cursor):
         file_path = os.path.join(base_dir, sql_file)
         execute_sql_file(cursor, file_path)
     
-    print("Database successfully created.")
+    print("Tables successfully created.")
