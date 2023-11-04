@@ -19,11 +19,10 @@ def show_menu(first_time):
     print(" 3: Extract or Update Columns in a CSV File")
     print(" 4: Split Columns in a CSV File")
     print(" 5: Connect to MySQL")
-    print(" 6: Create Database and Tables")
-    print(" 7: Insert Initial Data into Tables")
-    print(" 8: View/Update Database (Q3 Part 5)")
-    print(" 9: Query Database (Q3 Part 3)")
-    print("10: Advanced Concepts (Q3 Part 4)")
+    print(" 6: Implement Database (Q3 Part 2)")
+    print(" 7: Query Database (Q3 Part 3)")
+    print(" 8: Advanced Concepts (Q3 Part 4)")
+    print(" 9: View/Update Database (Q3 Part 5)")
     print(" 0: Exit Program")
     choice = input().strip()  # Using strip to remove any leading or trailing whitespaces
     return choice
@@ -55,29 +54,23 @@ def main():
         elif choice == "6":
             if cursor is not None and db_connection is not None:
                 from createTables import main as create_db_and_tables
-                create_db_and_tables(cursor)
+                create_db_and_tables(cursor, db_connection)
             else:
                 print("Please connect to the MySQL Database first.")
         elif choice == "7":
-            if cursor is not None and db_connection is not None:
-                from insertData import insert_data
-                insert_data(cursor, db_connection)
-            else:
-                print("Please connect to the MySQL Database first.")
-        elif choice == "8":
-            if cursor is not None and db_connection is not None:
-                from updateDatabase import main as update_database
-                update_database(cursor, db_connection)
-            else:
-                print("Please connect to the MySQL Database first.")
-        elif choice == "9":
             if cursor is not None and db_connection is not None:
                 from queries import main as query_database
                 query_database(cursor)
             else:
                 print("Please connect to the MySQL Database first.")
-        elif choice == "10":
-            print("10: Advanced Concepts (Q3 Part 4) goes here.")
+        elif choice == "8":
+            print(" 8: Advanced Concepts (Q3 Part 4) goes here.")
+        elif choice == "9":
+            if cursor is not None and db_connection is not None:
+                from updateDatabase import main as update_database
+                update_database(cursor, db_connection)
+            else:
+                print("Please connect to the MySQL Database first.")
         elif choice == "0":
             print("Why do programmers like dark mode?")
             time.sleep(1.5)  # Wait for 1.5 seconds
