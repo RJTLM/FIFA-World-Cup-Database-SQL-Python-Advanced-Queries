@@ -26,19 +26,36 @@ def insert_data(cursor, db_connection):
             csvreader = csv.reader(csvfile)
             next(csvreader)  # Skip the header row
             for row in csvreader:
-                # Insert Teams, Players, Managers, and Referees with IGNORE to avoid duplicates
-                insert_ignore_queries = {
-                    "Team": "INSERT IGNORE INTO Team (TeamName) VALUES (%s)",
-                    "Player": "INSERT IGNORE INTO Player (PlayerName) VALUES (%s)",
-                    "Manager": "INSERT IGNORE INTO Manager (ManagerName) VALUES (%s)",
-                    "Referee": "INSERT IGNORE INTO Referee (RefereeName) VALUES (%s)"
-                }
-                for key, query in insert_ignore_queries.items():
-                    try:
-                        cursor.execute(query, (row[1],))
-                        cursor.execute(query, (row[2],))
-                    except Error as e:
-                        print(f"Error inserting into {key}: {e}")
+                # Insert Teams with IGNORE to avoid duplicates
+                team_query = "INSERT IGNORE INTO Team (TeamName) VALUES (%s)"
+                try:
+                    cursor.execute(team_query, (row[1],))  # home_team
+                    cursor.execute(team_query, (row[2],))  # away_team
+                except Error as e:
+                    print(f"Error inserting into Team: {e}")
+
+                # Insert Players (Captains) with IGNORE to avoid duplicates
+                player_query = "INSERT IGNORE INTO Player (PlayerName) VALUES (%s)"
+                try:
+                    cursor.execute(player_query, (row[8],))  # home_captain
+                    cursor.execute(player_query, (row[10],))  # away_captain
+                except Error as e:
+                    print(f"Error inserting into Player: {e}")
+
+                # Insert Managers with IGNORE to avoid duplicates
+                manager_query = "INSERT IGNORE INTO Manager (ManagerName) VALUES (%s)"
+                try:
+                    cursor.execute(manager_query, (row[7],))  # home_manager
+                    cursor.execute(manager_query, (row[9],))  # away_manager
+                except Error as e:
+                    print(f"Error inserting into Manager: {e}")
+
+                # Insert Referee with IGNORE to avoid duplicates
+                referee_query = "INSERT IGNORE INTO Referee (RefereeName) VALUES (%s)"
+                try:
+                    cursor.execute(referee_query, (row[15],))  # Referee
+                except Error as e:
+                    print(f"Error inserting into Referee: {e}")
 
                 # Insert FootballMatch
                 match_query = """
