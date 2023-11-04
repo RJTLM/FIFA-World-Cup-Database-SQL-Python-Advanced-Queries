@@ -4,7 +4,7 @@
 -- Find all matches played by a specific team
 SELECT FM.* FROM FootballMatch FM
 JOIN Plays P ON FM.MatchID = P.MatchID
-WHERE P.TeamName = ?;
+WHERE P.TeamName IN ('Sweden');
 
 -- Retrieve all matches with attendance greater than 50,000
 SELECT * FROM FootballMatch WHERE Attendance > 50000;
