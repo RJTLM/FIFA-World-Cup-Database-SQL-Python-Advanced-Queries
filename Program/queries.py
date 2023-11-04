@@ -1,4 +1,5 @@
 # queries.py
+import traceback
 
 def execute_query(cursor, query, params=None):
     try:
@@ -14,6 +15,8 @@ def load_queries(file_path):
     return [query.strip() for query in queries if query.strip()]
 
 def run_query(cursor, query, message, params=None):
+    print(f"Executing query: {query}")
+    print(f"With parameters: {params}")
     try:
         cursor.execute(query, params)
         records = cursor.fetchall()
@@ -25,6 +28,7 @@ def run_query(cursor, query, message, params=None):
             print(record)
     except Exception as e:
         print("Error:", e)
+        traceback.print_exc()  # This will print the full stack trace
 
 def main(cursor):
     basic_queries = load_queries('./Program/Queries/basicQueries.sql')
