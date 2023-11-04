@@ -12,9 +12,13 @@ def execute_query(cursor, query, params=None):
 def load_queries(file_path):
     with open(file_path, 'r') as file:
         queries = file.read().split(';')
+    # Debug: Print each query to verify correct splitting
+    for i, query in enumerate(queries):
+        print(f"Query {i}: {query}\n")
     return [query.strip() for query in queries if query.strip()]
 
 def run_query(cursor, query, message, params=None):
+    # Debug: Print the query and parameters before executing
     print(f"Executing query: {query}")
     print(f"With parameters: {params}")
     try:
