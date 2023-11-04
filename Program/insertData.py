@@ -87,10 +87,10 @@ def insert_data(cursor, db_connection):
                 try:
                     # Before inserting, ensure the TeamName and ManagerName exist in their respective tables
                     # If not, you should insert them first or handle the error accordingly
-                    cursor.execute(plays_query, (row[0], row[1]))
-                    cursor.execute(plays_query, (row[0], row[2]))
-                    cursor.execute(manages_query, (row[0], row[7]))  # Assuming row[7] is the home_manager
-                    cursor.execute(manages_query, (row[0], row[9]))  # Assuming row[9] is the away_manager
+                    cursor.execute(plays_query, (row[0], row[1])) # MatchID
+                    cursor.execute(plays_query, (row[0], row[2])) #TeamName
+                    cursor.execute(manages_query, (row[0], row[7]))  # home_manager
+                    cursor.execute(manages_query, (row[0], row[9]))  # away_manager
                 except Error as e:
                     print(f"Error inserting into Plays or Manages: {e}")
 
