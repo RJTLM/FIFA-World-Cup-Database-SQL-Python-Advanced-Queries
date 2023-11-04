@@ -1,6 +1,4 @@
 # queries.py
-import traceback
-import re
 
 def execute_query(cursor, query, params=None):
     try:
@@ -12,27 +10,10 @@ def execute_query(cursor, query, params=None):
 
 def load_queries(file_path):
     with open(file_path, 'r') as file:
-        # Split the file content into lines
-        lines = file.readlines()
-
-    # Filter out comments and empty lines
-    lines = [line for line in lines if not line.strip().startswith('--') and line.strip()]
-
-    # Join the lines back into a single string and then split on semicolon
-    queries_string = ''.join(lines)
-    queries = queries_string.split(';')
-
-    # Debug: Print each query to verify correct splitting
-    for i, query in enumerate(queries):
-        print(f"Query {i}: {query}\n")
-
-    # Return a list of queries without any leading/trailing whitespace
+        queries = file.read().split(';')
     return [query.strip() for query in queries if query.strip()]
 
-# Update the run_query function to print the query being executed
 def run_query(cursor, query, message, params=None):
-    print(f"Executing query: {query}")
-    print(f"With parameters: {params}")
     try:
         cursor.execute(query, params)
         records = cursor.fetchall()
@@ -44,7 +25,6 @@ def run_query(cursor, query, message, params=None):
             print(record)
     except Exception as e:
         print("Error:", e)
-        traceback.print_exc()  # This will print the full stack trace
 
 def main(cursor):
     basic_queries = load_queries('./Program/Queries/basicQueries.sql')
