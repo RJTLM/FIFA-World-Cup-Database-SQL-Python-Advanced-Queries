@@ -6,4 +6,4 @@
 -- DROP TABLE IF EXISTS Plays, Manages, FootballMatch, Event, Referee, Manager, Player, Team;
 
 -- Delete the database
-DROP DATABASE IF EXISTS /* fifa_womens_world_cup_21171466;*/ dswork;
+DROP DATABASE IF EXISTS fifa_womens_world_cup_21171466;
