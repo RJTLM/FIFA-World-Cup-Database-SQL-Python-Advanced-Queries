@@ -21,8 +21,15 @@ def run_query(cursor, query, message, params=None):
             print("No data found.")
             return
         print(message)
+        
+        # Fetch column headers
+        headers = [i[0] for i in cursor.description]
+        # Print column headers
+        print('\t'.join(headers))
+        
+        # Print records with headers
         for record in records:
-            print(record)
+            print('\t'.join(str(field) for field in record))
     except Exception as e:
         print("Error:", e)
 
@@ -33,7 +40,7 @@ def main(cursor):
     while True:
         print("\nWhat would you like to know?")
         print("Basic:")
-        print(" 1: Find all matches played by a specific team")
+        print(" 1: Find all matches played by Sweden")
         print(" 2: Retrieve all matches with attendance greater than 50,000")
         print(" 3: Get details of matches played in August 2023")
         print(" 4: Find all matches where the home team scored more than 2 goals")
@@ -49,7 +56,7 @@ def main(cursor):
         choice = input("Please enter your choice: ")
         
         if choice == "1":
-            run_query(cursor, basic_queries[0], "Matches played by predefined teams:")
+            run_query(cursor, basic_queries[0], "Matches played by Sweden:")
         elif choice == "2":
             run_query(cursor, basic_queries[1], "Matches with attendance greater than 50,000:")
         elif choice == "3":
