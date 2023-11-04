@@ -1,5 +1,4 @@
 # queries.py
-from prettytable import PrettyTable
 
 def execute_query(cursor, query, params=None):
     try:
@@ -25,17 +24,12 @@ def run_query(cursor, query, message, params=None):
         
         # Fetch column headers
         headers = [i[0] for i in cursor.description]
+        # Print column headers
+        print('\t'.join(headers))
         
-        # Create a PrettyTable and add the headers
-        table = PrettyTable()
-        table.field_names = headers
-        
-        # Add rows to the table
+        # Print records with headers
         for record in records:
-            table.add_row(record)
-        
-        # Print the table
-        print(table)
+            print('\t'.join(str(field) for field in record))
     except Exception as e:
         print("Error:", e)
 
@@ -90,3 +84,33 @@ def main(cursor):
 if __name__ == "__main__":
     print("This script is not meant to be run directly.")
     print("Please run this script through the main menu.")
+
+
+
+"""If prettytable is installed:
+from prettytable import PrettyTable # pip install prettytable
+
+def run_query(cursor, query, message, params=None):
+    try:
+        cursor.execute(query, params)
+        records = cursor.fetchall()
+        if not records:
+            print("No data found.")
+            return
+        print(message)
+        
+        # Fetch column headers
+        headers = [i[0] for i in cursor.description]
+        
+        # Create a PrettyTable and add the headers
+        table = PrettyTable()
+        table.field_names = headers
+        
+        # Add rows to the table
+        for record in records:
+            table.add_row(record)
+        
+        # Print the table
+        print(table)
+    except Exception as e:
+        print("Error:", e)"""
