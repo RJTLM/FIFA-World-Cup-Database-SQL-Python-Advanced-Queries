@@ -1,6 +1,5 @@
 # insertData.py
 import csv
-import mysql.connector
 from mysql.connector import Error
 
 # Function to insert data into the Team, Player, Manager, Referee, Event, FootballMatch, Plays, and Manages tables
@@ -19,8 +18,10 @@ def insert_data(cursor, db_connection):
                 """
                 cursor.execute(event_query, tuple(row))
         db_connection.commit()
+        print("Data successfully inserted into the Event table.")
     except Error as e:
         print(f"Error inserting into Event: {e}")
+        all_insertions_successful = False
 
     try:
         # Delete existing data in the FootballMatch table
@@ -96,9 +97,15 @@ def insert_data(cursor, db_connection):
 
         # Commit changes to the database
         db_connection.commit()
+        print("Data successfully inserted into the FootballMatch, Team, Player, Manager, Referee, Plays, and Manages tables.")
     except Error as e:
         print(f"Error processing bigDataCleaned1.csv: {e}")
         db_connection.rollback()
+        all_insertions_successful = False
+
+    # After all insertions, check if all were successful
+    if all_insertions_successful:
+        print("All data successfully inserted into tables.")
 
 if __name__ == "__main__":
     print("This script is not meant to be run directly.")
