@@ -35,7 +35,7 @@ def insert_data(cursor, db_connection):
                     print(f"Error inserting into Team: {e}")
 
                 # Insert Players (Captains) with IGNORE to avoid duplicates
-                player_query = "INSERT IGNORE INTO Player (PlayerName) VALUES (%s)"
+                player_query = "INSERT IGNORE INTO Player (PlayerName, isCaptain) VALUES (%s, TRUE)"
                 try:
                     cursor.execute(player_query, (row[8],))  # home_captain
                     cursor.execute(player_query, (row[10],))  # away_captain
