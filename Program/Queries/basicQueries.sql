@@ -14,4 +14,4 @@ SELECT * FROM FootballMatch WHERE MatchDate BETWEEN '2023-08-01' AND '2023-08-31
 SELECT * FROM FootballMatch WHERE home_score > 2;
 
 -- Retrieve all matches refereed by a specific referee
-SELECT * FROM FootballMatch WHERE Referee = 'Tori Penso';
+SELECT * FROM FootballMatch WHERE RefereeName = 'Tori Penso';

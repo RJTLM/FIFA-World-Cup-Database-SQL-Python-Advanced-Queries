@@ -65,8 +65,8 @@ def insert_data(cursor, db_connection):
 
                 # Insert FootballMatch
                 match_query = """
-                INSERT INTO FootballMatch (MatchID, home_score, away_score, home_penalty, away_penalty, Attendance, Venue, Round, MatchDate, Notes, MatchHost)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                INSERT INTO FootballMatch (MatchID, home_score, away_score, home_penalty, away_penalty, Attendance, Venue, Round, MatchDate, Notes, MatchHost, EventID, RefereeName) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 """
                 match_data = (
                     row[0],  # MatchID
@@ -80,6 +80,8 @@ def insert_data(cursor, db_connection):
                     row[14],  # MatchDate
                     row[16],  # Notes
                     row[17],  # MatchHost
+                    row[19],  # EventID
+                    row[15],  # RefereeName
                 )
                 cursor.execute(match_query, match_data)
 
