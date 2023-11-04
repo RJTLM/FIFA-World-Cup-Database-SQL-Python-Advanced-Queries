@@ -4,6 +4,7 @@ from mysql.connector import Error
 
 # Function to insert data into the Team, Player, Manager, Referee, Event, FootballMatch, Plays, and Manages tables
 def insert_data(cursor, db_connection):
+    all_insertions_successful = True # Initialise the variable at the start of the function
     try:
         # Delete existing data in the Event table
         cursor.execute("DELETE FROM Event")
