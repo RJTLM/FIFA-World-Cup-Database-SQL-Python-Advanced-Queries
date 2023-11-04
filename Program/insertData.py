@@ -76,6 +76,22 @@ def insert_data(cursor, db_connection):
                     row[17],  # MatchHost
                 )
                 cursor.execute(match_query, match_data)
+
+                # Delete existing data in the Plays table
+                cursor.execute("DELETE FROM Plays")
+                # Delete existing data in the Manages table
+                cursor.execute("DELETE FROM Manages")
+                # Insert Plays and Manages
+                plays_query = "INSERT INTO Plays (MatchID, TeamName) VALUES (%s, %s)"
+                manages_query = "INSERT INTO Manages (MatchID, ManagerName) VALUES (%s, %s)"
+                try:
+                    cursor.execute(plays_query, (row[0], row[1]))
+                    cursor.execute(plays_query, (row[0], row[2]))
+                    cursor.execute(manages_query, (row[0], row[6]))
+                    cursor.execute(manages_query, (row[0], row[8]))
+                except Error as e:
+                    print(f"Error inserting into Plays or Manages: {e}")
+
         # Commit changes to the database
         db_connection.commit()
     except Error as e:
