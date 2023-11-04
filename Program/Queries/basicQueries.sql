@@ -12,15 +12,19 @@ SELECT
 FROM 
     FootballMatch FM
 JOIN 
-    Plays AS HomePlays ON FM.MatchID = HomePlays.MatchID
+    Plays HomePlays ON FM.MatchID = HomePlays.MatchID
 JOIN 
-    Team AS HomeTeam ON HomePlays.TeamName = HomeTeam.TeamName AND HomePlays.HomeOrAway = 'Home'
+    Team HomeTeam ON HomePlays.TeamName = HomeTeam.TeamName
 JOIN 
-    Plays AS AwayPlays ON FM.MatchID = AwayPlays.MatchID
+    Plays AwayPlays ON FM.MatchID = AwayPlays.MatchID
 JOIN 
-    Team AS AwayTeam ON AwayPlays.TeamName = AwayTeam.TeamName AND AwayPlays.HomeOrAway = 'Away'
+    Team AwayTeam ON AwayPlays.TeamName = AwayTeam.TeamName
 WHERE 
-    HomePlays.TeamName = 'Sweden' OR AwayPlays.TeamName = 'Sweden';
+    HomePlays.TeamName = 'Sweden' OR AwayPlays.TeamName = 'Sweden'
+GROUP BY 
+    FM.MatchID
+HAVING 
+    MIN(HomePlays.TeamName) = HomeTeam.TeamName AND MAX(AwayPlays.TeamName) = AwayTeam.TeamName;
 
 
 -- Retrieve all matches with attendance greater than 50,000
