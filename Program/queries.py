@@ -1,5 +1,6 @@
 # queries.py
 import traceback
+import re
 
 def execute_query(cursor, query, params=None):
     try:
@@ -11,7 +12,8 @@ def execute_query(cursor, query, params=None):
 
 def load_queries(file_path):
     with open(file_path, 'r') as file:
-        queries = file.read().split(';')
+        # Use a regular expression to split only on semicolons that are followed by a newline or the end of the file
+        queries = re.split(r';\s*$', file.read(), flags=re.MULTILINE)
     # Debug: Print each query to verify correct splitting
     for i, query in enumerate(queries):
         print(f"Query {i}: {query}\n")
