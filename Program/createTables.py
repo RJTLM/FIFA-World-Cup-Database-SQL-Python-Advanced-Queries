@@ -64,6 +64,19 @@ def create_tables(cursor):
     
     print("\nTables successfully created.")
 
+def reset(cursor):
+    # SQL file to execute for deleting the database to 'reset'
+    sql_file = 'deleteDatabase.sql'
+    
+    # Base directory for SQL files
+    base_dir = './Program/Tables/CreateTables/'
+    
+    file_path = os.path.join(base_dir, sql_file)
+    execute_sql_file(cursor, file_path)
+    
+    print("Database and data successfully deleted: fifa_womens_world_cup_21171466.")
+
+
 def main(cursor, db_connection):
     while True:
         print("\nDatabase and Tables Setup")
@@ -71,6 +84,7 @@ def main(cursor, db_connection):
         print("2: Use Database")
         print("3: Create Tables")
         print("4: Insert Initial Data into Tables")
+        print("5: Reset (WARNING: This deletes the database and all its data)")
         print("0: Return to Main Menu")
         choice = input().strip()
         
@@ -82,6 +96,8 @@ def main(cursor, db_connection):
             create_tables(cursor)
         elif choice == "4":
             insert_data(cursor, db_connection)
+        elif choice == "5":
+            reset(cursor)
         elif choice == "0":
             break
         else:
