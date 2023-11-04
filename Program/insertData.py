@@ -11,7 +11,10 @@ def insert_data(cursor, db_connection):
             csvreader = csv.reader(csvfile)
             next(csvreader)  # Skip the header row
             for row in csvreader:
-                event_query = """INSERT INTO Event (...) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+                event_query = """
+                INSERT INTO Event (EventID, EventYear, EventHost, NoTeams, Champion, RunnerUp, TopScorer, EventAttendance, EventAttendanceAvg, NoMatches)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                """
                 cursor.execute(event_query, tuple(row))
         db_connection.commit()
     except Error as e:
