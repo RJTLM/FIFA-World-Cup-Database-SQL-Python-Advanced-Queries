@@ -2,9 +2,11 @@
 
 -- Q3. Part3 Level 1 Basic Queries:
 -- Find all matches played by a specific team
-/*SELECT FM.* FROM FootballMatch FM
+
+/* SELECT FM.* FROM FootballMatch FM
 JOIN Plays P ON FM.MatchID = P.MatchID
-WHERE P.TeamName IN ('Sweden');*/
+WHERE P.TeamName IN ('Sweden'); */
+
 SELECT 
     FM.*,
     P.TeamName,
