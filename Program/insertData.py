@@ -32,10 +32,24 @@ def insert_data(cursor, db_connection):
 
             # Insert FootballMatch
             match_query = """
-            INSERT INTO FootballMatch (MatchID, home_score, away_score, home_penalty, away_penalty, Attendance, Venue, Round, MatchDate, RefereeName, Notes, MatchHost, EventID)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            INSERT INTO FootballMatch (MatchID, home_score, away_score, home_penalty, away_penalty, Attendance, Venue, Round, MatchDate, RefereeName, Notes, MatchHost)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """
-            match_data = (row[0], row[3], row[5], row[4] or None, row[6] or None, row[10], row[11], row[12], row[13], row[14], row[15], row[16], row[17])
+            match_data = (
+                row[0],  # MatchID
+                row[3],  # home_score
+                row[5],  # away_score
+                row[4] if row[4] != '' else None,  # home_penalty
+                row[6] if row[6] != '' else None,  # away_penalty
+                row[11],  # Attendance
+                row[12],  # Venue
+                row[13],  # Round
+                row[14],  # MatchDate
+                row[15],  # Referee
+                row[16],  # Notes
+                row[17],  # MatchHost
+            )
+
             cursor.execute(match_query, match_data)
 
             # Insert Plays and Manages
