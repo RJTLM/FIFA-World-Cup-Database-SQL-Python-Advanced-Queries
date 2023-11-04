@@ -81,14 +81,16 @@ def insert_data(cursor, db_connection):
                 cursor.execute("DELETE FROM Plays")
                 # Delete existing data in the Manages table
                 cursor.execute("DELETE FROM Manages")
-                # Insert Plays and Manages
-                plays_query = "INSERT INTO Plays (MatchID, TeamName) VALUES (%s, %s)"
-                manages_query = "INSERT INTO Manages (MatchID, ManagerName) VALUES (%s, %s)"
+                # Insert Plays and Manages with checks for existing data
+                plays_query = "INSERT IGNORE INTO Plays (MatchID, TeamName) VALUES (%s, %s)"
+                manages_query = "INSERT IGNORE INTO Manages (MatchID, ManagerName) VALUES (%s, %s)"
                 try:
+                    # Before inserting, ensure the TeamName and ManagerName exist in their respective tables
+                    # If not, you should insert them first or handle the error accordingly
                     cursor.execute(plays_query, (row[0], row[1]))
                     cursor.execute(plays_query, (row[0], row[2]))
-                    cursor.execute(manages_query, (row[0], row[6]))
-                    cursor.execute(manages_query, (row[0], row[8]))
+                    cursor.execute(manages_query, (row[0], row[7]))  # Assuming row[7] is the home_manager
+                    cursor.execute(manages_query, (row[0], row[9]))  # Assuming row[9] is the away_manager
                 except Error as e:
                     print(f"Error inserting into Plays or Manages: {e}")
 
