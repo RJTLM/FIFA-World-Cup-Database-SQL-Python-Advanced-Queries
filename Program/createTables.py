@@ -1,5 +1,6 @@
 # createTables.py
 import os
+import mysql.connector
 from insertData import insert_data
 
 def execute_sql_file(cursor, file_path):
