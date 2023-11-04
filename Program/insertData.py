@@ -6,6 +6,8 @@ from mysql.connector import Error
 # Function to insert data into the Team, Player, Manager, Referee, Event, FootballMatch, Plays, and Manages tables
 def insert_data(cursor, db_connection):
     try:
+        # Delete existing data in the Event table
+        cursor.execute("DELETE FROM Event")
         # Insert data into the Event table from littleDataCleaned.csv
         with open('./Program/littleDataCleaned.csv', 'r') as csvfile:
             csvreader = csv.reader(csvfile)
@@ -21,6 +23,16 @@ def insert_data(cursor, db_connection):
         print(f"Error inserting into Event: {e}")
 
     try:
+        # Delete existing data in the FootballMatch table
+        cursor.execute("DELETE FROM FootballMatch")
+        # Delete existing data in the Team table
+        cursor.execute("DELETE FROM Team")
+        # Delete existing data in the Player table
+        cursor.execute("DELETE FROM Player")
+        # Delete existing data in the Manager table
+        cursor.execute("DELETE FROM Manager")
+        # Delete existing data in the Referee table
+        cursor.execute("DELETE FROM Referee")
         # Insert data into the FootballMatch, Team, Player, Manager, Referee, Plays, and Manages tables from bigDataCleaned1.csv
         with open('./Program/bigDataCleaned1.csv', 'r') as csvfile:
             csvreader = csv.reader(csvfile)
@@ -28,34 +40,22 @@ def insert_data(cursor, db_connection):
             for row in csvreader:
                 # Insert Teams with IGNORE to avoid duplicates
                 team_query = "INSERT IGNORE INTO Team (TeamName) VALUES (%s)"
-                try:
-                    cursor.execute(team_query, (row[1],))  # home_team
-                    cursor.execute(team_query, (row[2],))  # away_team
-                except Error as e:
-                    print(f"Error inserting into Team: {e}")
+                cursor.execute(team_query, (row[1],))  # home_team
+                cursor.execute(team_query, (row[2],))  # away_team
 
                 # Insert Players (Captains) with IGNORE to avoid duplicates
                 player_query = "INSERT IGNORE INTO Player (PlayerName, isCaptain) VALUES (%s, TRUE)"
-                try:
-                    cursor.execute(player_query, (row[8],))  # home_captain
-                    cursor.execute(player_query, (row[10],))  # away_captain
-                except Error as e:
-                    print(f"Error inserting into Player: {e}")
+                cursor.execute(player_query, (row[8],))  # home_captain
+                cursor.execute(player_query, (row[10],))  # away_captain
 
                 # Insert Managers with IGNORE to avoid duplicates
                 manager_query = "INSERT IGNORE INTO Manager (ManagerName) VALUES (%s)"
-                try:
-                    cursor.execute(manager_query, (row[7],))  # home_manager
-                    cursor.execute(manager_query, (row[9],))  # away_manager
-                except Error as e:
-                    print(f"Error inserting into Manager: {e}")
+                cursor.execute(manager_query, (row[7],))  # home_manager
+                cursor.execute(manager_query, (row[9],))  # away_manager
 
                 # Insert Referee with IGNORE to avoid duplicates
                 referee_query = "INSERT IGNORE INTO Referee (RefereeName) VALUES (%s)"
-                try:
-                    cursor.execute(referee_query, (row[15],))  # Referee
-                except Error as e:
-                    print(f"Error inserting into Referee: {e}")
+                cursor.execute(referee_query, (row[15],))  # Referee
 
                 # Insert FootballMatch
                 match_query = """
@@ -75,23 +75,7 @@ def insert_data(cursor, db_connection):
                     row[16],  # Notes
                     row[17],  # MatchHost
                 )
-
-                try:
-                    cursor.execute(match_query, match_data)
-                except Error as e:
-                    print(f"Error inserting into FootballMatch: {e}")
-                '''
-                # Insert Plays and Manages
-                plays_query = "INSERT INTO Plays (MatchID, TeamName) VALUES (%s, %s)"
-                manages_query = "INSERT INTO Manages (MatchID, ManagerName) VALUES (%s, %s)"
-                try:
-                    cursor.execute(plays_query, (row[0], row[1]))
-                    cursor.execute(plays_query, (row[0], row[2]))
-                    cursor.execute(manages_query, (row[0], row[6]))
-                    cursor.execute(manages_query, (row[0], row[8]))
-                except Error as e:
-                    print(f"Error inserting into Plays or Manages: {e}")
-                '''
+                cursor.execute(match_query, match_data)
         # Commit changes to the database
         db_connection.commit()
     except Error as e:
@@ -101,4 +85,3 @@ def insert_data(cursor, db_connection):
 if __name__ == "__main__":
     print("This script is not meant to be run directly.")
     print("Please run this script through the main menu.")
-# Reference: https://www.w3schools.com/python/python_mysql_insert.asp (for understanding how to insert data into MySQL using Python)
