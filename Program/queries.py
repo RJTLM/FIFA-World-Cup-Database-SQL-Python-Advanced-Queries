@@ -50,7 +50,7 @@ def main(cursor):
         
         if choice == "1":
             team = input("Enter the team name: ")
-            run_query(cursor, basic_queries[0], "Matches played by " + team + ":", (team, team))
+            run_query(cursor, basic_queries[0], "Matches played by " + team + ":", (team,))
         elif choice == "2":
             run_query(cursor, basic_queries[1], "Matches with attendance greater than 50,000:")
         elif choice == "3":

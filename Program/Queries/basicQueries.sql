@@ -2,7 +2,9 @@
 
 -- Q3. Part3 Level 1 Basic Queries:
 -- Find all matches played by a specific team
-SELECT * FROM FootballMatch WHERE home_team = ? OR away_team = ?;
+SELECT FM.* FROM FootballMatch FM
+JOIN Plays P ON FM.MatchID = P.MatchID
+WHERE P.TeamName = ?;
 
 -- Retrieve all matches with attendance greater than 50,000
 SELECT * FROM FootballMatch WHERE Attendance > 50000;
