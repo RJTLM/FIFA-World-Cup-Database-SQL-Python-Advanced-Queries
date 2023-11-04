@@ -1,4 +1,5 @@
 # queries.py
+from prettytable import PrettyTable
 
 def execute_query(cursor, query, params=None):
     try:
@@ -24,12 +25,17 @@ def run_query(cursor, query, message, params=None):
         
         # Fetch column headers
         headers = [i[0] for i in cursor.description]
-        # Print column headers
-        print('\t'.join(headers))
         
-        # Print records with headers
+        # Create a PrettyTable and add the headers
+        table = PrettyTable()
+        table.field_names = headers
+        
+        # Add rows to the table
         for record in records:
-            print('\t'.join(str(field) for field in record))
+            table.add_row(record)
+        
+        # Print the table
+        print(table)
     except Exception as e:
         print("Error:", e)
 
