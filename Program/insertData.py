@@ -33,6 +33,10 @@ def insert_data(cursor, db_connection):
         cursor.execute("DELETE FROM Manager")
         # Delete existing data in the Referee table
         cursor.execute("DELETE FROM Referee")
+        # Delete existing data in the Plays table
+        cursor.execute("DELETE FROM Plays")
+        # Delete existing data in the Manages table
+        cursor.execute("DELETE FROM Manages")
         # Insert data into the FootballMatch, Team, Player, Manager, Referee, Plays, and Manages tables from bigDataCleaned1.csv
         with open('./Program/bigDataCleaned1.csv', 'r') as csvfile:
             csvreader = csv.reader(csvfile)
@@ -77,10 +81,6 @@ def insert_data(cursor, db_connection):
                 )
                 cursor.execute(match_query, match_data)
 
-                # Delete existing data in the Plays table
-                cursor.execute("DELETE FROM Plays")
-                # Delete existing data in the Manages table
-                cursor.execute("DELETE FROM Manages")
                 # Insert Plays and Manages with checks for existing data
                 plays_query = "INSERT IGNORE INTO Plays (MatchID, TeamName) VALUES (%s, %s)"
                 manages_query = "INSERT IGNORE INTO Manages (MatchID, ManagerName) VALUES (%s, %s)"
