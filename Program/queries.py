@@ -12,15 +12,25 @@ def execute_query(cursor, query, params=None):
 
 def load_queries(file_path):
     with open(file_path, 'r') as file:
-        # Use a regular expression to split only on semicolons that are followed by a newline or the end of the file
-        queries = re.split(r';\s*$', file.read(), flags=re.MULTILINE)
+        # Split the file content into lines
+        lines = file.readlines()
+
+    # Filter out comments and empty lines
+    lines = [line for line in lines if not line.strip().startswith('--') and line.strip()]
+
+    # Join the lines back into a single string and then split on semicolon
+    queries_string = ''.join(lines)
+    queries = queries_string.split(';')
+
     # Debug: Print each query to verify correct splitting
     for i, query in enumerate(queries):
         print(f"Query {i}: {query}\n")
+
+    # Return a list of queries without any leading/trailing whitespace
     return [query.strip() for query in queries if query.strip()]
 
+# Update the run_query function to print the query being executed
 def run_query(cursor, query, message, params=None):
-    # Debug: Print the query and parameters before executing
     print(f"Executing query: {query}")
     print(f"With parameters: {params}")
     try:
