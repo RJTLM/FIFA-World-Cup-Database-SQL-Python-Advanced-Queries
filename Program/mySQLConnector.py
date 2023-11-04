@@ -23,4 +23,5 @@ def main():
     connect_to_db()
 
 if __name__ == "__main__":
-    main()
+    print("This script is not meant to be run directly.")
+    print("Please run this script through the main menu.")

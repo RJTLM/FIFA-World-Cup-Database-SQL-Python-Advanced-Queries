@@ -1,4 +1,4 @@
-/* createTablesWithFKDep.sql: MySQL file for creating the tables with foreign key dependencies */
+/* ./Program/Tables/createTablesWithFKDep.sql: MySQL file for creating the tables with foreign key dependencies */
 
 -- Q3. Part2a. Implementation:
 -- Creating FootballMatch Table

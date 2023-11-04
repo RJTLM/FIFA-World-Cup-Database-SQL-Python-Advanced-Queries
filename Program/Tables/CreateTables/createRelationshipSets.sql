@@ -1,4 +1,4 @@
-/* createRelationshipSets.sql: MySQL file for creating the relationship sets tables */
+/* ./Program/Tables/createRelationshipSets.sql: MySQL file for creating the relationship sets tables */
 
 -- Q3. Part2a. Implementation:
 -- Creating Plays Table (Many-to-Many Relationship)

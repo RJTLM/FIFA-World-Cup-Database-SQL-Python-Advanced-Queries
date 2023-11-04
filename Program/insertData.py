@@ -1,73 +1,55 @@
-#insertData.py
+# insertData.py
+import csv
 
-def execute_sql_file(cursor, file_path):
-    with open(file_path, 'r') as file:
-        sql_script = file.read()
-        commands = sql_script.split(';')
-        for command in commands:
-            if command.strip() != "":
-                cursor.execute(command)
-
-def populate_other_tables(cursor):
-    # Populate Team table
-    cursor.execute("INSERT IGNORE INTO Team (TeamName) SELECT DISTINCT home_team FROM BigData WHERE home_team IS NOT NULL")
-    cursor.execute("INSERT IGNORE INTO Team (TeamName) SELECT DISTINCT away_team FROM BigData WHERE away_team IS NOT NULL")
-
-    # Populate Player table
-    cursor.execute("INSERT IGNORE INTO Player (PlayerName) SELECT DISTINCT home_captain FROM BigData WHERE home_captain IS NOT NULL")
-    cursor.execute("INSERT IGNORE INTO Player (PlayerName) SELECT DISTINCT away_captain FROM BigData WHERE away_captain IS NOT NULL")
-
-    # Populate Manager table
-    cursor.execute("INSERT IGNORE INTO Manager (ManagerName) SELECT DISTINCT home_manager FROM BigData WHERE home_manager IS NOT NULL")
-    cursor.execute("INSERT IGNORE INTO Manager (ManagerName) SELECT DISTINCT away_manager FROM BigData WHERE away_manager IS NOT NULL")
-
-    # Populate Referee table
-    cursor.execute("INSERT IGNORE INTO Referee (RefereeName) SELECT DISTINCT Referee FROM BigData WHERE Referee IS NOT NULL")
-
-    # Populate Event table
-    cursor.execute("INSERT IGNORE INTO Event SELECT * FROM LittleData")
-
-    # Populate FootballMatch table
-    cursor.execute("""
-        INSERT IGNORE INTO FootballMatch (MatchID, home_score, away_score, home_penalty, away_penalty, MatchAttendance, Venue, Round, MatchDate, Notes, MatchHost, EventID, RefereeName)
-        SELECT b.MatchID, b.home_score, b.away_score, b.home_penalty, b.away_penalty, b.MatchAttendance, b.Venue, b.Round, b.MatchDate, b.Notes, b.MatchHost, e.EventID, b.Referee
-        FROM BigData b
-        JOIN Event e ON b.MatchYear = e.EventYear AND b.MatchHost = e.EventHost
-    """)
-
-    # Populate Plays table
-    cursor.execute("""
-        INSERT IGNORE INTO Plays (MatchID, TeamName)
-        SELECT MatchID, home_team FROM BigData WHERE home_team IS NOT NULL
-    """)
-    cursor.execute("""
-        INSERT IGNORE INTO Plays (MatchID, TeamName)
-        SELECT MatchID, away_team FROM BigData WHERE away_team IS NOT NULL
-    """)
-
-    # Populate Manages table
-    cursor.execute("""
-        INSERT IGNORE INTO Manages (MatchID, ManagerName)
-        SELECT MatchID, home_manager FROM BigData WHERE home_manager IS NOT NULL
-    """)
-    cursor.execute("""
-        INSERT IGNORE INTO Manages (MatchID, ManagerName)
-        SELECT MatchID, away_manager FROM BigData WHERE away_manager IS NOT NULL
-    """)
-
+# Function to insert data into the Team, Player, Manager, Referee, Event, FootballMatch, Plays, and Manages tables
 def insert_data(cursor, db_connection):
-    # Paths to the SQL insert files
-    little_data_path = './Program/Tables/InsertTables/insLittleData.sql'
-    big_data_path = './Program/Tables/InsertTables/insBigData.sql'
+    # Insert data into the Event table from littleDataCleaned.csv
+    with open('./Program/littleDataCleaned.csv', 'r') as csvfile:
+        csvreader = csv.reader(csvfile)
+        next(csvreader)  # Skip the header row
+        for row in csvreader:
+            event_query = """
+            INSERT INTO Event (EventID, EventYear, EventHost, NoTeams, Champion, RunnerUp, TopScorer, EventAttendance, EventAttendanceAvg, NoMatches)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """
+            cursor.execute(event_query, tuple(row))
 
-    # Executing the SQL insert files
-    execute_sql_file(cursor, little_data_path)
-    execute_sql_file(cursor, big_data_path)
+    # Insert data into the FootballMatch, Team, Player, Manager, Referee, Plays, and Manages tables from bigDataCleaned1.csv
+    with open('./Program/bigDataCleaned1.csv', 'r') as csvfile:
+        csvreader = csv.reader(csvfile)
+        next(csvreader)  # Skip the header row
+        for row in csvreader:
+            # Insert Teams, Players, Managers, and Referees with IGNORE to avoid duplicates
+            insert_ignore_queries = {
+                "Team": "INSERT IGNORE INTO Team (TeamName) VALUES (%s)",
+                "Player": "INSERT IGNORE INTO Player (PlayerName) VALUES (%s)",
+                "Manager": "INSERT IGNORE INTO Manager (ManagerName) VALUES (%s)",
+                "Referee": "INSERT IGNORE INTO Referee (RefereeName) VALUES (%s)"
+            }
+            for key in insert_ignore_queries:
+                cursor.execute(insert_ignore_queries[key], (row[1],))
+                cursor.execute(insert_ignore_queries[key], (row[2],))
 
-    # Populating other tables based on the data in LittleData and BigData
-    populate_other_tables(cursor)
+            # Insert FootballMatch
+            match_query = """
+            INSERT INTO FootballMatch (MatchID, home_score, away_score, home_penalty, away_penalty, Attendance, Venue, Round, MatchDate, RefereeName, Notes, MatchHost, EventID)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """
+            match_data = (row[0], row[3], row[5], row[4] or None, row[6] or None, row[10], row[11], row[12], row[13], row[14], row[15], row[16], row[17])
+            cursor.execute(match_query, match_data)
 
-    # Committing the changes
+            # Insert Plays and Manages
+            plays_query = "INSERT INTO Plays (MatchID, TeamName) VALUES (%s, %s)"
+            manages_query = "INSERT INTO Manages (MatchID, ManagerName) VALUES (%s, %s)"
+            cursor.execute(plays_query, (row[0], row[1]))
+            cursor.execute(plays_query, (row[0], row[2]))
+            cursor.execute(manages_query, (row[0], row[6]))
+            cursor.execute(manages_query, (row[0], row[8]))
+
+    # Commit changes to the database
     db_connection.commit()
 
-    print("Data insertion and table population completed successfully.")
+if __name__ == "__main__":
+    print("This script is not meant to be run directly.")
+    print("Please run this script through the main menu.")
+# Reference: https://www.w3schools.com/python/python_mysql_insert.asp (for understanding how to insert data into MySQL using Python)

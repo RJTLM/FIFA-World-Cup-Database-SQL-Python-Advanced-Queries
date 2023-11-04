@@ -1,4 +1,4 @@
-/* createTablesWithoutFKDep.sql: MySQL file for creating the tables without foreign key dependencies */
+/* ./Program/Tables/createTablesWithoutFKDep.sql: MySQL file for creating the tables without foreign key dependencies */
 
 -- Q3. Part2a. Implementation:
 -- Creating Team Table

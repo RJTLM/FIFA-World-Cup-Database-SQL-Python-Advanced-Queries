@@ -72,5 +72,7 @@ def main():
             print("Invalid option. Please choose a valid option.")
 
 if __name__ == "__main__":
-    main()
+    print("This script is not meant to be run directly.")
+    print("Please run this script through the main menu.")
+
     # Reference: "FOP Sem2 2023 Lecture Material" (for understanding the main function and script execution in Python)
