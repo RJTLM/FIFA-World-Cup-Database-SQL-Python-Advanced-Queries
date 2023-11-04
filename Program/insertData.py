@@ -39,7 +39,7 @@ def insert_data(cursor, db_connection):
                         cursor.execute(query, (row[2],))
                     except Error as e:
                         print(f"Error inserting into {key}: {e}")
-                '''
+
                 # Insert FootballMatch
                 match_query = """
                 INSERT INTO FootballMatch (MatchID, home_score, away_score, home_penalty, away_penalty, Attendance, Venue, Round, MatchDate, Notes, MatchHost)
@@ -63,7 +63,7 @@ def insert_data(cursor, db_connection):
                     cursor.execute(match_query, match_data)
                 except Error as e:
                     print(f"Error inserting into FootballMatch: {e}")
-
+                '''
                 # Insert Plays and Manages
                 plays_query = "INSERT INTO Plays (MatchID, TeamName) VALUES (%s, %s)"
                 manages_query = "INSERT INTO Manages (MatchID, ManagerName) VALUES (%s, %s)"
