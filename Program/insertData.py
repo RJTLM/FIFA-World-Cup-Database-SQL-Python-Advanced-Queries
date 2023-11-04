@@ -92,7 +92,7 @@ def insert_data(cursor, db_connection):
                     # Before inserting, ensure the TeamName and ManagerName exist in their respective tables
                     # If not, you should insert them first or handle the error accordingly
                     cursor.execute(plays_query, (row[0], row[1])) # MatchID
-                    cursor.execute(plays_query, (row[0], row[2])) #TeamName
+                    cursor.execute(plays_query, (row[0], row[2])) # TeamName
                     cursor.execute(manages_query, (row[0], row[7]))  # home_manager
                     cursor.execute(manages_query, (row[0], row[9]))  # away_manager
                 except Error as e:
