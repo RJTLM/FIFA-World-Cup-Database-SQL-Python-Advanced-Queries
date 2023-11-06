@@ -9,7 +9,7 @@ def execute_sql_from_file(cursor, file_path):
     for command in commands:
         if command.strip() != '':
             # Check for the start of a stored procedure or trigger
-            if command.lower().includes('create procedure') or command.lower().includes('create trigger'):
+            if 'create procedure' in command.lower() or 'create trigger' in command.lower():
                 buffer.append(command)
             # Check for the end of a stored procedure or trigger
             elif 'end' in command.lower():
