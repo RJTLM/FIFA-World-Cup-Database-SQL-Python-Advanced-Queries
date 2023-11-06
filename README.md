@@ -8,42 +8,42 @@ This repository contains the implementation of a database system designed to sto
 
 The repository is organized into directories and files that cover various aspects of the database system for the FIFA Women's World Cup. Here is a detailed breakdown:
 
-- `Data/`: Contains CSV files with match data.
-  - [`matches_1991_2023.csv`](https://github.com/RJTLM/DSFinalAssignment/blob/main/Data/matches_1991_2023.csv): Match data from 1991 to 2023.
+- `Data/`: Contains CSV files with original match data.
+  - `matches_1991_2023.csv`: Match data from 1991 to 2023.
+  - `world_cup_women.csv`: Event data.
 
 - `ERModelling/`: Includes files related to the Entity-Relationship (ER) model of the database.
-  - [`ERDiagram.drawio`](https://github.com/RJTLM/DSFinalAssignment/blob/main/ERModelling/ERDiagram.drawio): Editable ER diagram source file for draw.io.
-  - [`ERDiagram.png`](https://github.com/RJTLM/DSFinalAssignment/blob/main/ERModelling/ERDiagram.png): ER diagram image file.
-  - [`ERDiagram.xml`](https://github.com/RJTLM/DSFinalAssignment/blob/main/ERModelling/ERDiagram.xml): XML file containing ER diagram data.
-  - [`ERDiagramTransparent.png`](https://github.com/RJTLM/DSFinalAssignment/blob/main/ERModelling/ERDiagramTransparent.png): Transparent background version of the ER diagram.
+  - `ERDiagram.drawio`: Editable ER diagram source file for draw.io.
+  - `ERDiagram.png`: ER diagram image file.
+  - `ERDiagram.xml`: XML file containing ER diagram data.
+  - `ERDiagramTransparent.png`: Transparent background version of the ER diagram.
 
 - `Program/`: Contains SQL scripts and Python programs for database operations.
   - `Concepts/`: SQL scripts for database concepts like stored procedures, views, and indexes.
-    - [`callGetAverageAttendanceByYear.sql`](https://github.com/RJTLM/DSFinalAssignment/blob/main/Program/Concepts/callGetAverageAttendanceByYear.sql): Calls a stored procedure to get average attendance by year.
-    - [`callGetTotalMatchesByTeam.sql`](https://github.com/RJTLM/DSFinalAssignment/blob/main/Program/Concepts/callGetTotalMatchesByTeam.sql): Calls a stored procedure to get total matches by team.
-    - [`explainIdxDateAttendance.sql`](https://github.com/RJTLM/DSFinalAssignment/blob/main/Program/Concepts/explainIdxDateAttendance.sql): Explains index usage for MatchDate and Attendance.
-    - [`explainIdxTeamName.sql`](https://github.com/RJTLM/DSFinalAssignment/blob/main/Program/Concepts/explainIdxTeamName.sql): Explains index usage for TeamName.
-    - [`indexes.sql`](https://github.com/RJTLM/DSFinalAssignment/blob/main/Program/Concepts/indexes.sql): SQL script for creating indexes.
-    - [`selectViewMatchAttendanceSummary.sql`](https://github.com/RJTLM/DSFinalAssignment/blob/main/Program/Concepts/selectViewMatchAttendanceSummary.sql): Selects from the view for match attendance summary.
-    - [`selectViewTopScorers.sql`](https://github.com/RJTLM/DSFinalAssignment/blob/main/Program/Concepts/selectViewTopScorers.sql): Selects from the view for top scorers.
-    - [`storedProcedures.sql`](https://github.com/RJTLM/DSFinalAssignment/blob/main/Program/Concepts/storedProcedures.sql): SQL script for stored procedures.
-    - [`views.sql`](https://github.com/RJTLM/DSFinalAssignment/blob/main/Program/Concepts/views.sql): SQL script for creating views.
+    - `callGetAverageAttendanceByYear.sql`: Calls a stored procedure to get average attendance by year.
+    - `callGetTotalMatchesByTeam.sql`: Calls a stored procedure to get total matches by team.
+    - `explainIdxDateAttendance.sql`: Explains index usage for MatchDate and Attendance.
+    - `explainIdxTeamName.sql`: Explains index usage for TeamName.
+    - `indexes.sql`: SQL script for creating indexes.
+    - `selectViewMatchAttendanceSummary.sql`: Selects from the view for match attendance summary.
+    - `selectViewTopScorers.sql`: Selects from the view for top scorers.
+    - `storedProcedures.sql`: SQL script for stored procedures.
+    - `views.sql`: SQL script for creating views.
   - `Queries/`: SQL scripts for basic and advanced queries.
-    - [`advancedQueries.sql`](https://github.com/RJTLM/DSFinalAssignment/blob/main/Program/Queries/advancedQueries.sql): SQL script for advanced queries.
-    - [`basicQueries.sql`](https://github.com/RJTLM/DSFinalAssignment/blob/main/Program/Queries/basicQueries.sql): SQL script for basic queries.
+    - `advancedQueries.sql`: SQL script for advanced queries.
+    - `basicQueries.sql`: SQL script for basic queries.
   - `Tables/CreateTables/`: SQL scripts for creating the database and tables.
-    - [`createDatabase.sql`](https://github.com/RJTLM/DSFinalAssignment/blob/main/Program/Tables/CreateTables/createDatabase.sql): SQL script for creating the database.
-    - [`createRelationshipSets.sql`](https://github.com/RJTLM/DSFinalAssignment/blob/main/Program/Tables/CreateTables/createRelationshipSets.sql): SQL script for creating relationship sets.
-    - [`createTablesWithFKDep.sql`](https://github.com/RJTLM/DSFinalAssignment/blob/main/Program/Tables/CreateTables/createTablesWithFKDep.sql): SQL script for creating tables with foreign key dependencies.
-    - [`createTablesWithoutFKDep.sql`](https://github.com/RJTLM/DSFinalAssignment/blob/main/Program/Tables/CreateTables/createTablesWithoutFKDep.sql): SQL script for creating tables without foreign key dependencies.
-    - [`deleteDatabase.sql`](https://github.com/RJTLM/DSFinalAssignment/blob/main/Program/Tables/CreateTables/deleteDatabase.sql): SQL script for deleting the database.
-    - [`useDatabase.sql`](https://github.com/RJTLM/DSFinalAssignment/blob/main/Program/Tables/CreateTables/useDatabase.sql): SQL script to select the database for use.
+    - `createDatabase.sql`: SQL script for creating the database.
+    - `createRelationshipSets.sql`: SQL script for creating relationship sets.
+    - `createTablesWithFKDep.sql`: SQL script for creating tables with foreign key dependencies.
+    - `createTablesWithoutFKDep.sql`: SQL script for creating tables without foreign key dependencies.
+    - `deleteDatabase.sql`: SQL script for deleting the database.
+    - `useDatabase.sql`: SQL script to select the database for use.
   - Python scripts for interfacing with the database.
-    - [`mySQLConnector.py`](https://github.com/RJTLM/DSFinalAssignment/blob/main/Program/mySQLConnector.py): Python script for MySQL database connection.
+    - `mySQLConnector.py`: Python script for MySQL database connection.
     - Other Python scripts for data manipulation and execution of database operations.
 
-- [`README.md`](https://github.com/RJTLM/DSFinalAssignment/blob/main/README.md): The README file provides an introduction and guide to the repository.
-
+- `README.md`: The README file provides an introduction and guide to the repository.
 
 ## Part 1: Database Design
 
