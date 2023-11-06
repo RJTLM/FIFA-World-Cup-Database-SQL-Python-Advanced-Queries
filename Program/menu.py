@@ -23,7 +23,7 @@ def show_menu(first_time):
     print(" 7: Query Database (Q3 Part 3)")
     print(" 8: Load Advanced Concepts (Q3 Part 4)")
     print(" 9: View/Update Database (Q3 Part 5)")
-    print(" 9: Execute Advanced Concepts (Q3 Part 4)")
+    print(" 10: Execute Advanced Concepts (Q3 Part 4)")
     print(" 0: Exit Program")
     choice = input().strip()  # Using strip to remove any leading or trailing whitespaces
     return choice
@@ -77,9 +77,9 @@ def main():
             else:
                 print("Please connect to the MySQL Database first.")
         elif choice == "10":
-            if cursor is not None and db_connection is not None:
+            if cursor is not None:
                 from executeConcepts import execute_concepts
-                execute_concepts(cursor, db_connection) 
+                execute_concepts(cursor)
             else:
                 print("Please connect to the MySQL Database first.")
         elif choice == "0":
