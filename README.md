@@ -139,7 +139,7 @@ To run this program:
 
 Please note that you must connect to the MySQL database through the menu option before attempting to create tables, run queries, or load advanced concepts.
 
-For more detailed information about the program and its features, refer to the 'README.md' file in the repository.
+For more detailed information about the program and its features, refer to the **README.md** file in the repository.
 
 ## Reflection
 
