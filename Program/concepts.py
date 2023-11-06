@@ -1,6 +1,6 @@
 # concepts.py
-from mysql.connector import Error
 import re
+from mysql.connector import Error
 
 def execute_sql_command(cursor, command):
     try:
@@ -11,16 +11,16 @@ def execute_sql_command(cursor, command):
         print(f"Error occurred: {e}")
         print(f"Failed command: {command}")  # Print the failed command
 
-def load_sql_concepts(file_path):
-    with open(file_path, 'r') as file:
-        sql_script = file.read()
-    # Split by 'END;' to handle stored procedures and triggers correctly
-    commands = sql_script.split('END;')
-    # Add 'END;' back to the commands where it was removed by split
-    commands = [command.strip() + 'END;' for command in commands if command.strip()]
-    # Remove the last 'END;' that was added to the last command
-    if commands[-1].endswith('END;'):
-        commands[-1] = commands[-1][:-4].strip()
+def load_sql_concepts(file_paths):
+    commands = []
+    for file_path in file_paths:
+        with open(file_path, 'r') as file:
+            sql_script = file.read()
+        # Split the script using a regular expression to handle different SQL statement terminators
+        file_commands = re.split(r';(?=\s*\w)|END;\s*', sql_script)
+        # Remove any empty strings and whitespace from the list of commands
+        file_commands = [command.strip() for command in file_commands if command.strip()]
+        commands.extend(file_commands)
     return commands
 
 def interactive_execute(cursor, commands):
@@ -28,12 +28,10 @@ def interactive_execute(cursor, commands):
         print("\nWhich SQL concept would you like to execute?")
         print(" 1: Stored Procedure - GetTotalMatchesByTeam")
         print(" 2: Stored Procedure - GetAverageAttendanceByYear")
-        print(" 3: Trigger - BeforeInsertFootballMatch")
-        print(" 4: Trigger - AfterUpdateEvent")
-        print(" 5: View - ViewTopScorers")
-        print(" 6: View - ViewMatchAttendanceSummary")
-        print(" 7: Index - idx_teamname")
-        print(" 8: Index - idx_date_attendance")
+        print(" 3: View - ViewTopScorers")
+        print(" 4: View - ViewMatchAttendanceSummary")
+        print(" 5: Index - idx_teamname")
+        print(" 6: Index - idx_date_attendance")
         print(" 0: Return to Main Menu")
 
         choice = input("Please enter your choice: ")
@@ -50,9 +48,13 @@ def interactive_execute(cursor, commands):
             print("Please enter a valid number.")
 
 def main(cursor, connection):
-    # Path to the SQL file
-    sql_file_path = './Program/Concepts/advancedConcepts.sql'
-    commands = load_sql_concepts(sql_file_path)
+    # Paths to the SQL files
+    sql_file_paths = [
+        './Program/Concepts/storedProcedures.sql',
+        './Program/Concepts/views.sql',
+        './Program/Concepts/indexes.sql'
+    ]
+    commands = load_sql_concepts(sql_file_paths)
     
     interactive_execute(cursor, commands)
     
