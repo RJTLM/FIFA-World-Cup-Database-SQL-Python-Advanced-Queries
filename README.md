@@ -105,16 +105,24 @@ The database is connected to a Python3 environment, demonstrating the execution 
 
 Based on the content of the `menu.py` script and the `README.md` file from the repository, the user guide can be updated to reflect the actual flow of the program. Here is the revised user guide:
 
-## User Guide
+## User Guide for Database Implementation and Usage
+### Final Assessment: Database System for FIFA Women's World Cup
+#### Student Name: Ryan Mackintosh
+#### Student ID: 21171466
+#### Lab Group: Thursday 8am
 
-To run this program:
+### Introduction
+
+This guide provides step-by-step instructions for implementing and using the MySQL database designed for the FIFA Women's World Cup project. By following these instructions, you should be able to set up the database on a MySQL server and execute the developed queries.
+
+Step-By-Step Instructions To Run This Program:
 
 1. Ensure you have the necessary software, packages, and libraries installed including:
    - Python 3
    - MySQL Connector for Python: Run `python3 -m pip install mysql-connector-python==8.0.5`
    - Unidecode library for Python: Run `python3 -m pip install unidecode`
 
-2. Download the source code to your local computer.
+2. Download the program files to your local computer.
 
 3. Navigate to the root directory of the project in your terminal or command prompt.
 
@@ -137,7 +145,7 @@ To run this program:
 
 7. To exit the program, choose the 'Exit Program' option from the main menu.
 
-Please note that you must connect to the MySQL database through the menu option before attempting to create tables, run queries, or load advanced concepts.
+Please note that you must connect to the MySQL database through menu option 5 before attempting to create tables, run queries, or load advanced concepts.
 
 For more detailed information about the program and its features, refer to the **README.md** file in the repository.
 
