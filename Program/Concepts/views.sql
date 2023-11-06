@@ -2,10 +2,10 @@
 
 -- View for top scorers
 -- Reference: https://dev.mysql.com/doc/refman/8.0/en/create-view.html
-/*CREATE VIEW ViewTopScorers AS
+CREATE VIEW ViewTopScorers AS
 SELECT EventID, TopScorer
 FROM Event
-WHERE TopScorer IS NOT NULL;*/
+WHERE TopScorer IS NOT NULL;
 
 -- View for match attendance summary
 -- Reference: https://dev.mysql.com/doc/refman/8.0/en/create-view.html
