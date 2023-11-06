@@ -1,5 +1,6 @@
 # concepts.py
 from mysql.connector import Error
+import re
 
 def execute_sql_command(cursor, command):
     try:
@@ -13,14 +14,17 @@ def execute_sql_command(cursor, command):
 def load_sql_concepts(file_path):
     with open(file_path, 'r') as file:
         sql_script = file.read()
-    # Split by 'END;' to handle stored procedures and triggers correctly
-    commands = sql_script.split('END;')
-    # Add 'END;' back to the commands where it was removed by split
-    commands = [command.strip() + 'END;' for command in commands if command.strip()]
-    # Remove the last 'END;' that was added to the last command
-    if commands[-1].endswith('END;'):
-        commands[-1] = commands[-1][:-4].strip()
+    
+    # Split the script into individual statements
+    # This regex pattern looks for semicolons that are followed by a line break and a word character (indicating the start of a new statement)
+    # It also considers 'END;' as a valid separator for stored procedures and triggers
+    commands = re.split(r';(?=\s*\w)|END;\s*', sql_script)
+    
+    # Remove any empty strings and whitespace from the list of commands
+    commands = [command.strip() for command in commands if command.strip()]
+    
     return commands
+
 
 def interactive_execute(cursor, commands):
     while True:
