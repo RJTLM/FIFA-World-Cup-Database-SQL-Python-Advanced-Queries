@@ -33,7 +33,7 @@ def load_indexes(file_path):
     commands = re.findall(r'CREATE INDEX.*?;', sql_script, re.DOTALL)
     return commands
 
-def interactive_execute(cursor, commands1):
+def interactive_execute(cursor, commands):
     while True:
         print("\nWhich SQL concept would you like to load?")
         print(" 1: Stored Procedure - GetTotalMatchesByTeam")
@@ -47,8 +47,8 @@ def interactive_execute(cursor, commands1):
 
         choice = input("Please enter your choice: ")
 
-        if choice in commands1:
-            execute_sql_command(cursor, commands1[choice])  # Execute the selected command
+        if choice in commands:
+            execute_sql_command(cursor, commands[choice])  # Execute the selected command
         elif choice == "7":
             execute_concepts(cursor)  # Call the function from executeConcepts.py
         elif choice == "0":
@@ -79,7 +79,7 @@ def main(cursor, connection):
     indexes1_commands = load_indexes(indexes1_path)
     
     # Combine all commands in the order they appear in the menu
-    commands1 = {
+    commands = {
         "1": stored_procedures_commands[0],
         "2": stored_procedures1_commands[0],
         "3": views_commands[0],
@@ -88,7 +88,7 @@ def main(cursor, connection):
         "6": indexes1_commands[0]
     }
     
-    interactive_execute(cursor, commands1)
+    interactive_execute(cursor, commands)
     
     # Commit changes
     connection.commit()
