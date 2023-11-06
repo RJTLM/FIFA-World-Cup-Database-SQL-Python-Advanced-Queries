@@ -3,13 +3,15 @@
 -- Stored Procedures
 -- Procedure to get total matches by team
 -- Reference: https://dev.mysql.com/doc/refman/8.0/en/create-procedure.html
+DELIMITER $$
+
 CREATE PROCEDURE GetTotalMatchesByTeam(IN teamName VARCHAR(255))
 BEGIN
     SELECT TeamName, COUNT(*) as TotalMatches 
     FROM Plays 
     WHERE TeamName = teamName
     GROUP BY TeamName;
-END;
+END$$
 -- How to call: CALL GetTotalMatchesByTeam('USA');
 
 -- Procedure to get average attendance by year
@@ -20,7 +22,7 @@ BEGIN
     FROM FootballMatch 
     WHERE YEAR(MatchDate) = year AND Attendance IS NOT NULL 
     GROUP BY Venue;
-END;
+END$$
 -- How to call: CALL GetAverageAttendanceByYear(2023);
 
 -- Triggers
@@ -33,7 +35,7 @@ BEGIN
     IF NEW.Attendance > (SELECT AVG(Attendance) * 1.5 FROM FootballMatch) THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: Attendance is unusually high.';
     END IF;
-END;
+END$$
 
 -- Trigger after update on Event to log changes in top scorer
 -- Reference: https://dev.mysql.com/doc/refman/8.0/en/trigger-syntax.html
@@ -45,7 +47,9 @@ BEGIN
         INSERT INTO EventLog(EventID, ChangeDescription)
         VALUES (NEW.EventID, CONCAT('Top scorer changed from ', OLD.TopScorer, ' to ', NEW.TopScorer));
     END IF;
-END;
+END$$
+
+DELIMITER ;
 
 -- Views
 -- View for top scorers
