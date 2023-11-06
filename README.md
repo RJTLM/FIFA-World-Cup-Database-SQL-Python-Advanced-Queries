@@ -6,8 +6,6 @@ This repository contains the implementation of a database system designed to sto
 
 ## Repository Structure
 
-The repository is organized into directories and files that cover various aspects of the database system for the FIFA Women's World Cup. Here is a detailed breakdown:
-
 - `Data/`: Contains CSV files with original match data.
   - `matches_1991_2023.csv`: Match data from 1991 to 2023.
   - `world_cup_women.csv`: Event data.
@@ -25,10 +23,13 @@ The repository is organized into directories and files that cover various aspect
     - `explainIdxDateAttendance.sql`: Explains index usage for MatchDate and Attendance.
     - `explainIdxTeamName.sql`: Explains index usage for TeamName.
     - `indexes.sql`: SQL script for creating indexes.
+    - `indexes1.sql`: Additional SQL script for creating indexes.
     - `selectViewMatchAttendanceSummary.sql`: Selects from the view for match attendance summary.
     - `selectViewTopScorers.sql`: Selects from the view for top scorers.
     - `storedProcedures.sql`: SQL script for stored procedures.
+    - `storedProcedures1.sql`: Additional SQL script for stored procedures.
     - `views.sql`: SQL script for creating views.
+    - `views1.sql`: Additional SQL script for creating views.
   - `Queries/`: SQL scripts for basic and advanced queries.
     - `advancedQueries.sql`: SQL script for advanced queries.
     - `basicQueries.sql`: SQL script for basic queries.
@@ -40,8 +41,19 @@ The repository is organized into directories and files that cover various aspect
     - `deleteDatabase.sql`: SQL script for deleting the database.
     - `useDatabase.sql`: SQL script to select the database for use.
   - Python scripts for interfacing with the database.
+    - `asciiConversion.py`: Python script for ASCII conversion.
+    - `concepts.py`: Python script related to database concepts.
+    - `createTables.py`: Python script for creating tables.
+    - `dataViewer.py`: Python script for viewing data.
+    - `executeConcepts.py`: Python script to execute concepts.
+    - `extractData.py`: Python script for data extraction.
+    - `insertData.py`: Python script for inserting data into the database.
+    - `menu.py`: Python script for the menu interface.
     - `mySQLConnector.py`: Python script for MySQL database connection.
-    - Other Python scripts for data manipulation and execution of database operations.
+    - `queries.py`: Python script for executing queries.
+    - `splitColumn.py`: Python script for splitting columns.
+    - `updateDatabase.py`: Python script for updating the database.
+    - `viewData.py`: Python script for viewing data.
 
 - `README.md`: The README file provides an introduction and guide to the repository.
 
