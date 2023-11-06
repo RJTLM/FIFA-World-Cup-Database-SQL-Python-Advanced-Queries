@@ -103,16 +103,43 @@ Advanced database programming concepts are implemented to enhance the database's
 
 The database is connected to a Python3 environment, demonstrating the execution of queries and database operations such as insert, update, and delete through a programming interface.
 
+Based on the content of the `menu.py` script and the `README.md` file from the repository, the user guide can be updated to reflect the actual flow of the program. Here is the revised user guide:
+
 ## User Guide
 
 To run this program:
 
-1. Ensure you have the necessary software, packages and libraries installed including 'python3 -m pip install mysql-connector-python==8.0.5' and 'python3 -m pip install unidecode'
-3. Execute the SQL scripts in the `Program/Tables/CreateTables/` directory to create the database and tables.
-4. Load sample data using the scripts provided in the `Program/Tables/CreateTables/` directory.
-5. Run queries using the scripts in the `Program/Queries/` directory to retrieve data.
-6. Explore advanced database features by executing scripts in the `Program/Concepts/` directory.
-7. Connect to the database using the provided Python scripts to perform operations programmatically.
+1. Ensure you have the necessary software, packages, and libraries installed including:
+   - Python 3
+   - MySQL Connector for Python: Run `python3 -m pip install mysql-connector-python==8.0.5`
+   - Unidecode library for Python: Run `python3 -m pip install unidecode`
+
+2. Clone the repository to your local machine or download the source code.
+
+3. Navigate to the root directory of the project in your terminal or command prompt.
+
+4. Launch the program by running `python3 ./Program/menu.py` from the terminal or command prompt.
+
+5. The main menu will guide you through the following options:
+   - **View a CSV File**: To view match data from CSV files.
+   - **Clean Non-ASCII Characters from a CSV File**: To clean up data in CSV files.
+   - **Extract or Update Columns in a CSV File**: To manipulate data columns in CSV files.
+   - **Split Columns in a CSV File**: To split data into different columns in CSV files.
+   - **Connect to MySQL**: To establish a connection with the MySQL database.
+   - **Implement Database (Q3 Part 2)**: To create the database and tables using SQL scripts.
+   - **Query Database (Q3 Part 3)**: To run queries on the database.
+   - **Load Advanced Concepts (Q3 Part 4)**: To explore advanced database features like stored procedures, views, and indexes.
+   - **View/Update Database (Q3 Part 5)**: To view and update the database through the Python interface.
+   - **Execute Advanced Concepts (Q3 Part 4)**: To execute advanced database concepts programmatically.
+   - **Exit Program**: To close the application.
+
+6. Follow the on-screen prompts to perform the desired operations.
+
+7. To exit the program, choose the 'Exit Program' option from the main menu.
+
+Please note that you must connect to the MySQL database through the menu option before attempting to create tables, run queries, or load advanced concepts.
+
+For more detailed information about the program and its features, refer to the 'README.md' file in the repository.
 
 ## Reflection
 
