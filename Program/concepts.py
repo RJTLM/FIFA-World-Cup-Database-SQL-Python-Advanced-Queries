@@ -25,6 +25,13 @@ def load_views(file_path):
     commands = re.findall(r'CREATE VIEW.*?;', sql_script, re.DOTALL)
     return commands
 
+def load_indexes(file_path):
+    with open(file_path, 'r') as file:
+        sql_script = file.read()
+    # Use regex to match only the CREATE INDEX and its contents
+    commands = re.findall(r'CREATE INDEX.*?;', sql_script, re.DOTALL)
+    return commands
+
 def interactive_execute(cursor, commands):
     while True:
         print("\nWhich SQL concept would you like to execute?")
@@ -55,15 +62,17 @@ def main(cursor, connection):
     indexes_path = './Program/Concepts/indexes.sql'
     indexes1_path = './Program/Concepts/indexes1.sql'
     
-    # Load commands from stored procedures and views
+    # Load commands from stored procedures
     stored_procedures_commands = load_stored_procedures(stored_procedures_path)
     stored_procedures1_commands = load_stored_procedures(stored_procedures1_path)
     
-    # Load commands from views and indexes
+    # Load commands from views
     views_commands = load_views(views_path)
     views1_commands = load_views(views1_path)
-    indexes_commands = load_views(indexes_path)
-    indexes1_commands = load_views(indexes1_path)
+    
+    # Load commands from indexes using the new load_indexes function
+    indexes_commands = load_indexes(indexes_path)
+    indexes1_commands = load_indexes(indexes1_path)
     
     # Combine all commands in the order they appear in the menu
     commands = {
