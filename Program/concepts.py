@@ -60,17 +60,21 @@ def main(cursor, connection):
     # Paths to the SQL files
     stored_procedures_path = './Program/Concepts/storedProcedures.sql'
     views_path = './Program/Concepts/views.sql'
+    views1_path = './Program/Concepts/views1.sql'
     indexes_path = './Program/Concepts/indexes.sql'
+    indexes1_path = './Program/Concepts/indexes1.sql'
     
     # Load commands from stored procedures and indexes
     stored_procedures_commands = load_stored_procedures(stored_procedures_path)
     
     # Load commands from views and indexes
     views_commands = load_views(views_path)
+    views1_commands = load_views(views1_path)
     indexes_commands = load_stored_procedures(indexes_path)
+    indexes1_commands = load_stored_procedures(indexes1_path)
     
     # Combine all commands
-    commands = stored_procedures_commands + views_commands + indexes_commands
+    commands = stored_procedures_commands + views_commands + views1_commands + indexes_commands + indexes1_commands
     
     interactive_execute(cursor, commands)
     
