@@ -4,16 +4,11 @@ from mysql.connector import Error
 def execute_sql_from_file(cursor, file_path):
     with open(file_path, 'r') as file:
         sql_script = file.read()
-    commands = sql_script.split(';')[:-1]  # Split by ';' and remove last empty command
+    commands = sql_script.split(';')  # Split by ';'
     for command in commands:
         try:
-            if 'DELIMITER' not in command:
-                cursor.execute(command)
-            else:
-                delimiter_commands = command.split('$$')  # Split by '$$'
-                for delimiter_command in delimiter_commands:
-                    if delimiter_command.strip() != '':
-                        cursor.execute(delimiter_command.strip())
+            if command.strip() != '':
+                cursor.execute(command.strip())
         except Error as e:
             print(f"Error occurred: {e}")
 
