@@ -14,22 +14,15 @@ def execute_sql_command(cursor, command):
 def load_stored_procedures(file_path):
     with open(file_path, 'r') as file:
         sql_script = file.read()
-    # Split by 'END;' to handle stored procedures and triggers correctly
-    commands = sql_script.split('END;')
-    # Add 'END;' back to the commands where it was removed by split
-    commands = [command.strip() + 'END;' for command in commands if command.strip()]
-    # Remove the last 'END;' that was added to the last command
-    if commands[-1].endswith('END;'):
-        commands[-1] = commands[-1][:-4].strip()
+    # Use regex to match only the CREATE PROCEDURE and its contents
+    commands = re.findall(r'CREATE PROCEDURE.*?END;', sql_script, re.DOTALL)
     return commands
 
 def load_views(file_path):
     with open(file_path, 'r') as file:
         sql_script = file.read()
-    # Split the script using a regular expression to handle different SQL statement terminators
-    commands = re.split(r';(?=\s*\w)|END;\s*', sql_script)
-    # Remove any empty strings and whitespace from the list of commands
-    commands = [command.strip() for command in commands if command.strip()]
+    # Use regex to match only the CREATE VIEW and its contents
+    commands = re.findall(r'CREATE VIEW.*?;', sql_script, re.DOTALL)
     return commands
 
 def interactive_execute(cursor, commands):
@@ -45,18 +38,8 @@ def interactive_execute(cursor, commands):
 
         choice = input("Please enter your choice: ")
 
-        if choice == "1":
-            execute_sql_command(cursor, commands[0])  # Execute the command for GetTotalMatchesByTeam
-        elif choice == "2":
-            execute_sql_command(cursor, commands[1])  # Execute the command for GetAverageAttendanceByYear
-        elif choice == "3":
-            execute_sql_command(cursor, commands[2])  # Execute the command for ViewTopScorers
-        elif choice == "4":
-            execute_sql_command(cursor, commands[3])  # Execute the command for ViewMatchAttendanceSummary
-        elif choice == "5":
-            execute_sql_command(cursor, commands[4])  # Execute the command for idx_teamname
-        elif choice == "6":
-            execute_sql_command(cursor, commands[5])  # Execute the command for idx_date_attendance
+        if choice in commands:
+            execute_sql_command(cursor, commands[choice])  # Execute the selected command
         elif choice == "0":
             print("Returning to Main Menu.")
             break
@@ -72,18 +55,25 @@ def main(cursor, connection):
     indexes_path = './Program/Concepts/indexes.sql'
     indexes1_path = './Program/Concepts/indexes1.sql'
     
-    # Load commands from stored procedures and indexes
+    # Load commands from stored procedures and views
     stored_procedures_commands = load_stored_procedures(stored_procedures_path)
     stored_procedures1_commands = load_stored_procedures(stored_procedures1_path)
     
     # Load commands from views and indexes
     views_commands = load_views(views_path)
     views1_commands = load_views(views1_path)
-    indexes_commands = load_stored_procedures(indexes_path)
-    indexes1_commands = load_stored_procedures(indexes1_path)
+    indexes_commands = load_views(indexes_path)
+    indexes1_commands = load_views(indexes1_path)
     
-    # Combine all commands
-    commands = stored_procedures_commands + stored_procedures1_commands + views_commands + views1_commands + indexes_commands + indexes1_commands
+    # Combine all commands in the order they appear in the menu
+    commands = {
+        "1": stored_procedures_commands[0],
+        "2": stored_procedures1_commands[0],
+        "3": views_commands[0],
+        "4": views1_commands[0],
+        "5": indexes_commands[0],
+        "6": indexes1_commands[0]
+    }
     
     interactive_execute(cursor, commands)
     
