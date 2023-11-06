@@ -114,7 +114,7 @@ To run this program:
    - MySQL Connector for Python: Run `python3 -m pip install mysql-connector-python==8.0.5`
    - Unidecode library for Python: Run `python3 -m pip install unidecode`
 
-2. Clone the repository to your local machine or download the source code.
+2. Download the source code to your local computer.
 
 3. Navigate to the root directory of the project in your terminal or command prompt.
 
