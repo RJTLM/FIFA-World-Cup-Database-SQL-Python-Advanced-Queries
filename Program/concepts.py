@@ -5,11 +5,15 @@ from mysql.connector import Error
 def execute_sql_command(cursor, command):
     try:
         print(f"Executing command:\n{command}")  # Print the command before execution
-        cursor.execute(command)
+        cursor.execute(command, multi=True)
+        for result in cursor:
+            if result.with_rows:
+                print(result.fetchall())
         print("Command executed successfully.")
     except Error as e:
         print(f"Error occurred: {e}")
         print(f"Failed command: {command}")  # Print the failed command
+
 
 def load_stored_procedures(file_path):
     with open(file_path, 'r') as file:

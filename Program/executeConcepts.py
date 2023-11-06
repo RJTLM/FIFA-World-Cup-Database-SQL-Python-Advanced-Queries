@@ -10,10 +10,10 @@ def execute_concept(cursor, file_path):
     try:
         print(f"Executing concept:\n{command}")
         cursor.execute(command)
-        # Fetch and print results if there are any
-        results = cursor.fetchall()
-        for row in results:
-            print(row)
+        if cursor.with_rows:  # Check if there are rows to fetch
+            results = cursor.fetchall()
+            for row in results:
+                print(row)
         print("Concept executed successfully.")
     except Error as e:
         print(f"Error occurred: {e}")

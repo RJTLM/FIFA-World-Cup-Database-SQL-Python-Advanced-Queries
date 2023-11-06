@@ -9,4 +9,4 @@ BEGIN
     WHERE TeamName = teamName
     GROUP BY TeamName;
 END;
--- How to call: CALL GetTotalMatchesByTeam('USA');
+-- How to call: CALL GetTotalMatchesByTeam('Sweden');
