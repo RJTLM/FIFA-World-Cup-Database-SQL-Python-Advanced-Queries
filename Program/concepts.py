@@ -1,7 +1,6 @@
 # concepts.py
 import re
 from mysql.connector import Error
-from executeConcepts import execute_concepts
 
 def execute_sql_command(cursor, command):
     try:
@@ -33,7 +32,7 @@ def load_indexes(file_path):
     commands = re.findall(r'CREATE INDEX.*?;', sql_script, re.DOTALL)
     return commands
 
-def interactive_execute(cursor):
+def interactive_execute(cursor, commands):
     while True:
         print("\nWhich SQL concept would you like to load?")
         print(" 1: Stored Procedure - GetTotalMatchesByTeam")
@@ -42,15 +41,12 @@ def interactive_execute(cursor):
         print(" 4: View - ViewMatchAttendanceSummary")
         print(" 5: Index - idx_teamname")
         print(" 6: Index - idx_date_attendance")
-        print(" 7: EXECUTE LOADED CONCEPTS")
         print(" 0: Return to Main Menu")
 
         choice = input("Please enter your choice: ")
 
         if choice in commands:
             execute_sql_command(cursor, commands[choice])  # Execute the selected command
-        elif choice == "7":
-            execute_concepts(cursor)  # Call the function from executeConcepts.py
         elif choice == "0":
             print("Returning to Main Menu.")
             break
@@ -88,7 +84,7 @@ def main(cursor, connection):
         "6": indexes1_commands[0]
     }
     
-    interactive_execute(cursor)
+    interactive_execute(cursor, commands)
     
     # Commit changes
     connection.commit()

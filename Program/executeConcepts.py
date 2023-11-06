@@ -49,4 +49,4 @@ def show_menu():
     print("4: Execute View - ViewMatchAttendanceSummary")
     print("5: Explain Index - idx_teamname")
     print("6: Explain Index - idx_date_attendance")
-    print("0: Return to previous menu")
+    print("0: Return to Main Menu")
