@@ -87,7 +87,7 @@ def main(cursor, db_connection):
     while True:
         choice = show_menu()
         if choice == "1":
-            view_data(cursor, db_connection)
+            view_data(cursor)
         elif choice == "2":
             insert_data(cursor, db_connection)
         elif choice == "3":
