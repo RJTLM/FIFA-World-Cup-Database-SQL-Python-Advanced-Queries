@@ -60,11 +60,15 @@ def main():
         elif choice == "7":
             if cursor is not None and db_connection is not None:
                 from queries import main as query_database
-                query_database(cursor)
+                query_database(cursor, db_connection)
             else:
                 print("Please connect to the MySQL Database first.")
         elif choice == "8":
-            print(" 8: Advanced Concepts (Q3 Part 4) goes here.")
+            if cursor is not None and db_connection is not None:
+                from concepts import main as implement_advanced_concepts
+                implement_advanced_concepts(cursor, db_connection)
+            else:
+                print("Please connect to the MySQL Database first.")
         elif choice == "9":
             if cursor is not None and db_connection is not None:
                 from updateDatabase import main as update_database
