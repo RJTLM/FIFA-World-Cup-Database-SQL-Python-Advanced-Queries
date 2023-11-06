@@ -12,7 +12,7 @@ References:
 - Additional online resources as necessary for intermediate and advanced code concepts.
 """
 
-def view_data(cursor, db_connection):
+def view_data(cursor):
     # Reference: "FOP Sem2 2023 LectureSlides" (for modular programming and function definition)
     from viewData import view_tables, view_table_columns, view_table_data
     
