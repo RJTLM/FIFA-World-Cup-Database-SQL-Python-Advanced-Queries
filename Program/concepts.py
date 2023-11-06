@@ -11,16 +11,25 @@ def execute_sql_command(cursor, command):
         print(f"Error occurred: {e}")
         print(f"Failed command: {command}")  # Print the failed command
 
-def load_sql_concepts(file_paths):
-    commands = []
-    for file_path in file_paths:
-        with open(file_path, 'r') as file:
-            sql_script = file.read()
-        # Split the script using a regular expression to handle different SQL statement terminators
-        file_commands = re.split(r';(?=\s*\w)|END;\s*', sql_script)
-        # Remove any empty strings and whitespace from the list of commands
-        file_commands = [command.strip() for command in file_commands if command.strip()]
-        commands.extend(file_commands)
+def load_stored_procedures(file_path):
+    with open(file_path, 'r') as file:
+        sql_script = file.read()
+    # Split by 'END;' to handle stored procedures and triggers correctly
+    commands = sql_script.split('END;')
+    # Add 'END;' back to the commands where it was removed by split
+    commands = [command.strip() + 'END;' for command in commands if command.strip()]
+    # Remove the last 'END;' that was added to the last command
+    if commands[-1].endswith('END;'):
+        commands[-1] = commands[-1][:-4].strip()
+    return commands
+
+def load_views(file_path):
+    with open(file_path, 'r') as file:
+        sql_script = file.read()
+    # Split the script using a regular expression to handle different SQL statement terminators
+    commands = re.split(r';(?=\s*\w)|END;\s*', sql_script)
+    # Remove any empty strings and whitespace from the list of commands
+    commands = [command.strip() for command in commands if command.strip()]
     return commands
 
 def interactive_execute(cursor, commands):
@@ -49,12 +58,19 @@ def interactive_execute(cursor, commands):
 
 def main(cursor, connection):
     # Paths to the SQL files
-    sql_file_paths = [
-        './Program/Concepts/storedProcedures.sql',
-        './Program/Concepts/views.sql',
-        './Program/Concepts/indexes.sql'
-    ]
-    commands = load_sql_concepts(sql_file_paths)
+    stored_procedures_path = './Program/Concepts/storedProcedures.sql'
+    views_path = './Program/Concepts/views.sql'
+    indexes_path = './Program/Concepts/indexes.sql'
+    
+    # Load commands from stored procedures and indexes
+    stored_procedures_commands = load_stored_procedures(stored_procedures_path)
+    
+    # Load commands from views and indexes
+    views_commands = load_views(views_path)
+    indexes_commands = load_stored_procedures(indexes_path)
+    
+    # Combine all commands
+    commands = stored_procedures_commands + views_commands + indexes_commands
     
     interactive_execute(cursor, commands)
     
