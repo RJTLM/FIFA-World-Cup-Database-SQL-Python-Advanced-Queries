@@ -12,7 +12,7 @@ References:
 - Additional online resources as necessary for intermediate and advanced code concepts.
 """
 import csv
-import unidecode  # Ensure you have the unidecode library installed. You can install it using pip: pip install unidecode
+import unidecode  # Ensure you have the unidecode library installed. You can install it using pip: python3 -m pip install unidecode
 
 # Reference: Unidecode on PyPI
 # https://pypi.org/project/Unidecode/

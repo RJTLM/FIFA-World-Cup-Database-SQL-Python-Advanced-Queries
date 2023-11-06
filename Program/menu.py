@@ -81,7 +81,7 @@ def main():
             # Reference: "DS Sem2 2023 Lecture Slides" (for understanding SQL querying techniques)
             if cursor is not None and db_connection is not None:
                 from queries import main as query_database
-                query_database(cursor, db_connection)
+                query_database(cursor)
             else:
                 print("Please connect to the MySQL Database first.")
         elif choice == "8":
