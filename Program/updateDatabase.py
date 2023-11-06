@@ -14,8 +14,12 @@ References:
 
 def view_data(cursor, db_connection):
     # Reference: "FOP Sem2 2023 LectureSlides" (for modular programming and function definition)
-    from viewData import main as view_data_main
-    view_data_main(cursor, db_connection)
+    from viewData import view_tables, view_table_columns, view_table_data
+    
+    # Call the functions from viewData.py as needed
+    view_tables(cursor)
+    view_table_columns(cursor)
+    view_table_data(cursor)
 
 def insert_data(cursor, db_connection):
     # Reference: "DS Sem2 2023 Lecture Slides" (for SQL INSERT operation)
