@@ -1,8 +1,26 @@
-# concepts.py
+"""
+Author: Ryan Mackintosh
+Student ID: 21171466
+Title: concepts.py
+Purpose: Q3 Part 4
+Date: 7 November 2023
+
+References:
+- "FOP Sem2 2023 LectureSlides" for fundamental programming concepts and exception handling.
+- "DS Sem2 2023 Lecture Slides" for database concepts and SQL usage.
+- W3Schools Python MySQL Tutorial: https://www.w3schools.com/python/python_mysql_getstarted.asp for practical MySQL operations with Python.
+- Additional online resources as necessary for intermediate and advanced code concepts.
+"""
+
 import re
 from mysql.connector import Error
 
+# Reference: "FOP Sem2 2023 LectureSlides" (for understanding the structure and execution of Python scripts)
+# Reference: "DS Sem2 2023 Lecture Slides" (for understanding database concepts and SQL command execution)
+# Online Reference: https://www.w3schools.com/python/python_mysql_getstarted.asp (for basic MySQL operations in Python)
+
 def execute_sql_command(cursor, command):
+    # Online Reference: https://www.mysqltutorial.org/python-mysql-execute-sql/
     try:
         print(f"Executing command:\n{command}")  # Print the command before execution
         cursor.execute(command, multi=True)
@@ -14,8 +32,8 @@ def execute_sql_command(cursor, command):
         print(f"Error occurred: {e}")
         print(f"Failed command: {command}")  # Print the failed command
 
-
 def load_stored_procedures(file_path):
+    # Online Reference: https://docs.python.org/3/library/re.html (for regex operations in Python)
     with open(file_path, 'r') as file:
         sql_script = file.read()
     # Use regex to match only the CREATE PROCEDURE and its contents
@@ -37,6 +55,7 @@ def load_indexes(file_path):
     return commands
 
 def interactive_execute(cursor, commands):
+    # Reference: "FOP Sem2 2023 LectureSlides" (for understanding user interaction in Python)
     while True:
         print("\nWhich SQL concept would you like to load?")
         print(" 1: Stored Procedure - GetTotalMatchesByTeam")
@@ -58,6 +77,9 @@ def interactive_execute(cursor, commands):
             print("Invalid choice. Please enter a number between 0 and 7.")
 
 def main(cursor, connection):
+    # Reference: "DS Sem2 2023 Lecture Slides" (for understanding the setup and use of SQL files in database management)
+    # Online Reference: https://realpython.com/python-sql-libraries/#mysql (for working with MySQL in Python)
+    
     # Paths to the SQL files
     stored_procedures_path = './Program/Concepts/storedProcedures.sql'
     stored_procedures1_path = './Program/Concepts/storedProcedures1.sql'
@@ -96,5 +118,6 @@ def main(cursor, connection):
     print("Advanced concepts have been implemented interactively.")
 
 if __name__ == "__main__":
+    # Reference: "FOP Sem2 2023 LectureSlides" (for understanding the __name__ guard in Python scripts)
     print("This script is not meant to be run directly.")
     print("Please run this script through the main menu.")

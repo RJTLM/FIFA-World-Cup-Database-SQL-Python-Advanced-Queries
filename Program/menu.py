@@ -1,4 +1,16 @@
-# menu.py
+"""
+Author: Ryan Mackintosh
+Student ID: 21171466
+Title: menu.py
+Purpose: Q3 Part 5
+Date: 7 November 2023
+
+References:
+- "FOP Sem2 2023 LectureSlides" for fundamental programming concepts and exception handling.
+- "DS Sem2 2023 Lecture Slides" for database concepts and SQL usage.
+- W3Schools Python MySQL Tutorial: https://www.w3schools.com/python/python_mysql_getstarted.asp for practical MySQL operations with Python.
+- Additional online resources as necessary for intermediate and advanced code concepts.
+"""
 import time  # Importing the time module for creating delays in output
 
 # Global variables to store the database connection and cursor
@@ -6,6 +18,8 @@ db_connection = None
 cursor = None
 
 def show_menu(first_time):
+    # Reference: "FOP Sem2 2023 LectureSlides" (for understanding functions and user interactions in Python)
+    # Reference: https://docs.python.org/3/library/stdtypes.html#str.strip (for understanding the strip function)
     if first_time:
         print("\nWelcome to the FIFA WWC Data Processing Program!")
         print("What would you like to do?")
@@ -32,6 +46,8 @@ def show_menu(first_time):
 
 def main():
     global db_connection, cursor
+    # Reference: "FOP Sem2 2023 LectureSlides" (for understanding control flow and modular programming in Python)
+    # Reference: https://docs.python.org/3/library/time.html#time.sleep (for understanding the time.sleep function)
     first_time = True
     while True:
         choice = show_menu(first_time)
@@ -50,33 +66,41 @@ def main():
             from splitColumn import main as split_columns
             split_columns()
         elif choice == "5":
+            # Reference: "FOP Sem2 2023 LectureSlides" (for connecting to MySQL server in Python)
+            # Reference: W3Schools Python MySQL Tutorial (for practical MySQL connection operations)
             from mySQLConnector import connect_to_db
             cursor, db_connection = connect_to_db()
         elif choice == "6":
+            # Reference: "DS Sem2 2023 Lecture Slides" (for understanding database creation and table structuring in SQL)
             if cursor is not None and db_connection is not None:
                 from createTables import main as create_db_and_tables
                 create_db_and_tables(cursor, db_connection)
             else:
                 print("Please connect to the MySQL Database first.")
         elif choice == "7":
+            # Reference: "DS Sem2 2023 Lecture Slides" (for understanding SQL querying techniques)
             if cursor is not None and db_connection is not None:
                 from queries import main as query_database
                 query_database(cursor, db_connection)
             else:
                 print("Please connect to the MySQL Database first.")
         elif choice == "8":
+            # Reference: "FOP Sem2 2023 LectureSlides" (for advanced programming concepts in Python)
+            # Reference: "DS Sem2 2023 Lecture Slides" (for advanced database operations and concepts)
             if cursor is not None and db_connection is not None:
                 from concepts import main as implement_advanced_concepts
                 implement_advanced_concepts(cursor, db_connection)
             else:
                 print("Please connect to the MySQL Database first.")
         elif choice == "9":
+            # Reference: "DS Sem2 2023 Lecture Slides" (for understanding database update operations)
             if cursor is not None and db_connection is not None:
                 from updateDatabase import main as update_database
                 update_database(cursor, db_connection)
             else:
                 print("Please connect to the MySQL Database first.")
         elif choice == "10":
+            # Reference: "FOP Sem2 2023 LectureSlides" (for executing advanced programming concepts in Python)
             if cursor is not None:
                 from executeConcepts import execute_concepts
                 execute_concepts(cursor)

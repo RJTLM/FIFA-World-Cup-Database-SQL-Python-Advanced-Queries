@@ -1,6 +1,19 @@
-# viewData.py
+"""
+Author: Ryan Mackintosh
+Student ID: 21171466
+Title: viewData.py
+Purpose: Q3 Part 5
+Date: 7 November 2023
 
-def view_tables(cursor, db_connection):
+References:
+- "FOP Sem2 2023 LectureSlides" for fundamental programming concepts and exception handling.
+- "DS Sem2 2023 Lecture Slides" for database concepts and SQL usage.
+- W3Schools Python MySQL Tutorial: https://www.w3schools.com/python/python_mysql_getstarted.asp for practical MySQL operations with Python.
+- Additional online resources as necessary for intermediate and advanced code concepts.
+"""
+
+def view_tables(cursor):
+    # Reference: "DS Sem2 2023 Lecture Slides" (for SQL 'SHOW TABLES' command)
     print("\nView Tables")
     try:
         cursor.execute("SHOW TABLES")
@@ -12,9 +25,11 @@ def view_tables(cursor, db_connection):
         else:
             print("No tables found in the database.")
     except Exception as e:
+        # Reference: "FOP Sem2 2023 LectureSlides" (for exception handling in Python)
         print("Error fetching tables:", str(e))
 
-def view_table_columns(cursor, db_connection):
+def view_table_columns(cursor):
+    # Reference: "DS Sem2 2023 Lecture Slides" (for SQL 'DESCRIBE' command)
     print("\nView Table Columns")
     table_name = input("Enter the table name: ")
     try:
@@ -27,9 +42,11 @@ def view_table_columns(cursor, db_connection):
         else:
             print(f"No columns found in the table {table_name}.")
     except Exception as e:
+        # Reference: "FOP Sem2 2023 LectureSlides" (for exception handling in Python)
         print("Error fetching table columns:", str(e))
 
-def view_table_data(cursor, db_connection):
+def view_table_data(cursor):
+    # Reference: "DS Sem2 2023 Lecture Slides" (for SQL 'SELECT * FROM' command)
     print("\nView Table Data")
     table_name = input("Enter the table name: ")
     try:
@@ -42,32 +59,10 @@ def view_table_data(cursor, db_connection):
         else:
             print(f"No data found in the table {table_name}.")
     except Exception as e:
+        # Reference: "FOP Sem2 2023 LectureSlides" (for exception handling in Python)
         print("Error fetching table data:", str(e))
 
-def show_menu():
-    print("\nWhat would you like to do?")
-    print("1: View Tables")
-    print("2: View Table Columns")
-    print("3: View Table Data")
-    print("0: Return to Previous Menu")
-    choice = input().strip()
-    return choice
-
-def main(cursor, db_connection):
-    while True:
-        choice = show_menu()
-        if choice == "1":
-            view_tables(cursor, db_connection)
-        elif choice == "2":
-            view_table_columns(cursor, db_connection)
-        elif choice == "3":
-            view_table_data(cursor, db_connection)
-        elif choice == "0":
-            print("Returning to Previous Menu...")
-            break
-        else:
-            print("Invalid option. Please choose a valid option.")
-
 if __name__ == "__main__":
+    # Reference: W3Schools Python MySQL Tutorial (for the general structure of a Python script interacting with MySQL)
     print("This script is not meant to be run directly.")
     print("Please run this script through the main menu.")

@@ -1,10 +1,25 @@
-# executeConcepts.py
+"""
+Author: Ryan Mackintosh
+Student ID: 21171466
+Title: executeConcepts.py
+Purpose: Q3 Part 4
+Date: 7 November 2023
+
+References:
+- "FOP Sem2 2023 LectureSlides" for fundamental programming concepts and exception handling.
+- "DS Sem2 2023 Lecture Slides" for database concepts and SQL usage.
+- W3Schools Python MySQL Tutorial: https://www.w3schools.com/python/python_mysql_getstarted.asp for practical MySQL operations with Python.
+- Additional online resources as necessary for intermediate and advanced code concepts.
+"""
+
 from mysql.connector import Error
 
+# Reference: W3Schools Python MySQL Tutorial (for reading SQL file and executing commands in Python)
 def read_sql_file(file_path):
     with open(file_path, 'r') as file:
         return file.read()
 
+# Reference: "DS Sem2 2023 Lecture Slides" (for executing SQL commands and handling database operations)
 def execute_concept(cursor, file_path):
     command = read_sql_file(file_path)
     try:
@@ -16,10 +31,12 @@ def execute_concept(cursor, file_path):
                 print(row)
         print("Concept executed successfully.")
     except Error as e:
+        # Reference: "FOP Sem2 2023 LectureSlides" (for exception handling in Python)
         print(f"Error occurred: {e}")
         print(f"Failed concept: {command}")
 
 def execute_concepts(cursor):
+    # Reference: "DS Sem2 2023 Lecture Slides" (for understanding of stored procedures and views in databases)
     commands = {
         "1": "./Program/Concepts/callGetTotalMatchesByTeam.sql",
         "2": "./Program/Concepts/callGetAverageAttendanceByYear.sql",

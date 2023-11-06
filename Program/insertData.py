@@ -1,4 +1,16 @@
-# insertData.py
+"""
+Author: Ryan Mackintosh
+Student ID: 21171466
+Title: insertData.py
+Purpose: Q3 Part 2b
+Date: 7 November 2023
+
+References:
+- "FOP Sem2 2023 LectureSlides" for fundamental programming concepts and exception handling.
+- "DS Sem2 2023 Lecture Slides" for database concepts and SQL usage.
+- W3Schools Python MySQL Tutorial: https://www.w3schools.com/python/python_mysql_getstarted.asp for practical MySQL operations with Python.
+- Additional online resources as necessary for intermediate and advanced code concepts.
+"""
 import csv
 from mysql.connector import Error
 
@@ -6,8 +18,12 @@ from mysql.connector import Error
 def insert_data(cursor, db_connection):
     all_insertions_successful = True # Initialise the variable at the start of the function
     try:
+        # Reference: "DS Sem2 2023 Lecture Slides" (for SQL DELETE operation)
         # Delete existing data in the Event table
         cursor.execute("DELETE FROM Event")
+        
+        # Reference: "DS Sem2 2023 Lecture Slides" (for SQL INSERT operation)
+        # Reference: "FOP Sem2 2023 LectureSlides" (for exception handling in Python)
         # Insert data into the Event table from littleDataCleaned.csv
         with open('./Program/littleDataCleaned.csv', 'r') as csvfile:
             csvreader = csv.reader(csvfile)
@@ -109,6 +125,7 @@ def insert_data(cursor, db_connection):
     if all_insertions_successful:
         print("All data successfully inserted into tables.")
 
+# Reference: "FOP Sem2 2023 LectureSlides" (for modular programming in Python)
 if __name__ == "__main__":
     print("This script is not meant to be run directly.")
     print("Please run this script through the main menu.")

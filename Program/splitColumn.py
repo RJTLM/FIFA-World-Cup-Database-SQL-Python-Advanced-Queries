@@ -1,3 +1,16 @@
+"""
+Author: Ryan Mackintosh
+Student ID: 21171466
+Title: splitColumn.py
+Purpose: Split a column of a csv file
+Date: 7 November 2023
+
+References:
+- "FOP Sem2 2023 LectureSlides" for fundamental programming concepts and exception handling.
+- "DS Sem2 2023 Lecture Slides" for database concepts and SQL usage.
+- W3Schools Python MySQL Tutorial: https://www.w3schools.com/python/python_mysql_getstarted.asp for practical MySQL operations with Python.
+- Additional online resources as necessary for intermediate and advanced code concepts.
+"""
 import pandas as pd # Ensure you have the pandas library installed. You can install it using pip: pip install pandas
 
 def split_columns(input_file, output_file, columns_to_split):

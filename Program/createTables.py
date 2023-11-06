@@ -1,11 +1,30 @@
-# createTables.py
+"""
+Author: Ryan Mackintosh
+Student ID: 21171466
+Title: createTables.py
+Purpose: Q3 Part 2a
+Date: 7 November 2023
+
+References:
+- "FOP Sem2 2023 LectureSlides" for fundamental programming concepts and exception handling.
+- "DS Sem2 2023 Lecture Slides" for database concepts and SQL usage.
+- W3Schools Python MySQL Tutorial: https://www.w3schools.com/python/python_mysql_getstarted.asp for practical MySQL operations with Python.
+- Additional online resources as necessary for intermediate and advanced code concepts.
+"""
+
+# Reference: "FOP Sem2 2023 Lecture Material" (for Python file handling and exception management)
 import os
+
+# Reference: "FOP Sem2 2023 Lecture Material" (for using MySQL connector in Python)
 import mysql.connector
+
+# Reference: "DS Sem2 2023 Lecture Material" (for database operations and SQL command execution)
 from insertData import insert_data
 
 def execute_sql_file(cursor, file_path):
     """
     Execute SQL commands from a file using the provided cursor.
+    Reference for executing SQL commands in Python: https://www.w3schools.com/python/python_mysql_getstarted.asp
     """
     with open(file_path, 'r') as file:
         sql_script = file.read()
@@ -77,7 +96,6 @@ def reset(cursor):
     
     print("Database and data successfully deleted: fifa_womens_world_cup_21171466.")
 
-
 def main(cursor, db_connection):
     while True:
         print("\nDatabase and Tables Setup")
@@ -96,6 +114,7 @@ def main(cursor, db_connection):
         elif choice == "3":
             create_tables(cursor)
         elif choice == "4":
+            # Reference: "DS Sem2 2023 Lecture Material" (for inserting data into SQL tables)
             insert_data(cursor, db_connection)
         elif choice == "5":
             reset(cursor)
@@ -107,4 +126,3 @@ def main(cursor, db_connection):
 if __name__ == "__main__":
     print("This script is not meant to be run directly.")
     print("Please run this script through the main menu.")
-   

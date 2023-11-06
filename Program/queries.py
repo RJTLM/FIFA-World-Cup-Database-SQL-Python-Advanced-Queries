@@ -1,6 +1,19 @@
-# queries.py
+"""
+Author: Ryan Mackintosh
+Student ID: 21171466
+Title: queries.py
+Purpose: Q3 Part 3
+Date: 7 November 2023
+
+References:
+- "FOP Sem2 2023 LectureSlides" for fundamental programming concepts and exception handling.
+- "DS Sem2 2023 Lecture Slides" for database concepts and SQL usage.
+- W3Schools Python MySQL Tutorial: https://www.w3schools.com/python/python_mysql_getstarted.asp for practical MySQL operations with Python.
+- Additional online resources as necessary for intermediate and advanced code concepts.
+"""
 
 def execute_query(cursor, query, params=None):
+    # Reference: "FOP Sem2 2023 LectureSlides" (for exception handling in Python)
     try:
         cursor.execute(query, params)
         records = cursor.fetchall()
@@ -8,12 +21,15 @@ def execute_query(cursor, query, params=None):
     except Exception as e:
         print("Error reading data from MySQL table", e)
 
+# Reference: "DS Sem2 2023 Lecture Slides" (for understanding SQL file handling and execution)
 def load_queries(file_path):
     with open(file_path, 'r') as file:
         queries = file.read().split(';')
     return [query.strip() for query in queries if query.strip()]
 
 def run_query(cursor, query, message, params=None):
+    # Reference: "FOP Sem2 2023 LectureSlides" (for exception handling in Python)
+    # Reference: "DS Sem2 2023 Lecture Slides" (for SQL query execution and result fetching)
     try:
         cursor.execute(query, params)
         records = cursor.fetchall()
@@ -87,7 +103,9 @@ if __name__ == "__main__":
 
 
 
-"""If prettytable is installed:
+"""
+# Reference: W3Schools Python MySQL Tutorial (for pretty table formatting and advanced database operations)
+If prettytable is installed:
 from prettytable import PrettyTable # pip install prettytable
 
 def run_query(cursor, query, message, params=None):
