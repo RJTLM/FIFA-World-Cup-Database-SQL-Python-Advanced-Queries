@@ -51,7 +51,7 @@ def main(cursor):
         print(" 8: Find the top scorer of each event")
         print(" 9: Get the total number of goals scored in each round of the 2023 event")
         print("10: Find all matches where penalty kicks were taken in the 2023 event")
-        print(" 0: Exit")
+        print(" 0: Return to Main Menu")
         
         choice = input("Please enter your choice: ")
         
