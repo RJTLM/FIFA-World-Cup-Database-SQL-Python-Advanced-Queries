@@ -5,12 +5,29 @@ def execute_sql_from_file(cursor, file_path):
     with open(file_path, 'r') as file:
         sql_script = file.read()
     commands = sql_script.split(';')  # Split by ';'
+    buffer = []
     for command in commands:
-        try:
-            if command.strip() != '':
-                cursor.execute(command.strip())
-        except Error as e:
-            print(f"Error occurred: {e}")
+        if command.strip() != '':
+            # Check for the start of a stored procedure or trigger
+            if command.lower().includes('create procedure') or command.lower().includes('create trigger'):
+                buffer.append(command)
+            # Check for the end of a stored procedure or trigger
+            elif 'end' in command.lower():
+                buffer.append(command)
+                full_command = ' '.join(buffer) + ';'  # Re-add the final semicolon
+                try:
+                    cursor.execute(full_command)
+                    buffer = []  # Reset the buffer
+                except Error as e:
+                    print(f"Error occurred: {e}")
+            else:
+                if buffer:
+                    buffer.append(command)
+                else:
+                    try:
+                        cursor.execute(command)
+                    except Error as e:
+                        print(f"Error occurred: {e}")
 
 def main(cursor, connection):
     # Path to the SQL file
