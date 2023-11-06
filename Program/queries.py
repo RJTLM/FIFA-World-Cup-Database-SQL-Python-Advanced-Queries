@@ -76,7 +76,7 @@ def main(cursor):
         elif choice == "10":
             run_query(cursor, advanced_queries[4], "Matches where penalty kicks were taken in the 2023 event:")
         elif choice == "0":
-            print("Exiting the program.")
+            print("Returning to Main Menu.")
             break
         else:
             print("Invalid choice. Please enter a number between 0 and 10.")

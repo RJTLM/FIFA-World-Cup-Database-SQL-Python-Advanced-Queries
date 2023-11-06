@@ -44,17 +44,24 @@ def interactive_execute(cursor, commands):
         print(" 0: Return to Main Menu")
 
         choice = input("Please enter your choice: ")
-        if choice.isdigit():
-            choice = int(choice)
-            if choice == 0:
-                print("Returning to the main menu.")
-                break
-            elif 1 <= choice <= len(commands):
-                execute_sql_command(cursor, commands[choice - 1])  # Execute the selected command
-            else:
-                print("Invalid choice. Please enter a number from the list.")
+
+        if choice == "1":
+            execute_sql_command(cursor, commands[0])  # Execute the command for GetTotalMatchesByTeam
+        elif choice == "2":
+            execute_sql_command(cursor, commands[1])  # Execute the command for GetAverageAttendanceByYear
+        elif choice == "3":
+            execute_sql_command(cursor, commands[2])  # Execute the command for ViewTopScorers
+        elif choice == "4":
+            execute_sql_command(cursor, commands[3])  # Execute the command for ViewMatchAttendanceSummary
+        elif choice == "5":
+            execute_sql_command(cursor, commands[4])  # Execute the command for idx_teamname
+        elif choice == "6":
+            execute_sql_command(cursor, commands[5])  # Execute the command for idx_date_attendance
+        elif choice == "0":
+            print("Returning to Main Menu.")
+            break
         else:
-            print("Please enter a valid number.")
+            print("Invalid choice. Please enter a number between 0 and 6.")
 
 def main(cursor, connection):
     # Paths to the SQL files
