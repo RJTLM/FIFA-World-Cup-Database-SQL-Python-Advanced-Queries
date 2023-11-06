@@ -10,24 +10,28 @@ def execute_sql_from_file(cursor, file_path):
         if command.strip() != '':
             # Check for the start of a stored procedure or trigger
             if 'create procedure' in command.lower() or 'create trigger' in command.lower():
-                buffer = [command]
-            # Check for the end of a stored procedure or trigger
-            elif buffer and 'end' in command.lower():
                 buffer.append(command)
-                full_command = ';'.join(buffer)  # Re-add the final semicolon
+            # Check for the end of a stored procedure or trigger
+            elif 'end' in command.lower():
+                buffer.append(command)
+                full_command = ' '.join(buffer) + ';'  # Re-add the final semicolon
                 try:
+                    print(f"Executing command: {full_command}")  # Print the command before execution
                     cursor.execute(full_command)
                     buffer = []  # Reset the buffer
                 except Error as e:
                     print(f"Error occurred: {e}")
+                    print(f"Failed command: {full_command}")  # Print the failed command
             else:
                 if buffer:
                     buffer.append(command)
                 else:
                     try:
-                        cursor.execute(command + ';')  # Ensure each command ends with a semicolon
+                        print(f"Executing command: {command}")  # Print the command before execution
+                        cursor.execute(command)
                     except Error as e:
                         print(f"Error occurred: {e}")
+                        print(f"Failed command: {command}")  # Print the failed command
 
 def main(cursor, connection):
     # Path to the SQL file
