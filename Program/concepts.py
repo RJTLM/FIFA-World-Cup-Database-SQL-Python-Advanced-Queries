@@ -33,7 +33,7 @@ def load_indexes(file_path):
     commands = re.findall(r'CREATE INDEX.*?;', sql_script, re.DOTALL)
     return commands
 
-def interactive_execute(cursor, commands):
+def interactive_execute(cursor):
     while True:
         print("\nWhich SQL concept would you like to load?")
         print(" 1: Stored Procedure - GetTotalMatchesByTeam")
@@ -88,7 +88,7 @@ def main(cursor, connection):
         "6": indexes1_commands[0]
     }
     
-    interactive_execute(cursor, commands)
+    interactive_execute(cursor)
     
     # Commit changes
     connection.commit()

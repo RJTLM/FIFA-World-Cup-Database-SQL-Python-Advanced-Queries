@@ -5,7 +5,8 @@ def read_sql_file(file_path):
     with open(file_path, 'r') as file:
         return file.read()
 
-def execute_concept(cursor, command):
+def execute_concept(cursor, file_path):
+    command = read_sql_file(file_path)
     try:
         print(f"Executing concept:\n{command}")
         cursor.execute(command)
@@ -18,7 +19,16 @@ def execute_concept(cursor, command):
         print(f"Error occurred: {e}")
         print(f"Failed concept: {command}")
 
-def execute_concepts(cursor, commands):
+def execute_concepts(cursor):
+    commands = {
+        "1": "./Program/Concepts/callGetTotalMatchesByTeam.sql",
+        "2": "./Program/Concepts/callGetAverageAttendanceByYear.sql",
+        "3": "./Program/Concepts/selectViewTopScorers.sql",
+        "4": "./Program/Concepts/selectViewMatchAttendanceSummary.sql",
+        "5": "./Program/Concepts/explainIdxTeamName.sql",
+        "6": "./Program/Concepts/explainIdxDateAttendance.sql"
+    }
+
     while True:
         show_menu()
         choice = input("Please enter your choice: ")
@@ -27,8 +37,7 @@ def execute_concepts(cursor, commands):
             print("Returning to previous menu.")
             break
         elif choice in commands:
-            command = read_sql_file(commands[choice])
-            execute_concept(cursor, command)
+            execute_concept(cursor, commands[choice])
         else:
             print("Invalid choice. Please enter a number between 0 and 6.")
 
