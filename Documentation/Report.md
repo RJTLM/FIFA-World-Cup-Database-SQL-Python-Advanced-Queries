@@ -364,15 +364,158 @@ In summary, `insertData.py` is a robust and efficient solution for populating th
 
 ### Queries
 
-_Design and implementation of queries with explanations and sample outputs._
+In this section, I will detail the design and implementation of various queries used to interact with the database. These queries range from simple data retrieval to more complex queries.
+
+#### Basic Queries
+
+##### Find all matches played by a specific team (Sweden):
+
+```sql
+SELECT FM.* FROM FootballMatch FM
+JOIN Plays P ON FM.MatchID = P.MatchID
+WHERE P.TeamName IN ('Sweden');
+```
+
+This query retrieves all records from the FootballMatch table where the team 'Sweden' participated. By joining the FootballMatch table with the Plays table on the MatchID, it filters the results to include only those matches involving Sweden. This information is useful for analyzing the performance and schedule of the Swedish team, and it provides a focused dataset for anyone specifically interested in this team's matches.
+
+##### Retrieve all matches with attendance greater than 50,000:
+
+```sql
+SELECT * FROM FootballMatch WHERE Attendance > 50000;
+```
+
+This query selects all matches from the FootballMatch table that had an attendance figure exceeding 50,000. The result set from this query is important for identifying highly attended matches, which could be indicative of high-profile games or venues with significant capacity. This data can be used for crowd management studies or marketing analysis.
+
+##### Get details of matches played in August 2023:
+
+```sql
+SELECT * FROM FootballMatch WHERE MatchDate BETWEEN '2023-08-01' AND '2023-08-31';
+```
+
+The purpose of this query is to extract all matches that took place in the month of August 2023. It's useful for generating reports on matches played within a specific time frame, possibly for monthly summaries or tournament analysis.
+
+##### Find all matches where the home team scored more than 2 goals:
+
+```sql
+SELECT * FROM FootballMatch WHERE home_score > 2;
+```
+
+This query is designed to find matches where the home team scored more than two goals. It's a valuable query for understanding which home teams have a strong offensive performance, and it could be used for statistical analysis of home advantage or for identifying high-scoring teams.
+
+##### Retrieve all matches refereed by a specific referee (Tori Penso):
+```sql
+SELECT * FROM FootballMatch WHERE RefereeName = 'Tori Penso';
+```
+
+With this query, you can obtain a list of all matches that were officiated by the referee 'Tori Penso'. This information might be used to review the referee's workload, distribution of matches, or to analyze the matches they have overseen for performance and decision-making patterns.
+
+#### Advanced Queries
+Describe more complex queries, such as those involving JOIN operations, subqueries, or aggregate functions.
+
+```sql
+Copy code
+-- Example of a complex query
+SELECT column_name(s)
+FROM table1
+INNER JOIN table2
+ON table1.column_name = table2.column_name;
+Include a brief explanation of the query and a sample output.
+```
 
 ### Advanced Features
+This section discusses the advanced features that were implemented in the database, such as stored procedures, triggers, and views.
 
-_Description of advanced features implemented, their use, and evidence of outputs._
+#### Stored Procedures
+Describe any stored procedures that were created, their purpose, and how they are invoked.
+
+```sql
+Copy code
+-- Example of a stored procedure
+DELIMITER //
+CREATE PROCEDURE ProcedureName()
+BEGIN
+    -- SQL statements here
+END //
+DELIMITER ;
+Include a brief explanation of the stored procedure and a sample output when it is called.
+```
+
+#### Views
+Describe any views that were created, their purpose, and how they simplify interactions with the database.
+
+```sql
+Copy code
+-- Example of creating a view
+CREATE VIEW ViewName AS
+SELECT column_name(s)
+FROM table_name
+WHERE condition;
+```
+Include a brief explanation of the view and a sample output when it is queried.
+
+#### Indexes
+Describe any indexes that were implemented, the events that cause them to fire, and the actions they perform.
+
+```sql
+Copy code
+-- Example of a trigger
+DELIMITER //
+CREATE TRIGGER TriggerName BEFORE/AFTER INSERT/UPDATE/DELETE ON TableName
+FOR EACH ROW
+BEGIN
+    -- Trigger logic here
+END //
+DELIMITER ;
+Include a brief explanation of the trigger and evidence of its effect.
+```
 
 ### Database Connectivity and Python Implementation
+This section outlines how the database is connected and interacted with using Python.
 
-_Description of the database connectivity implementation with evidence._
+Database Connection
+Describe how the Python application connects to the database.
+
+```python
+Copy code
+# Example of database connection code in Python
+import mysql.connector
+
+db_connection = mysql.connector.connect(
+  host="hostname",
+  user="username",
+  password="password",
+  database="database_name"
+)
+```
+
+Include a brief explanation of the connection process.
+
+Python Scripts for Database Interaction
+Describe the Python scripts written to interact with the database, such as inserting data, updating records, or running queries.
+
+```python
+Copy code
+# Example of a Python script to run a query
+cursor = db_connection.cursor()
+cursor.execute("SELECT * FROM table_name")
+result = cursor.fetchall()
+for row in result:
+    print(row)
+Include a brief explanation of the script's functionality and a sample output.
+```
+
+Error Handling and Security
+Describe the methods used for error handling and ensuring security during database interactions.
+
+```python
+Copy code
+# Example of error handling in Python
+try:
+    # Attempt database operation
+except mysql.connector.Error as err:
+    print("Error: ", err)
+Include a brief explanation of the error handling and any security measures implemented.
+```
 
 ## Discussion
 
@@ -380,8 +523,12 @@ _Reflection on the work done, achievements, challenges faced, limitations, and p
 
 ## References
 
-_Report References_
-_Code References_
+### Report References
+DS Lecture Slides Semester 2 2023.
+
+### Code References
+
+All sources of information I used to implement my database was referenced directly in the code where applicable. This is my first time using Python for an assignment so needed to use numerous sources to complete the project. I apologise if I used strategies or techniques that are not completely conventional. I also apologise if I 'over-referenced'.
 
 ## Appendices
 
