@@ -294,7 +294,24 @@ All tables are in 3NF because each table has a primary key that uniquely identif
 
 ### Assumptions
 
-_Any assumptions made during the design of the database._
+Certainly! Here are the updated assumptions for your FIFA Women's World Cup database design report, formatted in Markdown:
+
+### Assumptions
+
+1. **Standardized Data Formats**: All data entered into the database follows standardized formats to ensure consistency and reliability in data handling and queries.
+2. **Data Completeness**: The data for all matches, teams, and players is assumed to be complete and available for entry into the database.
+4. **Unique Identifiers**: Each player, team, match, and event has a unique identifier that ensures there are no duplicates within the database.
+5. **Predefined Host Locations**: The host locations for matches are predefined and known prior to the tournament's commencement.
+7. **Single Role Per Person**: Individuals are assumed to have a single role within the database context, i.e., a person cannot be both a player and a referee.
+8. **Based on Historical Data**: The database design and assumptions are based on historical data and trends from previous tournaments.
+9. **Stable Database Schema**: The database schema is assumed to be stable with no significant changes expected after the initial design.
+10. **Data Accuracy**: The data provided for input into the database is assumed to be accurate and verified.
+11. **Event Scheduling**: All events are scheduled in advance, and the database is updated accordingly to reflect any changes.
+13. **Team Participation**: Each team is assumed to participate in the entire duration of the tournament unless disqualified or withdrawn.
+14. **Database Security**: Database security is a requirement, thus access control via username and password is essential to protect sensitive data.
+15. **Tournament Data Focus**: The database is primarily focused on capturing and providing insights into tournament-level data, such as match outcomes, team progress, and crowd attendance. It is not designed to delve into detailed internal match statistics beyond standard information such as the winner, loser, scores, and basic event occurrences.
+
+These assumptions are integral to the design and implementation of the database, providing a framework within which the database operates and ensuring that users have a clear understanding of its scope and limitations.
 
 ## Implementation of the Database and Adding Sample Data
 
