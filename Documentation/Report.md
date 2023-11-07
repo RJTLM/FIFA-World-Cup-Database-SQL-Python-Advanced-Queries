@@ -1,4 +1,4 @@
-# Database Design and Implementation Report
+# **Database Design and Implementation Report**
 
 ## Cover Page
 
@@ -28,7 +28,18 @@
 
 ## Introduction
 
-_Brief overview of the work done, the selected scenario, and activities undertaken._
+In this report, I present an overview of the work I have done to design, implement, and query a relational database system tailored for the FIFA Women's World Cup scenario. The entire program operates within a Python environment, specifically for a Linux command-line interface (CLI), ensuring seamless execution and interaction without the need for direct MySQL database access.
+
+Throughout this project, I have followed the step-by-step process taught in the lecture slides to design an entity-relationship model, implement a relational schema, and populate a database with sample data. Furthermore, I created and executed a suite of SQL queries, using advanced features such as stored procedures and views to enhance the database's functionality. The culmination of these efforts (along with my painful perfectionism) is a system that meets the specified requirements and also demonstrates the practical application of modern database concepts.
+
+I have documented the entire process, reflecting on the design and implementation decisions, identifying challenges, and suggesting improvements. This documentation serves as a testament to the numerous hours spent testing, refactoring, and debugging to ensure the delivery of a high-quality database system.
+
+If you are interested in a more intricate view of the development of my project, you are welcome to review my private GitHub repository (happy to give access just don't want to compromise academic integrity), which contains well over 200 commits that highlight the pain I experienced testing and refactoring, refactoring and testing, and then some more (and also the evolution of this assignment). The repository is a testament to the dedication and rigorous attention to detail that has been the hallmark of this project.
+
+[GitHub Repository: RJTLM/DSFinalAssignment](https://github.com/RJTLM/DSFinalAssignment)
+
+By doing this assignment I have been able to apply theoretical knowledge learned in class to a real-world context, and the following sections will detail the processes and methodologies used to achieve (and not quite) the objectives set forth.
+
 
 ## Design of the Database
 
@@ -294,10 +305,6 @@ All tables are in 3NF because each table has a primary key that uniquely identif
 
 ### Assumptions
 
-Certainly! Here are the updated assumptions for your FIFA Women's World Cup database design report, formatted in Markdown:
-
-### Assumptions
-
 1. **Standardized Data Formats**: All data entered into the database follows standardized formats to ensure consistency and reliability in data handling and queries.
 2. **Data Completeness**: The data for all matches, teams, and players is assumed to be complete and available for entry into the database.
 4. **Unique Identifiers**: Each player, team, match, and event has a unique identifier that ensures there are no duplicates within the database.
@@ -317,7 +324,25 @@ These assumptions are integral to the design and implementation of the database,
 
 ### Database Implementation
 
-_Description of the steps taken to implement the database with evidence._
+My journey to create a Python program for the FIFA Women's World Cup database was driven by a goal to exceed the project's outlined requirements. The vision was to engineer a system that would facilitate every operation detailed in the assignment brief through the command-line interface (CLI), thus eliminating the need for direct MySQL database interaction.
+
+The initial challenge was cleaning the provided CSV files. The global diversity of the dataset introduced player names with non-ASCII characters, which necessitated a cleanup. To resolve this, I created `asciiConversion.py`, a script that cleaned and converted non-ASCII characters to their ASCII counterparts, ensuring compatibility throughout the system.
+
+Following this, I built `dataViewer.py`. This utility allowed for the inspection of CSV files directly through the CLI, bypassing the need for spreadsheet applications (Excel, etc.).
+
+The `extractData.py` script was next in line, designed to extract only the essential columns required for database insertion. This file allowed me to extract the data I wanted (to minimise potential issues later on).
+
+I then created `splitColumn.py` with the intent to utilize the entirety of the CSV data. However, the realization that this approach was beyond the project's scope (even for me, (ha ha I'm so funny)) led to a reevaluation. The script, while functional, represented an overly complex solution for a simpler task.
+
+Central to the user experience was `menu.py`, a script that functioned as the gateway for the suite of tools. It provided a user-friendly menu system, allowing for seamless navigation and operation of the various functionalities, all from within the CLI.
+
+With the groundwork laid by these tools, I focused on the database implementation. `mySQLConnector.py` served as the entry point, facilitating database connection upon user authentication (hidden password too).
+
+The database's construction was a phased operation, involving a series of scripts and SQL files. `createTables.py` laid the foundation, while `createDatabase.sql`, `useDatabase.sql`, `createTablesWithoutFKDep.sql`, `createTablesWithFKDep.sql`, and `createRelationshipSets.sql` each contributed to the structural and relational development of the database. It is worth noting that the tables without any dependencies were created first, then tables with dependencies and then relationship (many-to-many) tables.
+
+Finally, `deleteDatabase.sql` provided a means to reset the database, a crucial feature for testing and iterative refinement, ensuring the robustness of the final product.
+
+In short, every script and SQL file played its part, coming together to build a system that is user friendly, and simpler than directly accessing MySQL to manage databases.
 
 ### Sample Data and Insertion
 
