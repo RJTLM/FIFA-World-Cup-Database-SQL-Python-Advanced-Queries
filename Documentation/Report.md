@@ -346,7 +346,19 @@ In short, every script and SQL file played its part, coming together to build a 
 
 ### Sample Data and Insertion
 
-_Description of the sample data, data sources, and the process of inserting data into the database._
+This phase of the project was, without a doubt, the most challenging and time-consuming. I found myself diving deep into the intricacies of data insertion, a task that proved to be more complex than anticipated. The lack of clear guidance on how to insert data from CSV files directly into MySQL tables led me down a path of extensive research and experimentation.
+
+Initially, I attempted to create a comprehensive table that could hold all CSV data by using `createBigDataTable.sql` and `insertBigData.sql`. However, this approach hit a dead end when I realized it wasn't feasible. It was during this period of trial and error that I decided to narrow the scope of my database to focus solely on tournament data, as the player information provided in the CSV files was causing numerous issues due to its format.
+
+After much deliberation and testing various strategies, I discovered that Python could in fact be used to insert data directly into each table, bypassing the need for intermediary SQL scripts. This led to the the final version of `insertData.py`, a script that became the anchor for data insertion.
+
+The `insertData.py` script begins by clearing any existing data in the tables to ensure a clean slate for insertion. The script then proceeds to insert data into various tables such as Team, Player, Manager, Referee, Event, FootballMatch, Plays, and Manages. It uses a combination of `INSERT` and `INSERT IGNORE` statements to add new records while avoiding duplicates, especially for entries like team names, player names, and manager names that could potentially repeat.
+
+For instance, when inserting into the Event table, the script reads from `littleDataCleaned.csv`, iterating over each row and using a prepared statement to insert the data. Similarly, for the FootballMatch and related tables, it utilizes `bigDataCleaned1.csv`. The script ensures that all related data, such as match details, team participation, and management roles, are correctly associated with each other in the database.
+
+The script handles exceptions gracefully, reporting any errors encountered during the insertion process and rolling back changes if necessary to maintain database integrity. Upon successful insertion, it commits the changes to the database and confirms the completion of the operation.
+
+In summary, `insertData.py` is a robust and efficient solution for populating the database with sample data. It encapsulates the complexity of data insertion into a streamlined process, allowing for accurate and reliable database population directly through Python.
 
 ## Use of the Database
 
