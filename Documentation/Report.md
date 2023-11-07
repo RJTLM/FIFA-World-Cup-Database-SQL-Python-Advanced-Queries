@@ -366,6 +366,14 @@ In summary, `insertData.py` is a robust and efficient solution for populating th
 
 In this section, I will detail the design and implementation of various queries used to interact with the database. These queries range from simple data retrieval to more complex queries.
 
+#### ### Implementation of Database Queries via `queries.py`
+
+In developing queries.py, my intention was to streamline the process of executing SQL queries against the database database (as mentioned earlier in this report). The script is designed to be intuitive, allowing users to retrieve data with ease by selecting options from a menu.
+
+The script presents a selection of predefined queries. Users can choose from basic to advanced queries, each corresponding to a specific data retrieval function. Upon selection, the script executes the relevant SQL command, fetching and displaying the results in a clear and organized format.
+
+Moreover, the queries are externalized in SQL files for flexibility and maintainability. Adjustments to queries can be made directly in the SQL files without altering the Python script, facilitating updates and modifications. The output is presented in a tabular form, making the data accessible and straightforward to interpret.
+
 #### Basic Queries
 
 ##### Find all matches played by a specific team (Sweden):
