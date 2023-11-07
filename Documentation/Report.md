@@ -462,51 +462,90 @@ SELECT FM.* FROM FootballMatch FM JOIN Event E ON FM.EventID = E.EventID WHERE (
 This query is a complex SELECT statement that uses an INNER JOIN to combine data from two tables and employs the WHERE clause with a logical OR to filter matches based on penalty kicks. It showcases the use of joins, sub-queries, and conditional logic. This is particularly interesting for studying matches that were closely contested and may have required penalties to determine the outcome.
 
 ### Advanced Features
-This section discusses the advanced features that were implemented in the database, such as stored procedures, triggers, and views.
+
+#### Advanced Features Implementation and Troubleshooting
+
+In my project, I developed two Python scripts, `concepts.py` and `executeConcepts.py`, to interact with the advanced SQL features I had implemented in my database. The `concepts.py` script was designed to load and execute SQL commands for stored procedures, views, and indexes from corresponding SQL files. It used regular expressions to parse the SQL commands and an interactive execution function to allow users to select which SQL concept to load and execute. This script was crucial for testing the functionality of the advanced features within the Python environment.
+
+The `executeConcepts.py` script, on the other hand, was focused on executing predefined SQL concepts. It read SQL commands from files and executed them using a cursor object from the MySQL connector. This script was intended to facilitate the direct execution of complex SQL operations such as calling stored procedures and creating views, with the added functionality of explaining indexes to assess their impact on query performance.
+
+Despite my efforts to ensure smooth integration, I encountered errors when attempting to call the advanced features from these Python scripts. Although the SQL syntax was correct, and the program looped back to the menu without crashing, the advanced features did not work as intended. This was a setback, as I had not anticipated such issues, especially since I would have implemented delimiters in a direct MySQL environment to avoid such problems. The experience underscored the challenges of interfacing SQL with external programming languages, and it became clear that I needed to delve deeper into troubleshooting to achieve the desired functionality.
 
 #### Stored Procedures
-Describe any stored procedures that were created, their purpose, and how they are invoked.
+
+I implemented stored procedures to simplify complex operations, enabling them to be executed repeatedly with just a command. This approach made data management more efficient and also improved security by limiting direct user access to the data.
+
+- **GetTotalMatchesByTeam**: This procedure was supposed to count the matches played by a specific team. It was just a call away from providing quick insights. However, when I tried to invoke it from my Python application, it resulted in errors.
+
+   ```sql
+   CREATE PROCEDURE GetTotalMatchesByTeam(IN teamName VARCHAR(255))
+   BEGIN
+       SELECT TeamName, COUNT(*) as TotalMatches 
+       FROM Plays 
+       WHERE TeamName = teamName
+       GROUP BY TeamName;
+   END;
+
+My attempt to invoke it: `CALL GetTotalMatchesByTeam('Sweden');`
+
+- **GetAverageAttendanceByYear**: Aimed at calculating average attendance figures, this procedure was meant to make it easier to pull out relevant attendance data. Like the first, it encountered issues when executed through the Python interface.
 
 ```sql
-Copy code
--- Example of a stored procedure
-DELIMITER //
-CREATE PROCEDURE ProcedureName()
+CREATE PROCEDURE GetAverageAttendanceByYear(IN year INT)
 BEGIN
-    -- SQL statements here
-END //
-DELIMITER ;
-Include a brief explanation of the stored procedure and a sample output when it is called.
+    SELECT Venue, AVG(Attendance) as AvgAttendance 
+    FROM FootballMatch 
+    WHERE YEAR(MatchDate) = year AND Attendance IS NOT NULL 
+    GROUP BY Venue;
+END;
 ```
+
+My attempt to invoke it: `CALL GetAverageAttendanceByYear(2023);`
+
+I had expected these procedures to run smoothly since they were syntactically correct. If I had been working directly in MySQL, I would have included delimiters for proper statement termination. However, the Python MySQL connector should handle these without needing explicit delimiter statements. The errors were unexpected, but thankfully, my program was robust enough to catch exceptions and continue running, allowing for a seamless user experience.
 
 #### Views
-Describe any views that were created, their purpose, and how they simplify interactions with the database.
+
+I set up views to offer a simplified and efficient way to access complex query results. They functioned well within the database (when the delimiters were included), but the real test was accessing them through the Python program.
+
+- **ViewTopScorers**: This view was meant to highlight top performers easily, without the need for complex joins or subqueries.
 
 ```sql
-Copy code
--- Example of creating a view
-CREATE VIEW ViewName AS
-SELECT column_name(s)
-FROM table_name
-WHERE condition;
+CREATE VIEW ViewTopScorers AS
+SELECT EventID, TopScorer
+FROM Event
+WHERE TopScorer IS NOT NULL;
 ```
-Include a brief explanation of the view and a sample output when it is queried.
+
+- **ViewMatchAttendanceSummary**: This view was designed to provide a quick overview of attendance statistics, aggregating and averaging the data by venue.
+
+```sql
+CREATE VIEW ViewMatchAttendanceSummary AS
+SELECT Venue, AVG(Attendance) as AvgAttendance
+FROM FootballMatch
+WHERE Attendance IS NOT NULL
+GROUP BY Venue;
+```
 
 #### Indexes
-Describe any indexes that were implemented, the events that cause them to fire, and the actions they perform.
+
+I chose indexes to speed up data retrieval, an essential part of performance tuning, especially as data volumes grow.
+
+- **idx_teamname**: I expected this index to improve search performance on the `TeamName` field in the `Plays` table.
 
 ```sql
-Copy code
--- Example of a trigger
-DELIMITER //
-CREATE TRIGGER TriggerName BEFORE/AFTER INSERT/UPDATE/DELETE ON TableName
-FOR EACH ROW
-BEGIN
-    -- Trigger logic here
-END //
-DELIMITER ;
-Include a brief explanation of the trigger and evidence of its effect.
+CREATE INDEX idx_teamname ON Plays(TeamName);
 ```
+
+- **idx_date_attendance**: By indexing `MatchDate` and `Attendance`, I aimed to make queries filtered by these fields faster.
+
+```sql
+CREATE INDEX idx_date_attendance ON FootballMatch(MatchDate, Attendance);
+```
+
+I planned to use `EXPLAIN` statements to demonstrate the performance improvements with these indexes.
+
+Even with careful planning and implementation, the advanced features didn't work as seamlessly as I hoped when called from the Python application. This experience has shown me the intricacies of integrating SQL with external programming languages. I'm now focused on troubleshooting these issues to ensure that the advanced features are just as effective through the Python application as they are within the MySQL environment.
 
 ### Database Connectivity and Python Implementation
 This section outlines how the database is connected and interacted with using Python.
