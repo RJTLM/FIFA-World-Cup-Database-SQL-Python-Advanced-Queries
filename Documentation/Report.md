@@ -34,8 +34,69 @@ _Brief overview of the work done, the selected scenario, and activities undertak
 
 ### Entity Selection
 
-_Explanation of the selected entities, relationships, data types, etc._
-##### Entity Sets, Relationship Sets, and Cardinality Constraints
+In designing the database for the FIFA Women's World Cup, careful consideration was given to the selection of entities, their relationships, and the data types of their attributes. The goal was to create a robust and scalable model that accurately reflects the complexities of the tournament while remaining intuitive and efficient for querying and data manipulation.
+
+#### Entities and Attributes
+
+The primary entities identified for this database are `Match`, `Team`, `Player`, `Event`, `Manager`, and `Referee`. These entities encompass the core components of the tournament and are described as follows:
+
+- **Match**: Represents individual games played within the tournament. Attributes include unique identifiers, scores, penalties, attendance, venue, and related event information. The `MatchID` serves as the primary key, ensuring each match is uniquely identifiable.
+  
+- **Team**: Captures the teams participating in the World Cup. The `TeamName` is the primary key and is used to link players and matches to teams.
+  
+- **Player**: Details the players, including whether they are a team captain. The `PlayerName` is the primary key, and the `isCaptain` attribute is a boolean indicating captaincy.
+  
+- **Event**: Encapsulates the overall tournament event, with attributes detailing the year, host, number of teams, and outcomes such as the champion and top scorer. The `EventID` is the primary key.
+  
+- **Manager**: Contains information on team managers. The `ManagerName` is the primary key.
+  
+- **Referee**: Contains information on match referees. The `RefereeName` is the primary key.
+
+#### Relationships
+
+The relationships between entities are critical to the relational schema and are defined as follows:
+
+- **Plays**: A many-to-many relationship between `Match` and `Team`, indicating which teams play in which matches. Attributes include `MatchID`, `TeamName`, and `HomeAway` to indicate whether the team is playing at home or away.
+  
+- **Manages**: A many-to-many relationship between `Match` and `Manager`, indicating which manager manages a team in a particular match.
+  
+- **PlaysFor**: A many-to-many relationship between `Player` and `Team`, indicating which players play for which teams.
+  
+- **Is Played In**: A one-to-many relationship between `Match` and `Event`, linking matches to the event they are part of.
+
+#### Data Types
+
+Data types were chosen to best represent the nature of the data while optimizing for storage and performance:
+
+- **Integer (INT)**: Used for numerical values that do not require decimals, such as scores, attendance, and identifiers.
+  
+- **Varchar**: Used for string attributes that require a variable length, such as names and textual descriptions.
+  
+- **Boolean**: Used for true/false values, specifically for the `isCaptain` attribute in the `Player` entity.
+  
+- **Date**: Used for date attributes to track when matches are played.
+  
+- **Enum**: Used for attributes with a controlled list of values, such as the `HomeAway` attribute in the `Plays` relationship.
+
+#### Cardinality Constraints
+
+Cardinality constraints define the nature of the relationships in terms of quantity:
+
+- **One-to-Many**: Used for relationships where one instance of an entity relates to many instances of another, such as a single event having multiple matches.
+  
+- **Many-to-Many**: Used for relationships where many instances of an entity relate to many instances of another, such as players playing for teams and teams playing in matches.
+
+#### Participation Constraints
+
+Participation constraints specify the minimum and maximum number of entity instances that can participate in a relationship:
+
+- **Mandatory Participation**: Indicates that an entity must participate in the relationship, such as every match must be associated with an event.
+  
+- **Optional Participation**: Indicates that an entity's participation in the relationship is not required, such as a player not needing to be a captain.
+
+The entity selection and relationship mapping were done with the intention of creating a database that is not only reflective of the real-world domain but also optimized for query performance and data integrity. The chosen data types and constraints ensure that the database is normalized, reducing redundancy and improving data consistency.
+
+#### Entity Sets, Relationship Sets, and Cardinality Constraints
 
 **Entity Set**
 | Entity Set   | Key         | Other Attributes                                                                                      | Relationship Set | Between Entity Sets | Attributes | Relationship Set Cardinality | Participation / Other Constraints                      |
