@@ -186,6 +186,36 @@ FK ManagerName REF Manager(ManagerName)
 | MatchID     | INT          | FK referencing FootballMatch(MatchID), ON DELETE CASCADE, ON UPDATE CASCADE | ID of the match | Must correspond to an existing MatchID |
 | ManagerName | VARCHAR(255) | FK referencing Manager(ManagerName), ON DELETE CASCADE, ON UPDATE CASCADE | Name of the manager | Must correspond to an existing ManagerName |
 
+### Third Normal Form
+
+Normalization is a systematic approach of decomposing tables to eliminate data redundancy and undesirable characteristics like Insertion, Update, and Deletion Anomalies. It's a multi-step process that puts data into tabular form by removing duplicated data from the relation tables.
+
+#### First Normal Form (1NF)
+For a table to be in 1NF, it must have:
+1. No repeating groups or arrays.
+2. All values must be atomic (indivisible).
+
+My Schema:
+- Each attribute has atomic values (no multi-valued attributes).
+- There are no repeating groups; for example, `Plays` and `Manages` are separate tables, which indicates that many-to-many relationships are handled properly.
+
+#### Second Normal Form (2NF)
+For a table to be in 2NF, it must be in 1NF, and:
+1. All non-key attributes must be fully functionally dependent on the primary key.
+
+2NF only applies to tables with composite primary keys (primary keys consisting of more than one attribute):
+- `Plays` and `Manages` have composite keys (`MatchID` and `TeamName` for `Plays`; `MatchID` and `ManagerName` for `Manages`). In these tables, all non-key attributes are fully dependent on the full set of key attributes.
+
+#### Third Normal Form (3NF)
+For a table to be in 3NF, it must be in 2NF, and:
+1. It has no transitive dependencies; that is, no non-key attribute depends on another non-key attribute.
+
+My Schema:
+- `FootballMatch` has foreign keys (`EventID`, `RefereeName`) that reference primary keys in other tables (`Event`, `Referee`). There are no attributes in `FootballMatch` that are non-key and depend on other non-key attributes.
+- `Event` has attributes like `Champion`, `RunnerUp`, and `TopScorer`, which are dependent on `EventID` and not on any other non-key attribute.
+- `Plays` and `Manages` do not have non-key attributes that depend on other non-key attributes.
+
+All tables are in 3NF because each table has a primary key that uniquely identifies its rows, and there are no attributes that are dependent on non-key attributes, which eliminates transitive dependencies.
 
 ### Assumptions
 
