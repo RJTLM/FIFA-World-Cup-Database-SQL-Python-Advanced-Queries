@@ -548,52 +548,99 @@ I planned to use `EXPLAIN` statements to demonstrate the performance improvement
 Even with careful planning and implementation, the advanced features didn't work as seamlessly as I hoped when called from the Python application. This experience has shown me the intricacies of integrating SQL with external programming languages. I'm now focused on troubleshooting these issues to ensure that the advanced features are just as effective through the Python application as they are within the MySQL environment.
 
 ### Database Connectivity and Python Implementation
-This section outlines how the database is connected and interacted with using Python.
 
-Database Connection
-Describe how the Python application connects to the database.
+#### Database Connection
+
+To establish a connection between the Python application and the database, I utilised the `mysql.connector` library. This library provides an interface for connecting to a MySQL database server from Python. Below is an example of how the connection is set up:
 
 ```python
-Copy code
-# Example of database connection code in Python
 import mysql.connector
+import getpass
 
-db_connection = mysql.connector.connect(
-  host="hostname",
-  user="username",
-  password="password",
-  database="database_name"
-)
+def connect_to_db():
+    # Database configuration
+    db_config = {
+        'host': 'localhost',
+        'user': input("\nEnter your MySQL username: "),
+        'password': getpass.getpass("Enter your MySQL password: "),
+        # Uncomment the following line and replace with your database name
+        # 'database': 'your_database_name_here'
+    }
+
+    # Establish a database connection
+    db_connection = mysql.connector.connect(**db_config)
+    cursor = db_connection.cursor()
+
+    print("\nConnection established!")
+    return cursor, db_connection
 ```
 
-Include a brief explanation of the connection process.
+The connection process involves prompting the user for their MySQL username and password and then using these credentials to establish a connection. The connect_to_db function encapsulates this process and returns both the connection object and cursor for executing SQL commands.
 
-Python Scripts for Database Interaction
-Describe the Python scripts written to interact with the database, such as inserting data, updating records, or running queries.
+#### Python Scripts for Database Interaction
+
+My goal for this project was to successfully implement the entire assignment in Python, create a comprehensive menu system and integrate advanced features that would allow users to connect to and interact with the FIFA Women's World Cup database via the command-line interface (CLI).
+
+From the outset, my vision was to create a system that exceeded the project's requirements. This system was designed to facilitate every operation detailed in the assignment brief through the CLI, thereby negating the need for direct MySQL database interaction. This approach was intended to simplify the user experience, making database management more accessible and intuitive.
+
+The journey began with the development of `asciiConversion.py`, a script that addressed the challenge of non-ASCII characters in player names by ensuring compatibility across the system. This was followed by the creation of `dataViewer.py`, which allowed users to inspect CSV files directly through the CLI, and `extractData.py`, which streamlined the process of extracting essential data for database insertion.
+
+Recognizing the complexity of the task, I developed `splitColumn.py` to fully utilize the CSV data. However, I soon realized that this script, while functional, was more complex than necessary for the project's scope. The experience underscored the importance of balancing ambition with practicality.
+
+The backbone of the user experience was `menu.py`, a script that provided a user-friendly menu system. This script was the gateway to the suite of tools, enabling users to navigate and operate various functionalities seamlessly within the CLI.
+
+The database implementation itself was a phased operation, with `mySQLConnector.py` serving as the entry point for database connection. A series of scripts and SQL files, including `createTables.py`, `createDatabase.sql`, `useDatabase.sql`, `createTablesWithoutFKDep.sql`, `createTablesWithFKDep.sql`, and `createRelationshipSets.sql`, were methodically executed to construct the database's structure and relationships.
+
+Moreover, `deleteDatabase.sql` was an essential tool for resetting the database, which proved invaluable for testing and refining the system to ensure its robustness.
+
+In summary, each script and SQL file played a pivotal role in building a user-friendly system that simplified the management of databases without the need for direct MySQL access.
+
+#### Error Handling and Security
+
+In the context of database interactions within the project, error handling and security are implemented through several methods:
+
+##### Error Handling
+
+Error handling in Python is managed using try-except blocks. When interacting with the MySQL database, the `mysql.connector.Error` exception is specifically caught to handle any issues that may arise during database operations. This is evident in the `insertData.py` script, where each database insertion operation is wrapped in a try-except block to catch and handle any errors that occur.
+
+For example, when inserting data into the Event table:
 
 ```python
-Copy code
-# Example of a Python script to run a query
-cursor = db_connection.cursor()
-cursor.execute("SELECT * FROM table_name")
-result = cursor.fetchall()
-for row in result:
-    print(row)
-Include a brief explanation of the script's functionality and a sample output.
-```
-
-Error Handling and Security
-Describe the methods used for error handling and ensuring security during database interactions.
-
-```python
-Copy code
-# Example of error handling in Python
 try:
-    # Attempt database operation
-except mysql.connector.Error as err:
-    print("Error: ", err)
-Include a brief explanation of the error handling and any security measures implemented.
+    # Insert data into the Event table from littleDataCleaned.csv
+    # ...
+    db_connection.commit()
+    print("Data successfully inserted into the Event table.")
+except Error as e:
+    print(f"Error inserting into Event: {e}")
+    all_insertions_successful = False
 ```
+
+Similarly, the `queries.py` script uses exception handling to manage errors that may occur when executing SQL queries:
+
+```python
+try:
+    cursor.execute(query, params)
+    records = cursor.fetchall()
+    return records
+except Exception as e:
+    print("Error reading data from MySQL table", e)
+```
+
+##### Security
+
+Security during database interactions is primarily concerned with preventing unauthorized access and SQL injection attacks. The `mySQLConnector.py` script demonstrates a secure method of connecting to the database by prompting the user for their MySQL username and password, which are not stored in the script:
+
+```python
+db_config = {
+    'host': 'localhost',
+    'user': input("\nEnter your MySQL username: "),
+    'password': getpass.getpass("Enter your MySQL password: "),
+    # 'database': 'your_database_name_here'
+}
+```
+
+Furthermore, the use of parameterized queries is a good practice to prevent SQL injection, as it ensures that any input is treated as a parameter rather than part of the SQL statement. This is a security best practice that is observed throughout the project's database interaction scripts.
 
 ## Discussion
 
@@ -607,10 +654,6 @@ DS Lecture Slides Semester 2 2023.
 ### Code References
 
 All sources of information I used to implement my database was referenced directly in the code where applicable. This is my first time using Python for an assignment so needed to use numerous sources to complete the project. I apologise if I used strategies or techniques that are not completely conventional. I also apologise if I 'over-referenced'.
-
-## Appendices
-
-_Any appendices go here_
 
 ## Pun for good measure
 
