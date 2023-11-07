@@ -19,3 +19,12 @@ CREATE TABLE IF NOT EXISTS Manages (
     FOREIGN KEY (MatchID) REFERENCES FootballMatch(MatchID) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (ManagerName) REFERENCES Manager(ManagerName) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+-- Creating PlaysFor Table (Many-to-Many Relationship)
+CREATE TABLE IF NOT EXISTS PlaysFor (
+    PlayerName VARCHAR(255),
+    TeamName VARCHAR(255),
+    PRIMARY KEY (PlayerName, TeamName),
+    FOREIGN KEY (PlayerName) REFERENCES Player(PlayerName) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (TeamName) REFERENCES Team(TeamName) ON DELETE CASCADE ON UPDATE CASCADE
+);

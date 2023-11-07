@@ -42,7 +42,7 @@ _Explanation of the selected entities, relationships, data types, etc._
 |--------------|-------------|-------------------------------------------------------------------------------------------------------|------------------|---------------------|------------|-----------------------------|--------------------------------------------------------|
 | Match        | MatchID     | home_score, away_score, home_penalty, away_penalty, Attendance, Venue, Round, MatchDate, Notes, MatchHost | Is Played In     | Match-Event         | EventID    | Many-One                    | Each Match is associated with one Event; An Event can have multiple Matches |
 | Team         | TeamName    |                                                                                                       | Plays            | Match-Team          | MatchID, HomeAway | Many-Many                | A Team can play in many Matches; A Match involves two Teams |
-| Player       | PlayerName  | isCaptain                                                                                             |                  |                     |            |                             |                                                          |
+| Player       | PlayerName  | isCaptain                                                                                             | PlaysFor                 | Player-Team                    | PlayerName, TeamName           | Many-Many                             | Many Players can play for a Team; A Team has many Players                                                          |
 | Event        | EventID     | EventYear, EventHost, NoTeams, Champion, RunnerUp, TopScorer, EventAttendance, EventAttendanceAvg, NoMatches | Is Played In     | Match-Event         | MatchID    | Many-One                    | Each Match is associated with one Event; An Event can have multiple Matches |
 | Manager      | ManagerName |                                                                                                       | Manages          | Match-Manager       | MatchID    | Many-Many                    | A Manager can manage in many Matches; A Match can have multiple Managers |
 | Referee      | RefereeName |                                                                                                       | Officiates       | Match-Referee       | MatchID    | Many-One                    | A Referee can officiate many Matches; A Match is officiated by one Referee |
@@ -57,7 +57,7 @@ _Explanation of the selected entities, relationships, data types, etc._
 
 ### ER Diagram
 
-_Inclusion of the ER diagram visualizing the structure of the database._
+![ER Diagram](../ERModelling/ERDiagram.png)
 
 ### Relational Schema
 
@@ -109,6 +109,13 @@ FK TeamName REF Team(TeamName)
 Manages(MatchID, ManagerName)
 FK MatchID REF FootballMatch(MatchID)
 FK ManagerName REF Manager(ManagerName)
+```
+
+##### PlaysFor
+```
+PlaysFor(PlayerName, TeamName)
+FK PlayerName REF Player(PlayerName)
+FK TeamName REF Team(TeamName)
 ```
 
 ### Data Description
@@ -186,6 +193,13 @@ FK ManagerName REF Manager(ManagerName)
 | MatchID     | INT          | FK referencing FootballMatch(MatchID), ON DELETE CASCADE, ON UPDATE CASCADE | ID of the match | Must correspond to an existing MatchID |
 | ManagerName | VARCHAR(255) | FK referencing Manager(ManagerName), ON DELETE CASCADE, ON UPDATE CASCADE | Name of the manager | Must correspond to an existing ManagerName |
 
+#### PlaysFor (Many-to-Many Relationship)
+
+| Attribute   | Data Type    | Constraints | Description             | Business Rules |
+|-------------|--------------|-------------|-------------------------|----------------|
+| PlayerName     | VARCHAR(255)          | FK referencing Player(PlayerName), ON DELETE CASCADE, ON UPDATE CASCADE | Name of the player | Must correspond to an existing PlayerName |
+| TeamName | VARCHAR(255) | FK referencing Team(TeamName), ON DELETE CASCADE, ON UPDATE CASCADE | Name of the team | Must correspond to an existing TeamName |
+
 ### Third Normal Form
 
 Normalization is a systematic approach of decomposing tables to eliminate data redundancy and undesirable characteristics like Insertion, Update, and Deletion Anomalies. It's a multi-step process that puts data into tabular form by removing duplicated data from the relation tables.
@@ -254,4 +268,12 @@ _Reflection on the work done, achievements, challenges faced, limitations, and p
 _Report References_
 _Code References_
 
+## Appendices
+
+_Any appendices go here_
+
 ## Pun for good measure
+
+I watched a movie about databases today and now I can't wait for the SQL!
+
+P.S Thanks for a good semester :)
