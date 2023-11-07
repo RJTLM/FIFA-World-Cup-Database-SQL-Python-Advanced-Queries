@@ -61,11 +61,131 @@ _Inclusion of the ER diagram visualizing the structure of the database._
 
 ### Relational Schema
 
-_Presentation of the relational schema with tables, attributes, and relationships._
+#### Entity Sets
+
+##### FootballMatch
+```
+FootballMatch(MatchID, home_score, away_score, home_penalty, away_penalty, Attendance, Venue, Round, MatchDate, Notes, MatchHost, EventID, RefereeName)
+FK EventID REF Event(EventID)
+FK RefereeName REF Referee(RefereeName)
+```
+
+##### Team
+```
+Team(TeamName)
+```
+
+##### Player
+```
+Player(PlayerName, isCaptain)
+```
+
+##### Manager
+```
+Manager(ManagerName)
+```
+
+##### Referee
+```
+Referee(RefereeName)
+```
+
+##### Event
+```
+Event(EventID, EventYear, EventHost, NoTeams, Champion, RunnerUp, TopScorer, EventAttendance, EventAttendanceAvg, NoMatches)
+```
+
+#### Relationship Sets (Represented as Tables for Many-to-Many Relationships)
+
+##### Plays
+```
+Plays(MatchID, TeamName, HomeAway)
+FK MatchID REF FootballMatch(MatchID)
+FK TeamName REF Team(TeamName)
+```
+
+##### Manages
+```
+Manages(MatchID, ManagerName)
+FK MatchID REF FootballMatch(MatchID)
+FK ManagerName REF Manager(ManagerName)
+```
 
 ### Data Description
 
-_Description of the data and its organization within the database._
+#### FootballMatch
+
+| Attribute    | Data Type    | Constraints | Description                               | Business Rules                                         |
+|--------------|--------------|-------------|-------------------------------------------|--------------------------------------------------------|
+| MatchID      | INT          | PK, NOT NULL, UNIQUE | Unique identifier for each match       | Must be unique                                         |
+| home_score   | INT          |             | Score of the home team                    | Can be null if match hasn't been played yet            |
+| away_score   | INT          |             | Score of the away team                    | Can be null if match hasn't been played yet            |
+| home_penalty | INT          |             | Penalty score of the home team            | Can be null if match hasn't gone to penalties          |
+| away_penalty | INT          |             | Penalty score of the away team            | Can be null if match hasn't gone to penalties          |
+| Attendance   | INT          |             | Number of attendees at the match          | Can be null if match hasn't been played yet            |
+| Venue        | VARCHAR(255) |             | Location where the match is played        | Can be null if venue is not decided yet                |
+| Round        | VARCHAR(50)  |             | Stage of the competition                  | Can be null if not applicable                          |
+| MatchDate    | DATE         |             | Date when the match is played             | Can be null if date is not decided yet                 |
+| Notes        | TEXT         |             | Additional notes about the match          | Can be null                                            |
+| MatchHost    | VARCHAR(255) |             | Host country or city of the match         | Can be null if not applicable                          |
+| EventID      | INT          | FK referencing Event(EventID), ON DELETE CASCADE, ON UPDATE CASCADE | ID of the event the match is part of | Must correspond to an existing EventID                |
+| RefereeName  | VARCHAR(255) | FK referencing Referee(RefereeName), ON DELETE SET NULL, ON UPDATE CASCADE | Name of the referee officiating the match | Can be null if referee is not decided yet, must correspond to an existing RefereeName |
+
+#### Team
+
+| Attribute | Data Type    | Constraints | Description               | Business Rules |
+|-----------|--------------|-------------|---------------------------|----------------|
+| TeamName  | VARCHAR(255) | PK, NOT NULL, UNIQUE | Name of the football team | Must be unique |
+
+#### Player
+
+| Attribute  | Data Type | Constraints | Description               | Business Rules                         |
+|------------|-----------|-------------|---------------------------|----------------------------------------|
+| PlayerName | VARCHAR(255) | PK, NOT NULL, UNIQUE | Name of the player      | Must be unique                         |
+| isCaptain  | BOOLEAN   | DEFAULT FALSE | Indicates if player is captain | Only 1 captain per team per event |
+
+#### Event
+
+| Attribute         | Data Type    | Constraints | Description                           | Business Rules |
+|-------------------|--------------|-------------|---------------------------------------|----------------|
+| EventID           | INT          | PK, NOT NULL, UNIQUE | Unique identifier for each event   | Must be unique |
+| EventYear         | YEAR         |             | Year when the event took place        | Can be null if event is planned for future |
+| EventHost         | VARCHAR(255) |             | Host country or city of the event     | Can be null if not applicable |
+| NoTeams           | INT          |             | Number of teams participating         | Can be null if not decided yet |
+| Champion          | VARCHAR(255) |             | Winning team of the event             | Can be null if event hasn't concluded yet |
+| RunnerUp          | VARCHAR(255) |             | Runner-up team of the event           | Can be null if event hasn't concluded yet |
+| TopScorer         | VARCHAR(255) |             | Top scorer of the event               | Can be null if event hasn't concluded yet |
+| EventAttendance   | INT          |             | Total attendance throughout the event | Can be null if event hasn't concluded yet |
+| EventAttendanceAvg| FLOAT        |             | Average attendance per match          | Can be null if event hasn't concluded yet |
+| NoMatches         | INT          |             | Number of matches in the event        | Can be null if not decided yet |
+
+#### Manager
+
+| Attribute   | Data Type    | Constraints | Description             | Business Rules |
+|-------------|--------------|-------------|-------------------------|----------------|
+| ManagerName | VARCHAR(255) | PK, NOT NULL, UNIQUE | Name of the manager | Must be unique |
+
+#### Referee
+
+| Attribute   | Data Type    | Constraints | Description             | Business Rules |
+|-------------|--------------|-------------|-------------------------|----------------|
+| RefereeName | VARCHAR(255) | PK, NOT NULL, UNIQUE | Name of the referee | Must be unique |
+
+#### Plays (Many-to-Many Relationship)
+
+| Attribute | Data Type    | Constraints | Description             | Business Rules |
+|-----------|--------------|-------------|-------------------------|----------------|
+| MatchID   | INT          | FK referencing FootballMatch(MatchID), ON DELETE CASCADE, ON UPDATE CASCADE | ID of the match | Must correspond to an existing MatchID |
+| TeamName  | VARCHAR(255) | FK referencing Team(TeamName), ON DELETE CASCADE, ON UPDATE CASCADE | Name of the team | Must correspond to an existing TeamName |
+| HomeAway  | ENUM('Home', 'Away') | NOT NULL | Indicates if the team is playing at home or away | Must be 'Home' or 'Away' |
+
+#### Manages (Many-to-Many Relationship)
+
+| Attribute   | Data Type    | Constraints | Description             | Business Rules |
+|-------------|--------------|-------------|-------------------------|----------------|
+| MatchID     | INT          | FK referencing FootballMatch(MatchID), ON DELETE CASCADE, ON UPDATE CASCADE | ID of the match | Must correspond to an existing MatchID |
+| ManagerName | VARCHAR(255) | FK referencing Manager(ManagerName), ON DELETE CASCADE, ON UPDATE CASCADE | Name of the manager | Must correspond to an existing ManagerName |
+
 
 ### Assumptions
 
