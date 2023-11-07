@@ -376,7 +376,7 @@ JOIN Plays P ON FM.MatchID = P.MatchID
 WHERE P.TeamName IN ('Sweden');
 ```
 
-This query retrieves all records from the FootballMatch table where the team 'Sweden' participated. By joining the FootballMatch table with the Plays table on the MatchID, it filters the results to include only those matches involving Sweden. This information is useful for analyzing the performance and schedule of the Swedish team, and it provides a focused dataset for anyone specifically interested in this team's matches.
+TThis is a SELECT statement combined with an INNER JOIN that retrieves all records from the FootballMatch table where the team 'Sweden' participated. It uses a string comparison in the WHERE clause to filter the results, demonstrating basic methods of joining tables and filtering with suitable WHERE clauses. This information is useful for analyzing the performance and schedule of the Swedish team, and it provides a focused dataset for anyone specifically interested in this team's matches.
 
 ##### Retrieve all matches with attendance greater than 50,000:
 
@@ -384,7 +384,7 @@ This query retrieves all records from the FootballMatch table where the team 'Sw
 SELECT * FROM FootballMatch WHERE Attendance > 50000;
 ```
 
-This query selects all matches from the FootballMatch table that had an attendance figure exceeding 50,000. The result set from this query is important for identifying highly attended matches, which could be indicative of high-profile games or venues with significant capacity. This data can be used for crowd management studies or marketing analysis.
+This query is a simple SELECT statement that uses a numeric comparison in the WHERE clause to select matches from the FootballMatch table with attendance figures exceeding a certain threshold, showcasing the use of numeric data in conditions. The result set from this query is important for identifying highly attended matches, which could be indicative of high-profile games or venues with significant capacity. This data can be used for crowd management studies or marketing analysis.
 
 ##### Get details of matches played in August 2023:
 
@@ -392,7 +392,7 @@ This query selects all matches from the FootballMatch table that had an attendan
 SELECT * FROM FootballMatch WHERE MatchDate BETWEEN '2023-08-01' AND '2023-08-31';
 ```
 
-The purpose of this query is to extract all matches that took place in the month of August 2023. It's useful for generating reports on matches played within a specific time frame, possibly for monthly summaries or tournament analysis.
+Here, a SELECT statement is used with a date-time function, BETWEEN, to extract matches within a specific date range, illustrating the use of date-time functions in SQL queries. The purpose of this query is to extract all matches that took place in the month of August 2023. It's useful for generating reports on matches played within a specific time frame, possibly for monthly summaries or tournament analysis.
 
 ##### Find all matches where the home team scored more than 2 goals:
 
@@ -400,27 +400,58 @@ The purpose of this query is to extract all matches that took place in the month
 SELECT * FROM FootballMatch WHERE home_score > 2;
 ```
 
-This query is designed to find matches where the home team scored more than two goals. It's a valuable query for understanding which home teams have a strong offensive performance, and it could be used for statistical analysis of home advantage or for identifying high-scoring teams.
+This query employs a SELECT statement with a numeric condition in the WHERE clause to find matches with high home team scores (more than 2), again using numeric data comparisons. It's a valuable query for understanding which home teams have a strong offensive performance, and it could be used for statistical analysis of home advantage or for identifying high-scoring teams.
 
 ##### Retrieve all matches refereed by a specific referee (Tori Penso):
 ```sql
 SELECT * FROM FootballMatch WHERE RefereeName = 'Tori Penso';
 ```
 
-With this query, you can obtain a list of all matches that were officiated by the referee 'Tori Penso'. This information might be used to review the referee's workload, distribution of matches, or to analyze the matches they have overseen for performance and decision-making patterns.
+A SELECT statement with a string comparison in the WHERE clause is used to filter matches based on the referee's name, showcasing string comparison and manipulation in SQL. This information might be used to review the referee's workload, distribution of matches, or to analyze the matches they have overseen for performance and decision-making patterns.
 
 #### Advanced Queries
-Describe more complex queries, such as those involving JOIN operations, subqueries, or aggregate functions.
+
+In this section, I delve into the more sophisticated queries that provide deeper insights into the dataset. These advanced queries leverage SQL functions like `COUNT()`, `AVG()`, and `SUM()`, and involve grouping and ordering results to extract meaningful statistics and trends.
+
+##### Total Number of Matches Played by Each Team:
 
 ```sql
-Copy code
--- Example of a complex query
-SELECT column_name(s)
-FROM table1
-INNER JOIN table2
-ON table1.column_name = table2.column_name;
-Include a brief explanation of the query and a sample output.
+SELECT TeamName, COUNT(*) as TotalMatches FROM Plays GROUP BY TeamName ORDER BY TotalMatches DESC;
 ```
+
+This advanced query is a SELECT statement that uses the GROUP BY clause in conjunction with an aggregate function, COUNT(), and orders the results using ORDER BY. It demonstrates the ability to group data and calculate aggregate values. This query calculates the total number of matches played by each team, giving us a clear picture of team activity. Teams are grouped and ordered by the total number of matches they've played, descending from the most active team. This helps in analyzing team participation across events.
+
+##### Average Attendance of Matches for Each Venue:
+
+```sql
+SELECT Venue, AVG(Attendance) as AvgAttendance FROM FootballMatch WHERE Attendance IS NOT NULL GROUP BY Venue ORDER BY AvgAttendance DESC;
+```
+
+Here, the query uses a SELECT statement with the GROUP BY clause and an aggregate function, AVG(), to calculate the average. It also includes a WHERE clause to exclude null values, and it uses ORDER BY to sort the results, illustrating the use of aggregate functions and related clauses. By excluding null values, we ensure accuracy in our calculations. This data can be pivotal for venue management and event planning, and also forecasting for future World Cup tournaments.
+
+##### Top Scorer of Each Event:
+
+```sql
+SELECT EventID, TopScorer FROM Event WHERE TopScorer IS NOT NULL;
+```
+
+This query is a straightforward SELECT statement with a string comparison in the WHERE clause to filter non-null values, focusing on string data manipulation. Identifying the top scorer for each event is crucial for recognizing outstanding individual performances. This query filters out events without a top scorer to concentrate on those with clear leading players.
+
+##### Total Number of Goals Scored in Each Round of the 2023 Event:
+
+```sql
+SELECT Round, SUM(home_score + away_score) as TotalGoals FROM FootballMatch WHERE EventID = 9 GROUP BY Round ORDER BY TotalGoals DESC;
+```
+
+An advanced SELECT statement that combines the GROUP BY clause with an aggregate function, SUM(), and uses ORDER BY to sort the results. It demonstrates complex data aggregation and ordering of the total goals scored in each round of a specific event (in this case, the 2023 event). It's an excellent tool for analyzing the progression of the event in terms of scoring, which can reflect the intensity of competition in different stages.
+
+##### Matches Where Penalty Kicks Were Taken in the 2023 Event:
+
+```sql
+SELECT FM.* FROM FootballMatch FM JOIN Event E ON FM.EventID = E.EventID WHERE (home_penalty IS NOT NULL OR away_penalty IS NOT NULL) AND E.EventYear = 2023;
+```
+
+This query is a complex SELECT statement that uses an INNER JOIN to combine data from two tables and employs the WHERE clause with a logical OR to filter matches based on penalty kicks. It showcases the use of joins, sub-queries, and conditional logic. This is particularly interesting for studying matches that were closely contested and may have required penalties to determine the outcome.
 
 ### Advanced Features
 This section discusses the advanced features that were implemented in the database, such as stored procedures, triggers, and views.
