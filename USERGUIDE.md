@@ -14,6 +14,7 @@ This guide provides step-by-step instructions for implementing and using the MyS
    - Python 3
    - MySQL Connector for Python: Run `python3 -m pip install mysql-connector-python==8.0.5`
    - Unidecode library for Python: Run `python3 -m pip install unidecode`
+`Refer to ./instructions.txt`
 
 2. Download the program files to your local computer.
 

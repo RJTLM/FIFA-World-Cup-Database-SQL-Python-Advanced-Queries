@@ -1,0 +1,3 @@
+python3 -m pip install mysql-connector-python==8.0.5
+python3 -m pip install unidecode
+python3 ./Program/menu.py
