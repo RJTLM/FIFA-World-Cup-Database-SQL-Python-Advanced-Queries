@@ -644,7 +644,17 @@ Furthermore, the use of parameterized queries is a good practice to prevent SQL 
 
 ## Discussion
 
-_Reflection on the work done, achievements, challenges faced, limitations, and potential improvements._
+I am proud of the strides I've made in developing a Python application that interfaces with a MySQL database for the FIFA Women's World Cup (my first Python program). The journey was marked by significant achievements, such as successfully implementing a comprehensive menu system that allows users to interact with the database through a command-line interface. In the real world, this feature would make the database more accessible to users who may not be familiar with SQL syntax.
+
+One of the main challenges I faced was ensuring the robustness of data handling, particularly when cleaning and inserting the CSV data into the database. The complexity of the data, with its non-ASCII characters and intricate relationships, required attention to detail and innovative scripting solutions that may have taken me slighlty off course.
+
+Despite these challenges, I managed to create a suite of Python scripts that handle data insertion and enable complex queries and database management tasks. The `insertData.py` script stands out as a testament to this effort, efficiently populating the database while handling exceptions to maintain data integrity.
+
+However, the project was not without its limitations. The advanced SQL features, such as stored procedures, views, and indexes, did not integrate as smoothly with the Python application as I had hoped. This highlighted the intricacies of interfacing SQL with external programming languages and has become a focal point for further development.
+
+In terms of potential improvements, the error handling could be more sophisticated, and the security measures could always be strengthened. Additionally, the user interface could be made more intuitive, and the documentation could be expanded to provide clearer guidance for future users.
+
+Overall, this project has been a valuable learning experience, providing insights into the complexities of database management and the power of Python scripting. I am eager to build on this foundation, refining the application and expanding its capabilities in future iterations.
 
 ## References
 
