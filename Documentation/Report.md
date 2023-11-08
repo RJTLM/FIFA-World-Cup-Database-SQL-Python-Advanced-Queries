@@ -374,7 +374,9 @@ JOIN Plays P ON FM.MatchID = P.MatchID
 WHERE P.TeamName IN ('Sweden');
 ```
 
-TThis is a SELECT statement combined with an INNER JOIN that retrieves all records from the FootballMatch table where the team 'Sweden' participated. It uses a string comparison in the WHERE clause to filter the results. This demonstrates basic methods of joining tables and filtering with suitable WHERE clauses.
+This is a SELECT statement combined with an INNER JOIN that retrieves all records from the FootballMatch table where the team 'Sweden' participated. It uses a string comparison in the WHERE clause to filter the results. This demonstrates basic methods of joining tables and filtering with suitable WHERE clauses.
+
+![Image 1](./img/1.jpg)
 
 ##### Retrieve all matches with attendance greater than 50,000:
 
@@ -384,6 +386,8 @@ SELECT * FROM FootballMatch WHERE Attendance > 50000;
 
 This query is a SELECT statement that uses a numeric comparison in the WHERE clause to select matches from the FootballMatch table with attendance figures exceeding a certain threshold, showcasing the use of numeric data in conditions.
 
+![Image 2](./img/2.jpg)
+
 ##### Get details of matches played in August 2023:
 
 ```sql
@@ -391,6 +395,8 @@ SELECT * FROM FootballMatch WHERE MatchDate BETWEEN '2023-08-01' AND '2023-08-31
 ```
 
 Here, a SELECT statement is used with a date-time function, BETWEEN, to extract matches within a specific date range, illustrating the use of date-time functions in SQL queries. The purpose of this query is to extract all matches that took place in the month of August 2023.
+
+![Image 3](./img/3.jpg)
 
 ##### Find all matches where the home team scored more than 2 goals:
 
@@ -400,12 +406,16 @@ SELECT * FROM FootballMatch WHERE home_score > 2;
 
 This query employs a SELECT statement with a numeric condition in the WHERE clause to find matches with high home team scores (more than 2 goals), again using numeric data comparisons.
 
+![Image 4](./img/4.jpg)
+
 ##### Retrieve all matches refereed by a specific referee (Tori Penso):
 ```sql
 SELECT * FROM FootballMatch WHERE RefereeName = 'Tori Penso';
 ```
 
 A SELECT statement with a string comparison in the WHERE clause is used to filter matches based on the referee's name, showcasing string comparison and manipulation in SQL.
+
+![Image 5](./img/5.jpg)
 
 #### Advanced Queries
 
@@ -419,6 +429,8 @@ SELECT TeamName, COUNT(*) as TotalMatches FROM Plays GROUP BY TeamName ORDER BY 
 
 This advanced query is a SELECT statement that uses the GROUP BY clause in conjunction with an aggregate function, COUNT(), and orders the results using ORDER BY. It demonstrates the ability to group data and calculate aggregate values. This query calculates the total number of matches played by each team.
 
+![Image 6](./img/6.jpg)
+
 ##### Average Attendance of Matches for Each Venue:
 
 ```sql
@@ -426,6 +438,8 @@ SELECT Venue, AVG(Attendance) as AvgAttendance FROM FootballMatch WHERE Attendan
 ```
 
 Here, the query uses a SELECT statement with the GROUP BY clause and an aggregate function, AVG(), to calculate the average. It also includes a WHERE clause to exclude null values, and it uses ORDER BY to sort the results, illustrating the use of aggregate functions and related clauses. By excluding null values, we ensure accuracy in our calculations.
+
+![Image 7](./img/7.jpg)
 
 ##### Top Scorer of Each Event:
 
@@ -435,6 +449,8 @@ SELECT EventID, TopScorer FROM Event WHERE TopScorer IS NOT NULL;
 
 This query is a SELECT statement with a string comparison in the WHERE clause to filter non-null values, focusing on string data manipulation.
 
+![Image 8](./img/8.jpg)
+
 ##### Total Number of Goals Scored in Each Round of the 2023 Event:
 
 ```sql
@@ -443,6 +459,8 @@ SELECT Round, SUM(home_score + away_score) as TotalGoals FROM FootballMatch WHER
 
 An advanced SELECT statement that combines the GROUP BY clause with an aggregate function, SUM(), and uses ORDER BY to sort the results. It demonstrates complex data aggregation and ordering of the total goals scored in each round of the 2023 World Cup event.
 
+![Image 9](./img/9.jpg)
+
 ##### Matches Where Penalty Kicks Were Taken in the 2023 Event:
 
 ```sql
@@ -450,6 +468,8 @@ SELECT FM.* FROM FootballMatch FM JOIN Event E ON FM.EventID = E.EventID WHERE (
 ```
 
 This query is a complex SELECT statement that uses an INNER JOIN to combine data from two tables and employs the WHERE clause with a logical OR to filter matches based on penalty kicks. It showcases the use of joins, sub-queries, and conditional logic.
+
+![Image 10](./img/10.jpg)
 
 ### Advanced Features
 
