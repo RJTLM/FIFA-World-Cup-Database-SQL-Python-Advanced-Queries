@@ -22,8 +22,6 @@ def connect_to_db():
         'host': 'localhost',
         'user': input("\nEnter your MySQL username: "),
         'password': getpass.getpass("Enter your MySQL password: "),
-        # Uncomment the following line and replace with your database name
-        # 'database': 'your_database_name_here'
     }
 
     # Establish a database connection

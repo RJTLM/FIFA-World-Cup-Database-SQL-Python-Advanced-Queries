@@ -358,15 +358,11 @@ The script handles exceptions in detail and reports any errors encountered durin
 
 ### Queries
 
-In this section, I will detail the design and implementation of various queries used to interact with the database. These queries range from simple data retrieval to more complex queries.
+#### Implementation of Database Queries via `queries.py`
 
-#### ### Implementation of Database Queries via `queries.py`
+The purpose of creating `queries.py` was to streamline the process of executing SQL queries against the database without needing to access the database via MySQL (as mentioned earlier in this report). The script allows users to view the predefined queries (see below) by selecting options from a menu and then being provided the data outputed in the CLI.
 
-In developing queries.py, my intention was to streamline the process of executing SQL queries against the database database (as mentioned earlier in this report). The script is designed to be intuitive, allowing users to retrieve data with ease by selecting options from a menu.
-
-The script presents a selection of predefined queries. Users can choose from basic to advanced queries, each corresponding to a specific data retrieval function. Upon selection, the script executes the relevant SQL command, fetching and displaying the results in a clear and organized format.
-
-Moreover, the queries are externalized in SQL files for flexibility and maintainability. Adjustments to queries can be made directly in the SQL files without altering the Python script, facilitating updates and modifications. The output is presented in a tabular form, making the data accessible and straightforward to interpret.
+The queries were created in SQL files and `queries.py` reads those files. Furthermore, the output is presented in a tabular form, making the data accessible and straightforward to interpret (although this isn't going to be perfect without adding additional libraries which is beyond the scope of this task).
 
 #### Basic Queries
 
@@ -378,7 +374,7 @@ JOIN Plays P ON FM.MatchID = P.MatchID
 WHERE P.TeamName IN ('Sweden');
 ```
 
-TThis is a SELECT statement combined with an INNER JOIN that retrieves all records from the FootballMatch table where the team 'Sweden' participated. It uses a string comparison in the WHERE clause to filter the results, demonstrating basic methods of joining tables and filtering with suitable WHERE clauses. This information is useful for analyzing the performance and schedule of the Swedish team, and it provides a focused dataset for anyone specifically interested in this team's matches.
+TThis is a SELECT statement combined with an INNER JOIN that retrieves all records from the FootballMatch table where the team 'Sweden' participated. It uses a string comparison in the WHERE clause to filter the results. This demonstrates basic methods of joining tables and filtering with suitable WHERE clauses.
 
 ##### Retrieve all matches with attendance greater than 50,000:
 
@@ -386,7 +382,7 @@ TThis is a SELECT statement combined with an INNER JOIN that retrieves all recor
 SELECT * FROM FootballMatch WHERE Attendance > 50000;
 ```
 
-This query is a simple SELECT statement that uses a numeric comparison in the WHERE clause to select matches from the FootballMatch table with attendance figures exceeding a certain threshold, showcasing the use of numeric data in conditions. The result set from this query is important for identifying highly attended matches, which could be indicative of high-profile games or venues with significant capacity. This data can be used for crowd management studies or marketing analysis.
+This query is a SELECT statement that uses a numeric comparison in the WHERE clause to select matches from the FootballMatch table with attendance figures exceeding a certain threshold, showcasing the use of numeric data in conditions.
 
 ##### Get details of matches played in August 2023:
 
@@ -394,7 +390,7 @@ This query is a simple SELECT statement that uses a numeric comparison in the WH
 SELECT * FROM FootballMatch WHERE MatchDate BETWEEN '2023-08-01' AND '2023-08-31';
 ```
 
-Here, a SELECT statement is used with a date-time function, BETWEEN, to extract matches within a specific date range, illustrating the use of date-time functions in SQL queries. The purpose of this query is to extract all matches that took place in the month of August 2023. It's useful for generating reports on matches played within a specific time frame, possibly for monthly summaries or tournament analysis.
+Here, a SELECT statement is used with a date-time function, BETWEEN, to extract matches within a specific date range, illustrating the use of date-time functions in SQL queries. The purpose of this query is to extract all matches that took place in the month of August 2023.
 
 ##### Find all matches where the home team scored more than 2 goals:
 
@@ -402,18 +398,18 @@ Here, a SELECT statement is used with a date-time function, BETWEEN, to extract 
 SELECT * FROM FootballMatch WHERE home_score > 2;
 ```
 
-This query employs a SELECT statement with a numeric condition in the WHERE clause to find matches with high home team scores (more than 2), again using numeric data comparisons. It's a valuable query for understanding which home teams have a strong offensive performance, and it could be used for statistical analysis of home advantage or for identifying high-scoring teams.
+This query employs a SELECT statement with a numeric condition in the WHERE clause to find matches with high home team scores (more than 2 goals), again using numeric data comparisons.
 
 ##### Retrieve all matches refereed by a specific referee (Tori Penso):
 ```sql
 SELECT * FROM FootballMatch WHERE RefereeName = 'Tori Penso';
 ```
 
-A SELECT statement with a string comparison in the WHERE clause is used to filter matches based on the referee's name, showcasing string comparison and manipulation in SQL. This information might be used to review the referee's workload, distribution of matches, or to analyze the matches they have overseen for performance and decision-making patterns.
+A SELECT statement with a string comparison in the WHERE clause is used to filter matches based on the referee's name, showcasing string comparison and manipulation in SQL.
 
 #### Advanced Queries
 
-In this section, I delve into the more sophisticated queries that provide deeper insights into the dataset. These advanced queries leverage SQL functions like `COUNT()`, `AVG()`, and `SUM()`, and involve grouping and ordering results to extract meaningful statistics and trends.
+My advanced queries use `COUNT()`, `AVG()`, and `SUM()`, and involve grouping and ordering results to extract meaningful statistics and trends.
 
 ##### Total Number of Matches Played by Each Team:
 
@@ -421,7 +417,7 @@ In this section, I delve into the more sophisticated queries that provide deeper
 SELECT TeamName, COUNT(*) as TotalMatches FROM Plays GROUP BY TeamName ORDER BY TotalMatches DESC;
 ```
 
-This advanced query is a SELECT statement that uses the GROUP BY clause in conjunction with an aggregate function, COUNT(), and orders the results using ORDER BY. It demonstrates the ability to group data and calculate aggregate values. This query calculates the total number of matches played by each team, giving us a clear picture of team activity. Teams are grouped and ordered by the total number of matches they've played, descending from the most active team. This helps in analyzing team participation across events.
+This advanced query is a SELECT statement that uses the GROUP BY clause in conjunction with an aggregate function, COUNT(), and orders the results using ORDER BY. It demonstrates the ability to group data and calculate aggregate values. This query calculates the total number of matches played by each team.
 
 ##### Average Attendance of Matches for Each Venue:
 
@@ -429,7 +425,7 @@ This advanced query is a SELECT statement that uses the GROUP BY clause in conju
 SELECT Venue, AVG(Attendance) as AvgAttendance FROM FootballMatch WHERE Attendance IS NOT NULL GROUP BY Venue ORDER BY AvgAttendance DESC;
 ```
 
-Here, the query uses a SELECT statement with the GROUP BY clause and an aggregate function, AVG(), to calculate the average. It also includes a WHERE clause to exclude null values, and it uses ORDER BY to sort the results, illustrating the use of aggregate functions and related clauses. By excluding null values, we ensure accuracy in our calculations. This data can be pivotal for venue management and event planning, and also forecasting for future World Cup tournaments.
+Here, the query uses a SELECT statement with the GROUP BY clause and an aggregate function, AVG(), to calculate the average. It also includes a WHERE clause to exclude null values, and it uses ORDER BY to sort the results, illustrating the use of aggregate functions and related clauses. By excluding null values, we ensure accuracy in our calculations.
 
 ##### Top Scorer of Each Event:
 
@@ -437,7 +433,7 @@ Here, the query uses a SELECT statement with the GROUP BY clause and an aggregat
 SELECT EventID, TopScorer FROM Event WHERE TopScorer IS NOT NULL;
 ```
 
-This query is a straightforward SELECT statement with a string comparison in the WHERE clause to filter non-null values, focusing on string data manipulation. Identifying the top scorer for each event is crucial for recognizing outstanding individual performances. This query filters out events without a top scorer to concentrate on those with clear leading players.
+This query is a SELECT statement with a string comparison in the WHERE clause to filter non-null values, focusing on string data manipulation.
 
 ##### Total Number of Goals Scored in Each Round of the 2023 Event:
 
@@ -445,7 +441,7 @@ This query is a straightforward SELECT statement with a string comparison in the
 SELECT Round, SUM(home_score + away_score) as TotalGoals FROM FootballMatch WHERE EventID = 9 GROUP BY Round ORDER BY TotalGoals DESC;
 ```
 
-An advanced SELECT statement that combines the GROUP BY clause with an aggregate function, SUM(), and uses ORDER BY to sort the results. It demonstrates complex data aggregation and ordering of the total goals scored in each round of a specific event (in this case, the 2023 event). It's an excellent tool for analyzing the progression of the event in terms of scoring, which can reflect the intensity of competition in different stages.
+An advanced SELECT statement that combines the GROUP BY clause with an aggregate function, SUM(), and uses ORDER BY to sort the results. It demonstrates complex data aggregation and ordering of the total goals scored in each round of the 2023 World Cup event.
 
 ##### Matches Where Penalty Kicks Were Taken in the 2023 Event:
 
@@ -453,23 +449,21 @@ An advanced SELECT statement that combines the GROUP BY clause with an aggregate
 SELECT FM.* FROM FootballMatch FM JOIN Event E ON FM.EventID = E.EventID WHERE (home_penalty IS NOT NULL OR away_penalty IS NOT NULL) AND E.EventYear = 2023;
 ```
 
-This query is a complex SELECT statement that uses an INNER JOIN to combine data from two tables and employs the WHERE clause with a logical OR to filter matches based on penalty kicks. It showcases the use of joins, sub-queries, and conditional logic. This is particularly interesting for studying matches that were closely contested and may have required penalties to determine the outcome.
+This query is a complex SELECT statement that uses an INNER JOIN to combine data from two tables and employs the WHERE clause with a logical OR to filter matches based on penalty kicks. It showcases the use of joins, sub-queries, and conditional logic.
 
 ### Advanced Features
 
 #### Advanced Features Implementation and Troubleshooting
 
-In my project, I developed two Python scripts, `concepts.py` and `executeConcepts.py`, to interact with the advanced SQL features I had implemented in my database. The `concepts.py` script was designed to load and execute SQL commands for stored procedures, views, and indexes from corresponding SQL files. It used regular expressions to parse the SQL commands and an interactive execution function to allow users to select which SQL concept to load and execute. This script was crucial for testing the functionality of the advanced features within the Python environment.
+`concepts.py` and `executeConcepts.py`, interact with the advanced SQL features I had implemented in my database. The `concepts.py` script was designed to load and execute SQL commands for stored procedures, views, and indexes from the corresponding SQL files. It used regular expressions to parse the SQL commands and a menu to allow users to select which SQL concept to load and execute.
 
-The `executeConcepts.py` script, on the other hand, was focused on executing predefined SQL concepts. It read SQL commands from files and executed them using a cursor object from the MySQL connector. This script was intended to facilitate the direct execution of complex SQL operations such as calling stored procedures and creating views, with the added functionality of explaining indexes to assess their impact on query performance.
+The `executeConcepts.py` script, on the other hand, was focused on executing predefined SQL concepts. It read SQL commands from files and executed them using a cursor object from the MySQL connector.
 
-Despite my efforts to ensure smooth integration, I encountered errors when attempting to call the advanced features from these Python scripts. Although the SQL syntax was correct, and the program looped back to the menu without crashing, the advanced features did not work as intended. This was a setback, as I had not anticipated such issues, especially since I would have implemented delimiters in a direct MySQL environment to avoid such problems. The experience underscored the challenges of interfacing SQL with external programming languages, and it became clear that I needed to delve deeper into troubleshooting to achieve the desired functionality.
+Unfortunately, I encountered errors when attempting to call the advanced features from these Python scripts. The program looped back to the menu without crashing but the advanced features did not work as intended. I would have implemented delimiters in a direct MySQL environment to avoid such problems and fatigue is probably the reason I had so many issues that are likely very solvable.
 
 #### Stored Procedures
 
-I implemented stored procedures to simplify complex operations, enabling them to be executed repeatedly with just a command. This approach made data management more efficient and also improved security by limiting direct user access to the data.
-
-- **GetTotalMatchesByTeam**: This procedure was supposed to count the matches played by a specific team. It was just a call away from providing quick insights. However, when I tried to invoke it from my Python application, it resulted in errors.
+- **GetTotalMatchesByTeam**: This procedure was supposed to count the matches played by a specific team. It was just a call away from providing quick insights. However, when I tried to call it from via Python application, it resulted in errors.
 
    ```sql
    CREATE PROCEDURE GetTotalMatchesByTeam(IN teamName VARCHAR(255))
@@ -482,7 +476,7 @@ I implemented stored procedures to simplify complex operations, enabling them to
 
 My attempt to invoke it: `CALL GetTotalMatchesByTeam('Sweden');`
 
-- **GetAverageAttendanceByYear**: Aimed at calculating average attendance figures, this procedure was meant to make it easier to pull out relevant attendance data. Like the first, it encountered issues when executed through the Python interface.
+- **GetAverageAttendanceByYear**: Aimed at calculating average attendance figures, this procedure was meant to make it easier to pull out relevant attendance data.
 
 ```sql
 CREATE PROCEDURE GetAverageAttendanceByYear(IN year INT)
@@ -496,11 +490,7 @@ END;
 
 My attempt to invoke it: `CALL GetAverageAttendanceByYear(2023);`
 
-I had expected these procedures to run smoothly since they were syntactically correct. If I had been working directly in MySQL, I would have included delimiters for proper statement termination. However, the Python MySQL connector should handle these without needing explicit delimiter statements. The errors were unexpected, but thankfully, my program was robust enough to catch exceptions and continue running, allowing for a seamless user experience.
-
 #### Views
-
-I set up views to offer a simplified and efficient way to access complex query results. They functioned well within the database (when the delimiters were included), but the real test was accessing them through the Python program.
 
 - **ViewTopScorers**: This view was meant to highlight top performers easily, without the need for complex joins or subqueries.
 
@@ -523,8 +513,6 @@ GROUP BY Venue;
 
 #### Indexes
 
-I chose indexes to speed up data retrieval, an essential part of performance tuning, especially as data volumes grow.
-
 - **idx_teamname**: I expected this index to improve search performance on the `TeamName` field in the `Plays` table.
 
 ```sql
@@ -539,15 +527,14 @@ CREATE INDEX idx_date_attendance ON FootballMatch(MatchDate, Attendance);
 
 I planned to use `EXPLAIN` statements to demonstrate the performance improvements with these indexes.
 
-Even with careful planning and implementation, the advanced features didn't work as seamlessly as I hoped when called from the Python application. This experience has shown me the intricacies of integrating SQL with external programming languages. I'm now focused on troubleshooting these issues to ensure that the advanced features are just as effective through the Python application as they are within the MySQL environment.
-
 ### Database Connectivity and Python Implementation
 
 #### Database Connection
 
-To establish a connection between the Python application and the database, I utilised the `mysql.connector` library. This library provides an interface for connecting to a MySQL database server from Python. Below is an example of how the connection is set up:
+I used the `mysql.connector` library to establish a connection between the Python application and the database:
 
 ```python
+# mySQLCOnnector.py
 import mysql.connector
 import getpass
 
@@ -569,37 +556,30 @@ def connect_to_db():
     return cursor, db_connection
 ```
 
-The connection process involves prompting the user for their MySQL username and password and then using these credentials to establish a connection. The connect_to_db function encapsulates this process and returns both the connection object and cursor for executing SQL commands.
+The connection process prompts the user for their MySQL username and password and then uses these credentials to establish a connection.
 
 #### Python Scripts for Database Interaction
 
-My goal for this project was to successfully implement the entire assignment in Python, create a comprehensive menu system and integrate advanced features that would allow users to connect to and interact with the FIFA Women's World Cup database via the command-line interface (CLI).
+As previously notes, my goal for this project was to successfully implement the entire assignment in Python, create a comprehensive menu system and integrate advanced features that would allow users to connect to and interact with the FIFA Women's World Cup database via the command-line interface (CLI).
 
-From the outset, my vision was to create a system that exceeded the project's requirements. This system was designed to facilitate every operation detailed in the assignment brief through the CLI, thereby negating the need for direct MySQL database interaction. This approach was intended to simplify the user experience, making database management more accessible and intuitive.
+From the outset, my vision was to create a system that exceeded the project's requirements. This system was designed to facilitate every operation detailed in the assignment brief through the CLI to avoid direct MySQL database interaction.
 
-The journey began with the development of `asciiConversion.py`, a script that addressed the challenge of non-ASCII characters in player names by ensuring compatibility across the system. This was followed by the creation of `dataViewer.py`, which allowed users to inspect CSV files directly through the CLI, and `extractData.py`, which streamlined the process of extracting essential data for database insertion.
+`asciiConversion.py`, addressed the challenge of non-ASCII characters in player names by ensuring compatibility across the system. `dataViewer.py` allowed users to view CSV files directly through the CLI, and `extractData.py` streamlined the process of extracting essential data for database insertion (although this could have been better).
 
-Recognizing the complexity of the task, I developed `splitColumn.py` to fully utilize the CSV data. However, I soon realized that this script, while functional, was more complex than necessary for the project's scope. The experience underscored the importance of balancing ambition with practicality.
+`menu.py` is a user-friendly menu system and is the gateway to the other functionalities I created
 
-The backbone of the user experience was `menu.py`, a script that provided a user-friendly menu system. This script was the gateway to the suite of tools, enabling users to navigate and operate various functionalities seamlessly within the CLI.
-
-The database implementation itself was a phased operation, with `mySQLConnector.py` serving as the entry point for database connection. A series of scripts and SQL files, including `createTables.py`, `createDatabase.sql`, `useDatabase.sql`, `createTablesWithoutFKDep.sql`, `createTablesWithFKDep.sql`, and `createRelationshipSets.sql`, were methodically executed to construct the database's structure and relationships.
-
-Moreover, `deleteDatabase.sql` was an essential tool for resetting the database, which proved invaluable for testing and refining the system to ensure its robustness.
+`mySQLConnector.py` allows for database connection. `createTables.py`, `createDatabase.sql`, `useDatabase.sql`, `createTablesWithoutFKDep.sql`, `createTablesWithFKDep.sql`, `createRelationshipSets.sql`, and others were methodically executed to construct the database's structure and relationships.
 
 In summary, each script and SQL file played a pivotal role in building a user-friendly system that simplified the management of databases without the need for direct MySQL access.
 
 #### Error Handling and Security
 
-In the context of database interactions within the project, error handling and security are implemented through several methods:
-
 ##### Error Handling
 
-Error handling in Python is managed using try-except blocks. When interacting with the MySQL database, the `mysql.connector.Error` exception is specifically caught to handle any issues that may arise during database operations. This is evident in the `insertData.py` script, where each database insertion operation is wrapped in a try-except block to catch and handle any errors that occur.
-
-For example, when inserting data into the Event table:
+Error handling in Python is managed using try-except blocks. When interacting with the MySQL database, the `mysql.connector.Error` exception is used to handle any issues that may arise during database operations, as used in `insertData.py`. Each database's insertion operation is wrapped in a try-except block to catch and handle any errors that occur:
 
 ```python
+# insertData.py
 try:
     # Insert data into the Event table from littleDataCleaned.csv
     # ...
@@ -613,6 +593,7 @@ except Error as e:
 Similarly, the `queries.py` script uses exception handling to manage errors that may occur when executing SQL queries:
 
 ```python
+#queries.py
 try:
     cursor.execute(query, params)
     records = cursor.fetchall()
@@ -623,32 +604,26 @@ except Exception as e:
 
 ##### Security
 
-Security during database interactions is primarily concerned with preventing unauthorized access and SQL injection attacks. The `mySQLConnector.py` script demonstrates a secure method of connecting to the database by prompting the user for their MySQL username and password, which are not stored in the script:
+Security during database interactions is primarily concerned with preventing unauthorized access and SQL injection attacks. `mySQLConnector.py` prompts the user for their MySQL username and password, which are not stored in the script:
 
 ```python
+#mySQLConnector.py
 db_config = {
-    'host': 'localhost',
-    'user': input("\nEnter your MySQL username: "),
-    'password': getpass.getpass("Enter your MySQL password: "),
-    # 'database': 'your_database_name_here'
-}
+        'host': 'localhost',
+        'user': input("\nEnter your MySQL username: "),
+        'password': getpass.getpass("Enter your MySQL password: "),
+    }
 ```
-
-Furthermore, the use of parameterized queries is a good practice to prevent SQL injection, as it ensures that any input is treated as a parameter rather than part of the SQL statement. This is a security best practice that is observed throughout the project's database interaction scripts.
 
 ## Discussion
 
-I am proud of the strides I've made in developing a Python application that interfaces with a MySQL database for the FIFA Women's World Cup (my first Python program). The journey was marked by significant achievements, such as successfully implementing a comprehensive menu system that allows users to interact with the database through a command-line interface. In the real world, this feature would make the database more accessible to users who may not be familiar with SQL syntax.
+I am proud of the Python application I created. It intergrates with a MySQL database for the FIFA Women's World Cup (my first Python program). I successfully implementing a comprehensive menu system that allows users to interact with the database via the CLI. In the real world, this feature would make the database more accessible to users who may not be familiar with SQL syntax, although I understand there are better still practices that I will learn about in future untis.
 
-One of the main challenges I faced was ensuring the robustness of data handling, particularly when cleaning and inserting the CSV data into the database. The complexity of the data, with its non-ASCII characters and intricate relationships, required attention to detail and innovative scripting solutions that may have taken me slighlty off course.
+Even though I had diffulcities with data insertion and advanced concepts, I managed to create a Python program that achieved most objectives set out in the assignment brief.
 
-Despite these challenges, I managed to create a suite of Python scripts that handle data insertion and enable complex queries and database management tasks. The `insertData.py` script stands out as a testament to this effort, efficiently populating the database while handling exceptions to maintain data integrity.
+In terms of potential improvements (if I had more time), the error handling could be more sophisticated, and the security measures could always be strengthened. Additionally, the user interface could be made more intuitive, and the documentation could be expanded to provide clearer guidance for future users.
 
-However, the project was not without its limitations. The advanced SQL features, such as stored procedures, views, and indexes, did not integrate as smoothly with the Python application as I had hoped. This highlighted the intricacies of interfacing SQL with external programming languages and has become a focal point for further development.
-
-In terms of potential improvements, the error handling could be more sophisticated, and the security measures could always be strengthened. Additionally, the user interface could be made more intuitive, and the documentation could be expanded to provide clearer guidance for future users.
-
-Overall, this project has been a valuable learning experience, providing insights into the complexities of database management and the power of Python scripting. I am eager to build on this foundation, refining the application and expanding its capabilities in future iterations.
+Overall, this project has been a valuable learning experience. I am eager to build on this foundation, refining the application and expanding its capabilities in future iterations.
 
 ## References
 
