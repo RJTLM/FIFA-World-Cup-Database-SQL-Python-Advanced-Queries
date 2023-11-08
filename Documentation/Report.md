@@ -28,28 +28,30 @@
 
 ## Introduction
 
-In this report, I present an overview of the work I have done to design, implement, and query a relational database system tailored for the FIFA Women's World Cup scenario. The entire program operates within a Python environment, specifically for a Linux command-line interface (CLI), ensuring seamless execution and interaction without the need for direct MySQL database access.
+In this report, I present an overview of the work I have done to design, implement, and query a database system designed for Scenario A, The FIFA Women's World Cup. The entire program can be operated running `python3 ./Program/menu.py` in a linux command-line interface (CLI) (i.e. a terminal in the Virtual Desktop). No direct MySQL database access is required.
 
-Throughout this project, I have followed the step-by-step process taught in the lecture slides to design an entity-relationship model, implement a relational schema, and populate a database with sample data. Furthermore, I created and executed a suite of SQL queries, using advanced features such as stored procedures and views to enhance the database's functionality. The culmination of these efforts (along with my painful perfectionism) is a system that meets the specified requirements and also demonstrates the practical application of modern database concepts.
+Throughout this project, I treated the lecture slides like my bible to design an entity-relationship (ER) model, implement the relational schema, and populate a database with sample data from the csv filed available in Blackboard. I also created and executed a suite of SQL queries, using advanced features such as stored procedures and views to enhance the database's functionality. The culmination of these efforts (along with the fact that I am unfortunately a perfectionist) is a system that meets most of the specified requirements and also demonstrates the practical application of modern database concepts.
 
-I have documented the entire process, reflecting on the design and implementation decisions, identifying challenges, and suggesting improvements. This documentation serves as a testament to the numerous hours spent testing, refactoring, and debugging to ensure the delivery of a high-quality database system.
+I have documented the entire process, reflecting on the design and implementation decisions, identifying challenges, and suggesting improvements should I attempt something similar in the future. This documentation serves as a 'lens' into the numerous hours spent testing, refactoring, and debugging to ensure the delivery of a high-quality database system via Python.
 
-If you are interested in a more intricate view of the development of my project, you are welcome to review my private GitHub repository (happy to give access just don't want to compromise academic integrity), which contains well over 200 commits that highlight the pain I experienced testing and refactoring, refactoring and testing, and then some more (and also the evolution of this assignment). The repository is a testament to the dedication and rigorous attention to detail that has been the hallmark of this project.
+### GitHub and Version Control
+
+I used GitHub to document this project so if you are interested in a more chronological view of the development of my project, you are welcome to review my `private GitHub repository` (happy to give access just don't want to compromise academic integrity), which contains 202 commits at the time of writing and highlight the pain I experienced during testing and refactoring, refactoring and testing, and then testing some more (and also the evolution of this assignment).
 
 [GitHub Repository: RJTLM/DSFinalAssignment](https://github.com/RJTLM/DSFinalAssignment)
 
-By doing this assignment I have been able to apply theoretical knowledge learned in class to a real-world context, and the following sections will detail the processes and methodologies used to achieve (and not quite) the objectives set forth.
+By doing this assignment I have been able to apply theoretical knowledge learned in class to a real-world scenario, and the following sections highlight the processes and methodologies used to achieve the objectives herein.
 
 
 ## Design of the Database
 
 ### Entity Selection
 
-In designing the database for the FIFA Women's World Cup, careful consideration was given to the selection of entities, their relationships, and the data types of their attributes. The goal was to create a robust and scalable model that accurately reflects the complexities of the tournament while remaining intuitive and efficient for querying and data manipulation.
+The design of the database for the FIFA Women's World Cup evolved over numerous iterations and careful consideration was given to the selection of entities, their relationships and cardinality.
 
 #### Entities and Attributes
 
-The primary entities identified for this database are `Match`, `Team`, `Player`, `Event`, `Manager`, and `Referee`. These entities encompass the core components of the tournament and are described as follows:
+The entities for this database are `Match`, `Team`, `Player`, `Event`, `Manager`, and `Referee`. These entities are central components of the tournament and are described as follows:
 
 - **Match**: Represents individual games played within the tournament. Attributes include unique identifiers, scores, penalties, attendance, venue, and related event information. The `MatchID` serves as the primary key, ensuring each match is uniquely identifiable.
   
@@ -57,27 +59,27 @@ The primary entities identified for this database are `Match`, `Team`, `Player`,
   
 - **Player**: Details the players, including whether they are a team captain. The `PlayerName` is the primary key, and the `isCaptain` attribute is a boolean indicating captaincy.
   
-- **Event**: Encapsulates the overall tournament event, with attributes detailing the year, host, number of teams, and outcomes such as the champion and top scorer. The `EventID` is the primary key.
+- **Event**: Represents tournament data, with year, host, number of teams, and outcomes such as the champion and top scorer as attributes. The `EventID` is the primary key.
   
 - **Manager**: Contains information on team managers. The `ManagerName` is the primary key.
   
-- **Referee**: Contains information on match referees. The `RefereeName` is the primary key.
+- **Referee**: Contains information on the primary match referees. The `RefereeName` is the primary key.
 
 #### Relationships
 
-The relationships between entities are critical to the relational schema and are defined as follows:
+These relationships between entities are critical to the design:
 
-- **Plays**: A many-to-many relationship between `Match` and `Team`, indicating which teams play in which matches. Attributes include `MatchID`, `TeamName`, and `HomeAway` to indicate whether the team is playing at home or away.
+- **Plays**: A many-to-many relationship between `Match` and `Team`, demonstrating which teams play in which matches. Attributes include `MatchID`, `TeamName`, and `HomeAway` to indicate whether the team is playing at home or away (this is how data is presented in the csv file).
   
 - **Manages**: A many-to-many relationship between `Match` and `Manager`, indicating which manager manages a team in a particular match.
   
 - **PlaysFor**: A many-to-many relationship between `Player` and `Team`, indicating which players play for which teams.
   
-- **Is Played In**: A one-to-many relationship between `Match` and `Event`, linking matches to the event they are part of.
+- **IsPlayedIn**: A one-to-many relationship between `Match` and `Event`, linking matches to the event they are part of.
 
 #### Data Types
 
-Data types were chosen to best represent the nature of the data while optimizing for storage and performance:
+Data types were chosen based on my understanding of what best represents the nature of the data:
 
 - **Integer (INT)**: Used for numerical values that do not require decimals, such as scores, attendance, and identifiers.
   
@@ -101,11 +103,11 @@ Cardinality constraints define the nature of the relationships in terms of quant
 
 Participation constraints specify the minimum and maximum number of entity instances that can participate in a relationship:
 
-- **Mandatory Participation**: Indicates that an entity must participate in the relationship, such as every match must be associated with an event.
+- **Mandatory Participation**: An entity must participate in the relationship, such as every match must be associated with an event.
   
-- **Optional Participation**: Indicates that an entity's participation in the relationship is not required, such as a player not needing to be a captain.
+- **Optional Participation**: An entity's participation in the relationship is not required, such as a player not needing to be a captain.
 
-The entity selection and relationship mapping were done with the intention of creating a database that is not only reflective of the real-world domain but also optimized for query performance and data integrity. The chosen data types and constraints ensure that the database is normalized, reducing redundancy and improving data consistency.
+The entity selection and relationship mapping were done with the intention of creating a database that is as reflective of the real-world as possible, and is also user-friendly with regards to query performance and data integrity. 
 
 #### Entity Sets, Relationship Sets, and Cardinality Constraints
 
@@ -274,7 +276,7 @@ FK TeamName REF Team(TeamName)
 
 ### Third Normal Form
 
-Normalization is a systematic approach of decomposing tables to eliminate data redundancy and undesirable characteristics like Insertion, Update, and Deletion Anomalies. It's a multi-step process that puts data into tabular form by removing duplicated data from the relation tables.
+The chosen data types and constraints ensure that the database is normalized to reduce redundancy and improve data consistency:
 
 #### First Normal Form (1NF)
 For a table to be in 1NF, it must have:
@@ -283,7 +285,7 @@ For a table to be in 1NF, it must have:
 
 My Schema:
 - Each attribute has atomic values (no multi-valued attributes).
-- There are no repeating groups; for example, `Plays` and `Manages` are separate tables, which indicates that many-to-many relationships are handled properly.
+- There are no repeating groups; for example, `Plays` and `Manages` are separate tables, showing my many-to-many relationships are handled correctly.
 
 #### Second Normal Form (2NF)
 For a table to be in 2NF, it must be in 1NF, and:
@@ -316,49 +318,41 @@ All tables are in 3NF because each table has a primary key that uniquely identif
 11. **Event Scheduling**: All events are scheduled in advance, and the database is updated accordingly to reflect any changes.
 13. **Team Participation**: Each team is assumed to participate in the entire duration of the tournament unless disqualified or withdrawn.
 14. **Database Security**: Database security is a requirement, thus access control via username and password is essential to protect sensitive data.
-15. **Tournament Data Focus**: The database is primarily focused on capturing and providing insights into tournament-level data, such as match outcomes, team progress, and crowd attendance. It is not designed to delve into detailed internal match statistics beyond standard information such as the winner, loser, scores, and basic event occurrences.
-
-These assumptions are integral to the design and implementation of the database, providing a framework within which the database operates and ensuring that users have a clear understanding of its scope and limitations.
+15. **Tournament Data Focus**: The database is primarily focused on capturing and providing insights into tournament-level data, such as match outcomes, team progress, and crowd attendance. It is not designed to analyse internal match statistics beyond standard information such as the winner, loser, scores, and basic event occurrences.
 
 ## Implementation of the Database and Adding Sample Data
 
 ### Database Implementation
 
-My journey to create a Python program for the FIFA Women's World Cup database was driven by a goal to exceed the project's outlined requirements. The vision was to engineer a system that would facilitate every operation detailed in the assignment brief through the command-line interface (CLI), thus eliminating the need for direct MySQL database interaction.
+My  goal for this project was to have everything run via a Python program and not need to directly access the database via MySQL.
 
-The initial challenge was cleaning the provided CSV files. The global diversity of the dataset introduced player names with non-ASCII characters, which necessitated a cleanup. To resolve this, I created `asciiConversion.py`, a script that cleaned and converted non-ASCII characters to their ASCII counterparts, ensuring compatibility throughout the system.
+The first thing I needed to do was clean the provided CSV files. A lot of the data (particuarly player names) had non-ASCII characters so I created `asciiConversion.py`, a script that cleaned and converted non-ASCII characters to their ASCII equivalents.
 
-Following this, I built `dataViewer.py`. This utility allowed for the inspection of CSV files directly through the CLI, bypassing the need for spreadsheet applications (Excel, etc.).
+Following this, I built `dataViewer.py`. This program allowed users to view the contents of CSV files directly through the CLI so applications such as Excel were not needed.
 
-The `extractData.py` script was next in line, designed to extract only the essential columns required for database insertion. This file allowed me to extract the data I wanted (to minimise potential issues later on).
+`extractData.py` was designed to extract only the essential columns required for database insertion. This script allowed me to extract the data I wanted with the intent of minimising potential issues later on.
 
-I then created `splitColumn.py` with the intent to utilize the entirety of the CSV data. However, the realization that this approach was beyond the project's scope (even for me, (ha ha I'm so funny)) led to a reevaluation. The script, while functional, represented an overly complex solution for a simpler task.
+I then created `splitColumn.py` when I was still planning to insert detailed player data into the database. This changed as I progressed through the assignment but kept the program there as a useful tool nonetheless. If I had more time, I would have refactored this script to better split columns with multiple delimiters, etc..
 
-Central to the user experience was `menu.py`, a script that functioned as the gateway for the suite of tools. It provided a user-friendly menu system, allowing for seamless navigation and operation of the various functionalities, all from within the CLI.
+`menu.py` is the central script that runs the entire program. It has a user-friendly menu system, allowing for easy navigation and operation of the various functionalities, all from within the terminal.
 
-With the groundwork laid by these tools, I focused on the database implementation. `mySQLConnector.py` served as the entry point, facilitating database connection upon user authentication (hidden password too).
+Once I was satisfied that I had useable data, I focused on the database implementation. `mySQLConnector.py` is the entry point that facilitates database connection upon user authentication (hidden password too).
 
-The database's construction was a phased operation, involving a series of scripts and SQL files. `createTables.py` laid the foundation, while `createDatabase.sql`, `useDatabase.sql`, `createTablesWithoutFKDep.sql`, `createTablesWithFKDep.sql`, and `createRelationshipSets.sql` each contributed to the structural and relational development of the database. It is worth noting that the tables without any dependencies were created first, then tables with dependencies and then relationship (many-to-many) tables.
+The database's construction was broken down into smaller pieces and involved a series of Python scripts and SQL files. `createTables.py` laid the foundation, `createDatabase.sql`, `useDatabase.sql`, `createTablesWithoutFKDep.sql`, `createTablesWithFKDep.sql`, and `createRelationshipSets.sql` all functioned to create the database and tables. It is worth noting that the tables without any dependencies were created first, then tables with dependencies and then relationship (many-to-many) tables (I figured this out the hard way).
 
-Finally, `deleteDatabase.sql` provided a means to reset the database, a crucial feature for testing and iterative refinement, ensuring the robustness of the final product.
-
-In short, every script and SQL file played its part, coming together to build a system that is user friendly, and simpler than directly accessing MySQL to manage databases.
+During testing, I created `deleteDatabase.sql` as a means to quickly reset the database without needing to do so via MySQL. Although this would not likely be included in a real-world application (not to the extremity of its function), a more comprehensive version likely would so I chose to keep it in my final design.
 
 ### Sample Data and Insertion
 
-This phase of the project was, without a doubt, the most challenging and time-consuming. I found myself diving deep into the intricacies of data insertion, a task that proved to be more complex than anticipated. The lack of clear guidance on how to insert data from CSV files directly into MySQL tables led me down a path of extensive research and experimentation.
+This phase of the project was for me, without a doubt, the most challenging and time-consuming. I kept getting stuck, diving deep into the online void of data insertion (thanks Google), and making thinks more difficult than they needed to be. There wasn't much detail in the lecture slides about to insert data from CSV files directly into MySQL (via Python) tables led me down a path of overly-extensive research and reiteration.
 
-Initially, I attempted to create a comprehensive table that could hold all CSV data by using `createBigDataTable.sql` and `insertBigData.sql`. However, this approach hit a dead end when I realized it wasn't feasible. It was during this period of trial and error that I decided to narrow the scope of my database to focus solely on tournament data, as the player information provided in the CSV files was causing numerous issues due to its format.
+Initially, I attempted to create a comprehensive table that could hold all CSV data by using `createBigDataTable.sql` and `insertBigData.sql` (these is no longer available unless you want to find them in my version control history). This approach hit a dead end when I realized it wasn't feasible. It was during this period of trial and error that I decided to narrow the scope of my database to focus solely on tournament data, as the player information provided in the CSV files was causing numerous issues due to its format (multiple pieces of data in each column that I struggled to accurately extract).
 
-After much deliberation and testing various strategies, I discovered that Python could in fact be used to insert data directly into each table, bypassing the need for intermediary SQL scripts. This led to the the final version of `insertData.py`, a script that became the anchor for data insertion.
+After going around in circles, I discovered that Python could in fact be used to insert data directly into each table (even though this is what I initiall tried to do), bypassing the need for intermediary SQL scripts. This resulted in the final version of `insertData.py`, a script that became the central piece of code for data insertion.
 
-The `insertData.py` script begins by clearing any existing data in the tables to ensure a clean slate for insertion. The script then proceeds to insert data into various tables such as Team, Player, Manager, Referee, Event, FootballMatch, Plays, and Manages. It uses a combination of `INSERT` and `INSERT IGNORE` statements to add new records while avoiding duplicates, especially for entries like team names, player names, and manager names that could potentially repeat.
+`insertData.py` clears any existing data in the tables to ensure a clean slate for insertion (I know this would likely function differently in a real-world scenario). The script then inserts data into the tables documented above. It uses a combination of `INSERT` and `INSERT IGNORE` statements to add new records while avoiding duplicates (teamName, etc.).
 
-For instance, when inserting into the Event table, the script reads from `littleDataCleaned.csv`, iterating over each row and using a prepared statement to insert the data. Similarly, for the FootballMatch and related tables, it utilizes `bigDataCleaned1.csv`. The script ensures that all related data, such as match details, team participation, and management roles, are correctly associated with each other in the database.
-
-The script handles exceptions gracefully, reporting any errors encountered during the insertion process and rolling back changes if necessary to maintain database integrity. Upon successful insertion, it commits the changes to the database and confirms the completion of the operation.
-
-In summary, `insertData.py` is a robust and efficient solution for populating the database with sample data. It encapsulates the complexity of data insertion into a streamlined process, allowing for accurate and reliable database population directly through Python.
+The script handles exceptions in detail and reports any errors encountered during the insertion process. Upon successful insertion, it commits the changes to the database and confirms the completion of the operation.
 
 ## Use of the Database
 
